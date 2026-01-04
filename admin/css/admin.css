@@ -1,0 +1,595 @@
+/**
+ * All of the CSS for your admin-specific functionality should be
+ * included in this file.
+ */
+
+.onyx-main-title {
+    background: #FFF;
+    margin: 0 0 40px;
+    margin-left: -20px;
+    padding: 25px 30px;
+    line-height: 1;
+    text-transform: uppercase;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    font-size: 20px;
+}
+
+.onyx-main-title svg {
+    height: 1.2em;
+    width: 1.2em;
+}
+
+.onyx-settings-main-wrapper * {
+    box-sizing: border-box;
+}
+
+.onyx-settings-main-wrapper {
+    min-width: 255px;
+    border: 0;
+    box-shadow: none;
+    background: transparent;
+    max-width: 1200px;
+    position: relative;
+    background: #FFF;
+    border-top: 4px solid #000;
+    margin: 20px 0;
+}
+
+.onyx-settings-footer {
+    padding: 12px 30px;
+    display: flex;
+    justify-content: flex-end;
+    border-top: 1px solid #e4eaff;
+    position: sticky;
+    bottom: 0;
+    background: #FFF;
+    left: 0;
+    right: 0;
+    z-index: 9;
+}
+
+.onyx-settings-footer .button {
+    padding: 13px 20px;
+    text-transform: uppercase;
+    font-size: 13px;
+    font-weight: bold;
+    line-height: 1;
+    outline: 0 !important;
+    box-shadow: none !important;
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    z-index: 9;
+}
+
+.onyx-settings-footer .button.onyx-button-loader:after {
+    content: "";
+    border: 2px solid #FFF;
+    border-radius: 50%;
+    border-right-color: transparent;
+    height: 8px;
+    width: 8px;
+    animation-name: onyx-spin;
+    animation-duration: 0.3s;
+    animation-iteration-count: infinite;
+    animation-timing-function: linear;
+}
+
+@keyframes onyx-spin {
+    from {
+        transform: rotate(0deg);
+    }
+
+    to {
+        transform: rotate(360deg);
+    }
+}
+
+
+/* Alert */
+.onyx-alert {
+    width: 300px;
+    top: -100px;
+    right: 100px;
+    position: fixed;
+    padding: 20px;
+    color: #FFF;
+    border-radius: 4px;
+    font-size: 16px;
+    z-index: 9999;
+    transition: all 0.2s ease;
+    visibility: hidden;
+    background: #EEE;
+}
+
+.onyx-alert .onyx-alert-message {
+    padding-right: 30px;
+}
+
+.onyx-alert .icofont-close-line {
+    position: absolute;
+    right: 10px;
+    top: 10px;
+    font-size: 16px;
+    cursor: pointer;
+}
+
+.onyx-alert-active {
+    top: 100px;
+    visibility: visible;
+}
+
+.onyx-alert-success {
+    background-color: #42BA96;
+}
+
+.onyx-alert-warning {
+    background-color: #DF4759;
+}
+
+
+/* Shadow */
+.onyx-shadow-fields {
+    display: flex;
+    gap: 5px;
+    margin: 0;
+    padding: 0;
+}
+
+.onyx-shadow-fields li {
+    margin: 0;
+    padding: 0;
+}
+
+.onyx-shadow-fields li > label {
+    text-align: center;
+    display: block;
+}
+
+.onyx-shadow-fields li input[type="number"] {
+    width: 60px;
+    text-align: center;
+    padding-right: 0;
+}
+
+
+/* TAB */
+.onyx-tab-options-wrap {
+    background: #f7f7ff;
+    padding: 5px 30px 0;
+}
+
+.onyx-tab-options-wrap ul {
+    display: flex;
+    margin: 0;
+    padding: 0;
+    gap: 20px;
+}
+
+.onyx-tab-options-wrap ul li {
+    padding: 20px;
+    cursor: pointer;
+    text-transform: uppercase;
+    margin: 0;
+    font-weight: bold;
+    border-radius: 0 0 3px 3px;
+    color: #333;
+    user-select: none;
+}
+
+.onyx-tab-options-wrap ul li:hover {
+    background: #FFF;
+    box-shadow: 0 -8px 12px 0 rgba(0, 0, 0, 0.1);
+}
+
+.onyx-tab-options-wrap ul li.onyx-tab-active {
+    background: #FFF;
+    box-shadow: 0 -8px 12px 0 rgba(0, 0, 0, 0.1);
+}
+
+/* Tab Content */
+
+.onyx-options-fields-wrap {
+    padding: 30px;
+}
+
+/* Fields */
+.onyx-field-column {
+    display: flex;
+    flex-direction: column;
+    gap: 40px;
+}
+
+.onyx-field-column .onyx-field-wrap {
+    display: flex;
+    gap: 15px;
+}
+
+.onyx-field-wrap > label {
+    display: block;
+    margin: 0 0 8px;
+    font-size: 13px;
+    font-weight: bold;
+}
+
+.onyx-field-column .onyx-field-wrap > label {
+    width: 200px;
+    flex: 0 0 200px;
+    margin: 0;
+}
+
+.onyx-field-column .onyx-field-wrap > .onyx-settings-field {
+    width: calc(100% - 215px);
+    flex: 0 0 calc(100% - 215px);
+}
+
+.onyx-field-wrap > h3 {
+    background: #000;
+    padding: 12px;
+    text-transform: uppercase;
+    font-size: 13px;
+    line-height: 1.3;
+    color: #FFF;
+    flex-grow: 1;
+    letter-spacing: 1px;
+}
+
+.onyx-settings-field select {
+    width: 280px;
+}
+
+.onyx-settings-field input[type="text"] {
+    width: 280px;
+}
+
+.onyx-settings-field input[type="number"] {
+    width: 100px;
+    padding-right: 0;
+}
+
+/* Two/Three Column */
+.onyx-one-column-row {
+    display: grid;
+    grid-template-columns: repeat(1, 300px);
+    gap: 20px;
+    margin: 0;
+    padding: 0;
+}
+
+.onyx-two-column-row {
+    display: grid;
+    grid-template-columns: repeat(2, 300px);
+    gap: 20px;
+    margin: 0;
+    padding: 0;
+}
+
+.onyx-three-column-row {
+    display: grid;
+    grid-template-columns: repeat(3, 300px);
+    gap: 20px;
+    margin: 0;
+    padding: 0;
+}
+
+.onyx-two-column-row > li,
+.onyx-three-column-row > li {
+    margin: 0;
+    padding: 0;
+}
+
+.onyx-two-column-row > li > label,
+.onyx-three-column-row > li > label {
+    font-weight: bold;
+    display: block;
+    margin-bottom: 5px;
+}
+
+.onyx-settings-list > label {
+    display: block;
+    margin: 0 0 8px;
+    font-size: 13px;
+    font-weight: bold;
+}
+
+/* Fields */
+.onyx-toggle {
+    position: relative;
+    display: block;
+    width: 68px;
+    height: 30px
+}
+
+.onyx-toggle input {
+    display: none;
+}
+
+.onyx-toggle span {
+    padding: 2px;
+    background: #fff;
+    border: 2px solid #8c8f94;
+    border-radius: 20px;
+    display: block;
+    width: 100%;
+    height: 100%;
+    position: relative;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    transition: all 0.2s ease;
+}
+
+.onyx-toggle span:after {
+    content: "";
+    transition: all 0.3s ease;
+    position: absolute;
+    background: #8c8f94;
+    border-radius: 1em;
+    position: relative;
+    display: block;
+    width: 32px;
+    height: 100%;
+    left: 0;
+}
+
+.onyx-toggle span:before {
+    content: "NO";
+    font-size: 11px;
+    width: 32px;
+    text-align: center;
+    position: absolute;
+    right: 0;
+    font-weight: bold;
+}
+
+.onyx-toggle input:checked + span {
+    border-color: #28ac70;
+}
+
+.onyx-toggle input:checked + span:after {
+    left: 28px;
+    background: #28ac70;
+}
+
+.onyx-toggle input:checked + span:before {
+    content: "YES";
+    left: 0;
+    right: auto;
+    color: #28ac70;
+}
+
+.onyx-icon-pick-wrap .onyx-icon-grid {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 15px;
+}
+
+.onyx-icon-pick-wrap .onyx-icon-title {
+    display: block;
+    margin-bottom: 10px;
+    font-weight: bold;
+}
+
+.onyx-icon-pick-wrap .onyx-icon-btn {
+    width: 48px;
+    height: 48px;
+    display: inline-grid;
+    place-items: center;
+    border-radius: 5px;
+    border: 1px solid transparent;
+    background: #f8f8f8;
+    cursor: pointer;
+    border: 1px solid #EAEAEA;
+}
+
+.onyx-icon-pick-wrap .onyx-icon-btn svg {
+    width: 24px;
+    height: 24px;
+}
+
+.onyx-icon-pick-wrap .onyx-icon-btn[aria-pressed="true"] {
+    background: #000;
+}
+
+.onyx-icon-pick-wrap .onyx-icon-btn[aria-pressed="true"] svg {
+    fill: #FFF;
+}
+
+
+
+/* Unit */
+
+.onyx-unit-fields {
+    display: flex;
+    gap: 6px;
+    margin: 0;
+    padding: 0;
+}
+
+.onyx-unit-fields li {
+    margin: 0;
+}
+
+.onyx-unit-fields li > label {
+    text-align: center;
+    display: block;
+}
+
+.onyx-unit-fields li input[type="number"] {
+    width: 55px;
+    text-align: center;
+    padding-right: 0;
+}
+
+.onyx-unit-fields .onyx-link-button {
+    cursor: pointer;
+    outline: none;
+    border-radius: 4px;
+    border: 1px solid #8c8f94;
+    color: #2c3338;
+    min-height: 28px;
+    width: 45px;
+    background-color: #a4afb7;
+    color: #fff;
+}
+
+.onyx-unit-fields.onyx-not-linked .onyx-link-button {
+    background: none;
+    color: inherit;
+}
+
+.onyx-unit-fields .onyx-link-button span {
+    font-size: 16px;
+    height: 28px;
+    width: 45px;
+    align-items: center;
+    justify-content: center;
+}
+
+.onyx-unit-fields .onyx-link-button .onyx-linked {
+    display: flex;
+}
+
+.onyx-unit-fields .onyx-link-button .onyx-unlinked {
+    display: none;
+}
+
+.onyx-unit-fields.onyx-not-linked .onyx-link-button .onyx-linked {
+    display: none;
+}
+
+.onyx-unit-fields.onyx-not-linked .onyx-link-button .onyx-unlinked {
+    display: flex;
+}
+
+
+
+/* Backend Jquery Slider */
+.onyx-range-slider-field {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.onyx-range-slider {
+    width: 300px;
+}
+
+.onyx-range-slider.ui-widget.ui-widget-content {
+    position: relative;
+    background: #f0f0f1;
+    border: none;
+    height: 6px;
+    border-radius: 0;
+    margin: 0;
+}
+
+.onyx-range-slider.ui-slider .ui-slider-range {
+    background: #88ddfb;
+    position: absolute;
+    left: 0;
+    top: 0;
+    bottom: 0;
+}
+
+.onyx-range-slider.ui-slider .ui-slider-handle {
+    position: absolute;
+    height: 14px;
+    width: 14px;
+    background: #88ddfb !important;
+    border: none;
+    border-radius: 100%;
+    margin-left: -7px;
+    bottom: -4px;
+    top: auto;
+    cursor: pointer;
+    outline: 0;
+    box-shadow: none;
+}
+
+.onyx-range-slider.ui-slider .ui-slider-handle span {
+    position: absolute;
+    top: 100%;
+    left: 50%;
+    transform: translateX(-50%);
+    background: #88ddfb;
+    color: #FFF;
+    padding: 4px 6px;
+    font-size: 12px;
+    border-radius: 10px;
+    line-height: 1;
+    margin-bottom: 4px;
+    min-width: 12px;
+    text-align: center;
+    white-space: nowrap;
+}
+
+
+
+p.onyx-desc {
+    font-size: 13px;
+    font-style: italic;
+    margin: 6px 0 0;
+}
+
+.onyx-replace-image-values-wrap {
+    display: flex;
+    gap: 20px;
+    flex-direction: column;
+    margin-bottom: 20px;
+    align-items: flex-start;
+}
+
+.onyx-setting-replace-image-list {
+    display: flex;
+    gap: 15px;
+    flex-direction: column;
+    align-items: flex-start;
+}
+
+.onyx-settings-field .onyx-add-replace-image,
+.onyx-settings-field .onyx-add-invert-image {
+    display: flex;
+    align-items: center;
+    gap: 8px
+}
+
+.onyx-replace-image-fields {
+    border: 1px solid #EEE;
+    padding: 15px;
+    display: flex;
+    gap: 20px;
+    align-items: center;
+}
+
+.onyx-setting-replace-image-list .onyx-replace-image {
+    display: flex;
+    gap: 20px;
+    align-items: center;
+}
+
+.onyx-setting-replace-image-list .onyx-replace-image label {
+    width: 100px;
+}
+
+.onyx-add-replace-image.onyx-btn-loading:after,
+.onyx-add-invert-image.onyx-btn-loading:after {
+    content: "";
+    border: 2px solid #2171B1;
+    border-radius: 50%;
+    border-right-color: transparent;
+    height: 8px;
+    width: 8px;
+    animation-name: onyx-spin;
+    animation-duration: 0.3s;
+    animation-iteration-count: infinite;
+    animation-timing-function: linear;
+}
+
+.onyx-class-field {
+    height: 100px;
+    width: 400px;
+    resize: none;
+}

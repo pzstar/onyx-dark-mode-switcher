@@ -1,0 +1,491 @@
+#, fuzzy
+msgid ""
+msgstr ""
+"Project-Id-Version: Onyx Dark Mode Switcher\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2025-12-18 15:14+0000\n"
+"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
+"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"Language-Team: \n"
+"Language: \n"
+"Plural-Forms: nplurals=INTEGER; plural=EXPRESSION;\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"X-Generator: Loco https://localise.biz/\n"
+"X-Loco-Version: 2.8.0; wp-6.9; php-8.2.0\n"
+"X-Domain: onyx-dark-mode-switcher"
+
+#: admin/inc/settings/image-video.php:65 admin/inc/settings/image-video.php:85
+msgid "Add Images"
+msgstr ""
+
+#: admin/inc/settings/custom-code.php:18
+msgid "After Toggle JavaScript"
+msgstr ""
+
+#: admin/inc/settings/switch.php:73
+msgid "Animating Blob"
+msgstr ""
+
+#: admin/inc/settings/settings.php:74
+msgid "Apply Button Styles to Classes"
+msgstr ""
+
+#: admin/inc/settings/colors.php:29 admin/inc/settings/colors.php:74
+#: admin/inc/settings/colors.php:111 admin/inc/settings/switch.php:145
+#: admin/inc/settings/switch.php:163
+msgid "Background Color"
+msgstr ""
+
+#: admin/inc/settings/colors.php:123
+msgid "Background Color(Hover)"
+msgstr ""
+
+#: admin/inc/settings/custom-code.php:10
+msgid "Before Toggle JavaScript"
+msgstr ""
+
+#: admin/inc/settings/switch.php:193
+msgid "Blur"
+msgstr ""
+
+#: admin/inc/settings/colors.php:95
+msgid "Border Color"
+msgstr ""
+
+#: admin/inc/settings/settings.php:131
+msgid "Bottom"
+msgstr ""
+
+#: admin/inc/settings/switch.php:86
+msgid "Bottom Left"
+msgstr ""
+
+#: admin/inc/settings/switch.php:87
+msgid "Bottom Middle"
+msgstr ""
+
+#: admin/inc/settings/switch.php:88
+msgid "Bottom Right"
+msgstr ""
+
+#: admin/inc/settings/colors.php:102
+msgid "Button"
+msgstr ""
+
+#: admin/inc/settings/switch.php:160
+msgid "Button (Dark Mode)"
+msgstr ""
+
+#: admin/inc/settings/switch.php:142
+msgid "Button (Normal Mode)"
+msgstr ""
+
+#: admin/inc/settings/switch.php:79
+msgid "Button Position"
+msgstr ""
+
+#: admin/inc/settings/switch.php:66
+msgid "Button Shape"
+msgstr ""
+
+#: admin/inc/settings/switch.php:128
+msgid "Button Size"
+msgstr ""
+
+#: admin/inc/settings/init.php:23
+msgid "Colors"
+msgstr ""
+
+#: admin/inc/settings/colors.php:14
+msgid "Custom"
+msgstr ""
+
+#: admin/inc/settings/init.php:24
+msgid "Custom Code"
+msgstr ""
+
+#: admin/inc/settings/custom-code.php:26
+msgid "Custom CSS"
+msgstr ""
+
+#: admin/inc/settings/switch.php:228
+msgid "Custom Switch"
+msgstr ""
+
+#. Description of the plugin
+msgid "Dark and Light Theme for your Wordpress website"
+msgstr ""
+
+#: admin/inc/settings/switch.php:47
+msgid "Dark Icon"
+msgstr ""
+
+#: admin/inc/class-onyx-dark-mode-switcher-settings.php:231
+msgid "Dark Mode"
+msgstr ""
+
+#: admin/inc/settings/image-video.php:28
+msgid "Darken Background Images"
+msgstr ""
+
+#: admin/inc/settings/image-video.php:40
+msgid "Darken Level"
+msgstr ""
+
+#: admin/inc/class-onyx-dark-mode-switcher-settings.php:215
+#: admin/inc/class-onyx-dark-mode-switcher-settings.php:236
+msgid "Delete"
+msgstr ""
+
+#: admin/inc/settings/switch.php:14
+msgid "Display Switch Button"
+msgstr ""
+
+#: admin/inc/settings/settings.php:86
+msgid "Display Switch Button in Menu"
+msgstr ""
+
+#: admin/inc/settings/custom-code.php:31
+msgid "Don't include <style></style> tag"
+msgstr ""
+
+#: admin/inc/settings/settings.php:62
+msgid "Elements Control"
+msgstr ""
+
+#: admin/inc/settings/settings.php:25
+msgid "Enable Dark Mode on Start"
+msgstr ""
+
+#: admin/inc/settings/settings.php:10
+msgid "Enable Dark/Light Mode"
+msgstr ""
+
+#: admin/inc/settings/image-video.php:16
+msgid "Enable Image GrayScale"
+msgstr ""
+
+#: admin/inc/settings/settings.php:49
+msgid "Enable Key Board Shortcode"
+msgstr ""
+
+#: admin/inc/settings/settings.php:57
+msgid "Enable to dark mode by pressing Ctrl+Shift+D."
+msgstr ""
+
+#: admin/inc/settings/switch.php:209
+msgid "Enable Tool Tip"
+msgstr ""
+
+#: admin/inc/settings/image-video.php:95
+msgid "Enable Video GrayScale"
+msgstr ""
+
+#: admin/inc/settings/settings.php:98
+msgid "Enables Dark mode switch in menu."
+msgstr ""
+
+#: admin/inc/settings/settings.php:19
+msgid "Enables Dark/List Mode for WordPress."
+msgstr ""
+
+#: admin/inc/settings/settings.php:77
+msgid ""
+"Enter comma separated CSS class to inherit button color changes. Eg .btn, ."
+"header-button"
+msgstr ""
+
+#: admin/inc/settings/settings.php:69
+msgid ""
+"Enter comma separated HTML tags, CSS class or CSS ids. Eg #mast-head, ."
+"container, footer"
+msgstr ""
+
+#: admin/inc/settings/switch.php:235
+msgid ""
+"Enter HTML tags, CSS class or CSS ids. Eg #mast-head, .container, footer"
+msgstr ""
+
+#: admin/inc/settings/switch.php:183
+msgid "H"
+msgstr ""
+
+#. Author of the plugin
+msgid "HashThemes"
+msgstr ""
+
+#. URI of the plugin
+msgid "https://hashthemes.com"
+msgstr ""
+
+#. Author URI of the plugin
+msgid "https://hashthemes.com/"
+msgstr ""
+
+#: admin/inc/settings/switch.php:151 admin/inc/settings/switch.php:169
+msgid "Icon Color"
+msgstr ""
+
+#: admin/inc/settings/switch.php:135
+msgid "Icon Size"
+msgstr ""
+
+#: admin/inc/class-onyx-dark-mode-switcher-settings.php:210
+msgid "Image URL"
+msgstr ""
+
+#: admin/inc/settings/init.php:22
+msgid "Image/Video"
+msgstr ""
+
+#: admin/inc/settings/image-video.php:12
+msgid "Images"
+msgstr ""
+
+#: admin/inc/settings/colors.php:71
+msgid "Input"
+msgstr ""
+
+#: admin/inc/settings/image-video.php:71
+msgid "Invert Images"
+msgstr ""
+
+#: admin/inc/settings/image-video.php:111
+msgid "Invert SVGs"
+msgstr ""
+
+#: admin/inc/settings/settings.php:135
+msgid "Left"
+msgstr ""
+
+#: admin/inc/settings/switch.php:29
+msgid "Light Icon"
+msgstr ""
+
+#: admin/inc/settings/colors.php:56
+msgid "Link Color"
+msgstr ""
+
+#: admin/inc/settings/colors.php:62
+msgid "Link Color(Hover)"
+msgstr ""
+
+#: admin/inc/settings/settings.php:119
+msgid "Margin"
+msgstr ""
+
+#: admin/inc/settings/switch.php:89
+msgid "Middle Left"
+msgstr ""
+
+#: admin/inc/settings/switch.php:90
+msgid "Middle Right"
+msgstr ""
+
+#: admin/inc/class-onyx-dark-mode-switcher-settings.php:225
+msgid "Normal Mode"
+msgstr ""
+
+#: admin/inc/settings/switch.php:104
+msgid "Offset from Bottom (px)"
+msgstr ""
+
+#: admin/inc/settings/switch.php:111
+msgid "Offset from Left (px)"
+msgstr ""
+
+#: admin/inc/settings/switch.php:118
+msgid "Offset from Right (px)"
+msgstr ""
+
+#: admin/inc/settings/switch.php:97
+msgid "Offset from Top (px)"
+msgstr ""
+
+#: admin/inc/settings/settings.php:37
+msgid "OS Aware Dark Mode"
+msgstr ""
+
+#: admin/inc/settings/colors.php:86
+msgid "Placeholder Color"
+msgstr ""
+
+#: admin/inc/settings/colors.php:10
+msgid "Preset Colors"
+msgstr ""
+
+#: admin/inc/settings/colors.php:32
+msgid "Primary Color"
+msgstr ""
+
+#: admin/inc/settings/image-video.php:51
+msgid "Replace Images"
+msgstr ""
+
+#: admin/inc/settings/settings.php:127
+msgid "Right"
+msgstr ""
+
+#: admin/inc/settings/switch.php:71
+msgid "Round"
+msgstr ""
+
+#: admin/inc/settings/switch.php:72
+msgid "Rounded Square"
+msgstr ""
+
+#: admin/inc/settings/init.php:38
+msgid "Save Settings"
+msgstr ""
+
+#: admin/inc/settings/colors.php:38
+msgid "Secondary Color"
+msgstr ""
+
+#: admin/inc/class-onyx-dark-mode-switcher-settings.php:212
+#: admin/inc/class-onyx-dark-mode-switcher-settings.php:227
+#: admin/inc/class-onyx-dark-mode-switcher-settings.php:233
+msgid "Select Image"
+msgstr ""
+
+#: admin/inc/settings/settings.php:114
+msgid "Select the menu to show the switch button."
+msgstr ""
+
+#: admin/inc/settings/colors.php:24
+msgid "Sets Preset Color"
+msgstr ""
+
+#: admin/class-onyx-dark-mode-switcher-admin.php:94
+#: admin/inc/settings/init.php:20
+msgid "Settings"
+msgstr ""
+
+#: admin/inc/class-onyx-dark-mode-switcher-settings.php:46
+msgid "Settings Saved!"
+msgstr ""
+
+#: admin/inc/settings/switch.php:179
+msgid "Shadow"
+msgstr ""
+
+#: admin/inc/settings/settings.php:147
+msgid "Size"
+msgstr ""
+
+#: admin/inc/settings/settings.php:66
+msgid "Skip Dark Mode on Selectors"
+msgstr ""
+
+#. Name of the plugin
+#: admin/inc/class-onyx-dark-mode-switcher-settings.php:28
+#: admin/inc/settings/init.php:10
+msgid "Onyx Dark Mode Switcher"
+msgstr ""
+
+#: admin/inc/settings/switch.php:70
+msgid "Square"
+msgstr ""
+
+#: admin/inc/settings/colors.php:15
+msgid "Style 1"
+msgstr ""
+
+#: admin/inc/settings/colors.php:16
+msgid "Style 2"
+msgstr ""
+
+#: admin/inc/settings/colors.php:17
+msgid "Style 3"
+msgstr ""
+
+#: admin/inc/settings/colors.php:18
+msgid "Style 4"
+msgstr ""
+
+#: admin/inc/settings/colors.php:19
+msgid "Style 5"
+msgstr ""
+
+#: admin/inc/settings/colors.php:20
+msgid "Style 6"
+msgstr ""
+
+#: admin/inc/settings/colors.php:21
+msgid "Style 7"
+msgstr ""
+
+#: admin/inc/settings/colors.php:22
+msgid "Style 8"
+msgstr ""
+
+#: admin/inc/settings/image-video.php:107
+msgid "SVG"
+msgstr ""
+
+#: admin/inc/settings/init.php:21
+msgid "Switch"
+msgstr ""
+
+#: admin/inc/settings/switch.php:26
+msgid "Switch Icon"
+msgstr ""
+
+#: admin/inc/settings/settings.php:82
+msgid "Switch Menu"
+msgstr ""
+
+#: admin/inc/settings/colors.php:47 admin/inc/settings/colors.php:50
+#: admin/inc/settings/colors.php:80 admin/inc/settings/colors.php:105
+msgid "Text Color"
+msgstr ""
+
+#: admin/inc/settings/colors.php:117
+msgid "Text Color(Hover)"
+msgstr ""
+
+#: admin/inc/settings/custom-code.php:21
+msgid "This code runs after the toggle is completed."
+msgstr ""
+
+#: admin/inc/settings/custom-code.php:13
+msgid "This code runs just before the toggle is executed."
+msgstr ""
+
+#: admin/inc/settings/switch.php:205
+msgid "Tool Tip"
+msgstr ""
+
+#: admin/inc/settings/switch.php:221
+msgid "Tool Tip Text"
+msgstr ""
+
+#: admin/inc/settings/settings.php:123
+msgid "Top"
+msgstr ""
+
+#: admin/inc/settings/switch.php:83
+msgid "Top Left"
+msgstr ""
+
+#: admin/inc/settings/switch.php:84
+msgid "Top Middle"
+msgstr ""
+
+#: admin/inc/settings/switch.php:85
+msgid "Top Right"
+msgstr ""
+
+#: admin/inc/settings/switch.php:232
+msgid "Use Custom Switch Button"
+msgstr ""
+
+#: admin/inc/settings/switch.php:188
+msgid "V"
+msgstr ""
+
+#: admin/inc/settings/image-video.php:91
+msgid "Videos"
+msgstr ""

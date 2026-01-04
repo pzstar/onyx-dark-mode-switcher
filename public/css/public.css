@@ -1,0 +1,362 @@
+.onyx-dark-mode .onyx-change-all {
+    background: var(--onyx_mode_bg) !important;
+    background-color: var(--onyx_mode_bg) !important;
+    color: var(--onyx_mode_text_color) !important;
+    border-color: var(--onyx_mode_border_color) !important;
+}
+
+.onyx-dark-mode .onyx-change-bg-txt {
+    background: var(--onyx_mode_bg) !important;
+    background-color: var(--onyx_mode_bg) !important;
+    color: var(--onyx_mode_text_color) !important;
+}
+
+.onyx-dark-mode .onyx-change-bg-bdr {
+    background: var(--onyx_mode_bg) !important;
+    background-color: var(--onyx_mode_bg) !important;
+    border-color: var(--onyx_mode_border_color) !important;
+}
+
+.onyx-dark-mode .onyx-change-txt-bdr {
+    color: var(--onyx_mode_text_color) !important;
+    border-color: var(--onyx_mode_border_color) !important;
+}
+
+.onyx-dark-mode .onyx-change-bg {
+    background-color: var(--onyx_mode_bg) !important;
+}
+
+.onyx-dark-mode .onyx-change-txt {
+    color: var(--onyx_mode_text_color) !important;
+}
+
+.onyx-dark-mode .onyx-change-bdr {
+    border-color: var(--onyx_mode_border_color) !important;
+}
+
+.onyx-dark-mode .onyx-change-sec-bg {
+    background: var(--onyx_mode_secondary_bg) !important;
+    background-color: var(--onyx_mode_secondary_bg) !important;
+}
+
+
+.onyx-dark-mode .onyx-after-change-all:after {
+    background: var(--onyx_mode_bg) !important;
+    background-color: var(--onyx_mode_bg) !important;
+    color: var(--onyx_mode_text_color) !important;
+    border-color: var(--onyx_mode_border_color) !important;
+}
+
+.onyx-dark-mode .onyx-after-change-bg-txt:after {
+    background: var(--onyx_mode_bg) !important;
+    background-color: var(--onyx_mode_bg) !important;
+    color: var(--onyx_mode_text_color) !important;
+}
+
+.onyx-dark-mode .onyx-after-change-bg-bdr:after {
+    background: var(--onyx_mode_bg) !important;
+    background-color: var(--onyx_mode_bg) !important;
+    border-color: var(--onyx_mode_border_color) !important;
+}
+
+.onyx-dark-mode .onyx-after-change-txt-bdr:after {
+    color: var(--onyx_mode_text_color) !important;
+    border-color: var(--onyx_mode_border_color) !important;
+}
+
+.onyx-dark-mode .onyx-after-change-bg:after {
+    background-color: var(--onyx_mode_bg) !important;
+}
+
+.onyx-dark-mode .onyx-after-change-txt:after {
+    color: var(--onyx_mode_text_color) !important;
+}
+
+.onyx-dark-mode .onyx-after-change-bdr:after {
+    border-color: var(--onyx_mode_border_color) !important;
+}
+
+/* Link Style */
+.onyx-dark-mode .onyx-is-link {
+    color: var(--onyx_mode_link_color) !important;
+}
+
+.onyx-dark-mode .onyx-is-link:hover {
+    color: var(--onyx_mode_link_hover_color) !important;
+}
+
+/* Element Style */
+.onyx-dark-mode .onyx-is-form-el {
+    background: var(--onyx_mode_input_bg) !important;
+    background-color: var(--onyx_mode_input_bg) !important;
+    color: var(--onyx_mode_input_text_color) !important;
+}
+
+.onyx-dark-mode .onyx-is-form-el::placeholder {
+    color: var(--onyx_mode_input_placeholder_color) !important;
+}
+
+/* Button Style */
+.onyx-dark-mode .onyx-is-button {
+    background: var(--onyx_mode_btn_bg) !important;
+    background-color: var(--onyx_mode_btn_bg) !important;
+    color: var(--onyx_mode_btn_text_color) !important;
+}
+
+/* Switch Style */
+html:not(.onyx-dark-mode) .onyx-toggle-button svg:first-of-type {
+    display: none;
+}
+
+html.onyx-dark-mode .onyx-toggle-button svg:nth-of-type(2) {
+    display: none;
+}
+
+/* Trigger Button */
+.onyx-switch-trigger-block {
+    position: fixed;
+    margin: 0;
+    padding: 0;
+    z-index: 9999;
+}
+
+.onyx-switch-trigger-block.onyx-shape-round .onyx-toggle-button {
+    border-radius: 50%;
+}
+
+.onyx-switch-trigger-block.onyx-shape-rounded-square .onyx-toggle-button {
+    border-radius: 0.2em;
+}
+
+.onyx-switch-trigger-block.onyx-shape-blob .onyx-toggle-button {
+    animation: onyx-border-transform 9s linear infinite;
+}
+
+@keyframes onyx-border-transform {
+
+    0%,
+    100% {
+        border-radius: 63% 37% 54% 46% / 55% 48% 52% 45%;
+    }
+
+    14% {
+        border-radius: 40% 60% 54% 46% / 49% 60% 40% 51%;
+    }
+
+    28% {
+        border-radius: 54% 46% 38% 62% / 49% 70% 30% 51%;
+    }
+
+    42% {
+        border-radius: 61% 39% 55% 45% / 61% 38% 62% 39%;
+    }
+
+    56% {
+        border-radius: 61% 39% 67% 33% / 70% 50% 50% 30%;
+    }
+
+    70% {
+        border-radius: 50% 50% 34% 66% / 56% 68% 32% 44%;
+    }
+
+    84% {
+        border-radius: 46% 54% 50% 50% / 35% 61% 39% 65%;
+    }
+}
+
+body.admin-bar [class*="onyx-position-top-"].onyx-switch-trigger-block {
+    margin-top: 32px;
+}
+
+.onyx-position-top-left.onyx-switch-trigger-block {
+    top: var(--onyx-offset-top, 20px);
+    left: var(--onyx-offset-left, 20px);
+}
+
+.onyx-position-top-middle.onyx-switch-trigger-block {
+    top: var(--onyx-offset-top, 20px);
+    left: 50%;
+    transform: translateX(-50%);
+}
+
+.onyx-position-top-right.onyx-switch-trigger-block {
+    top: var(--onyx-offset-top, 20px);
+    right: var(--onyx-offset-right, 20px);
+}
+
+.onyx-position-bottom-left.onyx-switch-trigger-block {
+    bottom: var(--onyx-offset-bottom, 20px);
+    left: var(--onyx-offset-left, 20px);
+}
+
+.onyx-position-bottom-middle.onyx-switch-trigger-block {
+    bottom: var(--onyx-offset-bottom, 20px);
+    left: 50%;
+    transform: translateX(-50%);
+}
+
+.onyx-position-bottom-right.onyx-switch-trigger-block {
+    bottom: var(--onyx-offset-bottom, 20px);
+    right: var(--onyx-offset-right, 20px);
+}
+
+.onyx-position-middle-left.onyx-switch-trigger-block {
+    top: 50%;
+    left: var(--onyx-offset-left, 20px);
+    transform: translateY(-50%);
+}
+
+.onyx-position-middle-right.onyx-switch-trigger-block {
+    top: 50%;
+    right: var(--onyx-offset-right, 20px);
+    transform: translateY(-50%);
+}
+
+.onyx-toggle-button {
+    position: relative;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    width: var(--onyx-trigger-btn-size, 74px);
+    height: var(--onyx-trigger-btn-size, 74px);
+    font-size: var(--onyx-trigger-btn-icon-size, 24px);
+    background: var(--onyx-trigger-btn-bg-color, var(--onyx-primary-color, #000));
+    color: var(--onyx-trigger-btn-icon-color, #FFF);
+    filter: drop-shadow(var(--onyx-trigger-btn-shadow-x, 0) var(--onyx-trigger-btn-shadow-y, 0) var(--onyx-trigger-btn-shadow-blur, 0) var(--onyx-trigger-btn-shadow-color, transparent));
+}
+
+html.onyx-dark-mode .onyx-toggle-button {
+    background: var(--onyx-trigger-btn-bg-dark-color, var(--onyx-trigger-btn-bg-color, var(--onyx-primary-color, #000)));
+    color: var(--onyx-trigger-btn-icon-dark-color, var(--onyx-trigger-btn-icon-color, #FFF));
+}
+
+.onyx-toggle-button svg {
+    fill: var(--onyx-trigger-btn-hover-icon-color, #FFF);
+    height: var(--onyx-trigger-icon-size, 20px);
+    width: var(--onyx-trigger-icon-size, 20px);
+}
+
+html.onyx-dark-mode .onyx-toggle-button svg {
+    fill: var(--onyx-trigger-btn-icon-dark-color, var(--onyx-trigger-btn-icon-color, #FFF));
+}
+
+.onyx-trigger-tooltip {
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    font-size: 13px;
+    background: var(--onyx-trigger-btn-bg-color, var(--onyx-primary-color, #000));
+    color: var(--onyx-trigger-btn-icon-color, #FFF);
+    white-space: nowrap;
+    padding: 10px;
+    line-height: 1;
+    opacity: 0;
+    visibility: hidden;
+    transition: all 0.3s ease;
+}
+
+html.onyx-dark-mode .onyx-trigger-tooltip {
+    background: var(--onyx-trigger-btn-bg-dark-color, var(--onyx-trigger-btn-bg-color, var(--onyx-primary-color, #000)));
+    color: var(--onyx-trigger-btn-icon-dark-color, var(--onyx-trigger-btn-icon-color, #FFF));
+}
+
+.onyx-toggle-button:hover .onyx-trigger-tooltip {
+    opacity: 1;
+    visibility: visible;
+}
+
+.onyx-position-top-left.onyx-switch-trigger-block .onyx-trigger-tooltip,
+.onyx-position-middle-left.onyx-switch-trigger-block .onyx-trigger-tooltip,
+.onyx-position-bottom-left.onyx-switch-trigger-block .onyx-trigger-tooltip,
+.onyx-position-top-middle.onyx-switch-trigger-block .onyx-trigger-tooltip,
+.onyx-position-bottom-middle.onyx-switch-trigger-block .onyx-trigger-tooltip {
+    left: 100%;
+    margin-left: 0;
+    clip-path: polygon(20px 0%, 100% 0%, 100% 100%, 20px 100%, 0% 50%);
+    padding-left: 20px;
+}
+
+.onyx-position-top-right.onyx-switch-trigger-block .onyx-trigger-tooltip,
+.onyx-position-middle-right.onyx-switch-trigger-block .onyx-trigger-tooltip,
+.onyx-position-bottom-right.onyx-switch-trigger-block .onyx-trigger-tooltip {
+    right: 100%;
+    margin-right: 0;
+    clip-path: polygon(0% 0%, calc(100% - 20px) 0%, 100% 50%, calc(100% - 20px) 100%, 0% 100%);
+    padding-right: 20px;
+}
+
+.onyx-position-top-left.onyx-switch-trigger-block .onyx-toggle-button:hover .onyx-trigger-tooltip,
+.onyx-position-middle-left.onyx-switch-trigger-block .onyx-toggle-button:hover .onyx-trigger-tooltip,
+.onyx-position-bottom-left.onyx-switch-trigger-block .onyx-toggle-button:hover .onyx-trigger-tooltip,
+.onyx-position-top-middle.onyx-switch-trigger-block .onyx-toggle-button:hover .onyx-trigger-tooltip,
+.onyx-position-bottom-middle.onyx-switch-trigger-block .onyx-toggle-button:hover .onyx-trigger-tooltip {
+    margin-left: 10px;
+}
+
+.onyx-position-top-right.onyx-switch-trigger-block .onyx-toggle-button:hover .onyx-trigger-tooltip,
+.onyx-position-middle-right.onyx-switch-trigger-block .onyx-toggle-button:hover .onyx-trigger-tooltip,
+.onyx-position-bottom-right.onyx-switch-trigger-block .onyx-toggle-button:hover .onyx-trigger-tooltip {
+    margin-right: 10px;
+}
+
+/* Toggle Menu Switch*/
+li.menu-item a.onyx-toggle-menu {
+    background-color: #333 !important;
+    width: var(--onyx-menu-switch-size) !important;
+    height: calc(var(--onyx-menu-switch-size) / 2) !important;
+    border-radius: var(--onyx-menu-switch-size) !important;
+    position: relative !important;
+    padding: calc(var(--onyx-menu-switch-size) / 10) !important;
+    cursor: pointer !important;
+    display: flex !important;
+    justify-content: space-between !important;
+    align-items: center !important;
+    margin-top: var(--onyx-menu-switch-margin-top, inherit);
+    margin-bottom: var(--onyx-menu-switch-margin-bottom, inherit);
+    margin-left: var(--onyx-menu-switch-margin-left, inherit);
+    margin-right: var(--onyx-menu-switch-margin-right, inherit);
+}
+
+.onyx-toggle-menu::after {
+    content: "";
+    background-color: #fff !important;
+    width: calc(var(--onyx-menu-switch-size) / 2 - var(--onyx-menu-switch-size) / 30 *2) !important;
+    height: calc(var(--onyx-menu-switch-size) / 2 - var(--onyx-menu-switch-size) / 30 *2) !important;
+    position: absolute !important;
+    left: calc(var(--onyx-menu-switch-size) / 30) !important;
+    top: calc(var(--onyx-menu-switch-size) / 30) !important;
+    border-radius: 50% !important;
+    transition: transform 0.2s linear !important;
+}
+
+.onyx-toggle-menu::before {
+    display: none !important;
+}
+
+
+html.onyx-dark-mode .onyx-toggle-menu::after {
+    transform: translateX(calc(var(--onyx-menu-switch-size) / 2));
+}
+
+.onyx-toggle-menu > svg {
+    height: calc(var(--onyx-menu-switch-size) / 3);
+    width: calc(var(--onyx-menu-switch-size) / 3);
+    fill: #FFF;
+}
+
+html.onyx-dark-mode .onyx-toggle-menu > svg:nth-child(1) {
+    opacity: 1;
+}
+
+html.onyx-dark-mode .onyx-toggle-menu > svg:nth-child(2) {
+    opacity: 0;
+}
+
+html:not(.onyx-dark-mode) .onyx-toggle-menu > svg:nth-child(1) {
+    opacity: 0;
+}
+
+html:not(.onyx-dark-mode) .onyx-toggle-menu > svg:nth-child(2) {
+    opacity: 1;
+}
