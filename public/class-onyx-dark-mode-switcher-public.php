@@ -62,10 +62,6 @@ class Onyx_Dark_Mode_Switcher_Public {
 			wp_enqueue_style($this->plugin_name, plugin_dir_url(__FILE__) . 'css/public.css', array(), $this->version, 'all');
 
 			wp_add_inline_style($this->plugin_name, onyx_dymanic_styles($this->dark_mode_settings));
-
-			if (isset($this->dark_mode_settings['custom_css']) && trim($this->dark_mode_settings['custom_css'])) {
-				wp_add_inline_style($this->plugin_name, onyx_css_strip_whitespace($this->dark_mode_settings['custom_css']));
-			}
 		}
 
 	}
@@ -97,16 +93,6 @@ class Onyx_Dark_Mode_Switcher_Public {
 				'allowed_button_classes' => $this->dark_mode_settings['allowed_button_classes'],
 				'switch_selector' => $this->dark_mode_settings['switch_selector'],
 			));
-
-			$before_trigger = isset($this->dark_mode_settings['before_js']) && !empty($this->dark_mode_settings['before_js']) ? $this->dark_mode_settings['before_js'] : null;
-			$after_trigger = isset($this->dark_mode_settings['after_js']) && !empty($this->dark_mode_settings['after_js']) ? $this->dark_mode_settings['after_js'] : null;
-
-			if (!empty($before_trigger)) {
-				wp_add_inline_script($this->plugin_name, ' jQuery(document).bind("onyx_before_toggle", function (event, response) {' . wp_kses_post($before_trigger) . '});');
-			}
-			if (!empty($after_trigger)) {
-				wp_add_inline_script($this->plugin_name, 'jQuery(document).bind("onyx_after_toggle", function (event, response) {' . wp_kses_post($after_trigger) . '});');
-			}
 		}
 
 	}
