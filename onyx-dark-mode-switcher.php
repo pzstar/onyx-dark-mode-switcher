@@ -5,7 +5,7 @@
  * Plugin Name:       Onyx Dark Mode Switcher
  * Plugin URI:        https://hashthemes.com/
  * Description:       Dark and Light Theme for your Wordpress website
- * Version:           1.0.0
+ * Version:           1.0.1
  * Author:            HashThemes
  * License:           GPL-2.0+
  * License URI:       http://www.gnu.org/licenses/gpl-2.0.txt
@@ -18,7 +18,7 @@ if (!defined('WPINC')) {
 	die;
 }
 
-define('ONYX_VERSION', '1.0.0');
+define('ONYX_VERSION', '1.0.1');
 define('ONYX_PATH', plugin_dir_path(__FILE__));
 define('ONYX_URL', plugin_dir_url(__FILE__));
 define('ONYX_BASENAME', plugin_basename(__FILE__));

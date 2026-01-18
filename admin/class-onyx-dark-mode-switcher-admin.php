@@ -95,7 +95,7 @@ class Onyx_Dark_Mode_Switcher_Admin {
 	}
 
 	public function add_settings_link($links) {
-		$settings_link = '<a href="' . get_admin_url(null, 'admin.php?page=smds-settings') . '">' . esc_html__('Settings', 'onyx-dark-mode-switcher') . '</a>';
+		$settings_link = '<a href="' . get_admin_url(null, 'admin.php?page=onyx-settings') . '">' . esc_html__('Settings', 'onyx-dark-mode-switcher') . '</a>';
 		array_unshift($links, $settings_link);
 		return $links;
 	}

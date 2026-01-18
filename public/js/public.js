@@ -84,6 +84,7 @@ class OnyxDarkModeSwitcher {
 		}
 
 		document.documentElement.classList.toggle("onyx-dark-mode");
+
 		this.saveDarkModeState();
 	}
 
@@ -163,10 +164,12 @@ class OnyxDarkModeSwitcher {
 	// ==========================
 
 	initProcesses() {
+		document.dispatchEvent(new CustomEvent("onyx_before_toggle"));
 		this.hasProcessRun = true;
 		document.querySelectorAll(
 			"* :not(head, title, link, meta, script, style, defs, filter, .onyx-switch-trigger-block *, .onyx-menu-item *, .onyx-handled)"
 		).forEach((el) => this.processElement(el));
+		document.dispatchEvent(new CustomEvent("onyx_after_toggle"));
 	}
 
 	// ==========================

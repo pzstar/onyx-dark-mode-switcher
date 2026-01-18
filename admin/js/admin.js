@@ -5,11 +5,15 @@
 
         $('.onyx-save-settings.onyx-settings-btn button').on('click', function (e) {
             e.preventDefault();
-            const $formBtn = $(this)
+            const $formBtn = $(this);
             const $form = $formBtn.closest('form');
             $formBtn.addClass('onyx-button-loader');
 
-            var formData = $form.serializeArray();
+            //FORCE CodeMirror → textarea sync
+            if (window.onyxEditors) {
+                window.onyxEditors.forEach(cm => cm.save());
+            }
+
             var formData = new FormData($form[0]);
             formData.append('action', 'onyx_settings_save');
 
@@ -21,20 +25,15 @@
                 contentType: false,
                 success: function (response) {
                     if (response.success) {
-                        $('.onyx-alert').addClass('onyx-alert-success');
-                        $('.onyx-alert span').html(response.data.message);
-                        $('.onyx-alert').addClass('onyx-alert-active');
+                        $('.onyx-alert').addClass('onyx-alert-success onyx-alert-active').find('span').html(response.data.message);
                         $formBtn.removeClass('onyx-button-loader');
-                        clearTimeout();
 
                         setTimeout(function () {
-                            if ($('.onyx-alert').hasClass('onyx-alert-active')) {
-                                $('.onyx-alert').removeClass('onyx-alert-active');
-                                $('.onyx-alert').removeClass('onyx-alert-success onyx-alert-warning onyx-alert-neutral');
-                            }
+                            $('.onyx-alert').removeClass('onyx-alert-active onyx-alert-success onyx-alert-warning onyx-alert-neutral');
                         }, 3500);
                     } else {
                         console.log('Failed to save.');
+                        $formBtn.removeClass('onyx-button-loader');
                     }
                 }
             });
@@ -160,11 +159,13 @@
 
 
         /*Code mirror activation*/
-        $.each($('.onyx-codemirror-css-textarea'), function (key, value) {
+        window.onyxEditors = [];
+
+        $('.onyx-codemirror-css-textarea').each(function () {
             const $codeMirrorCSSEditors = $(this);
 
-            if ($codeMirrorCSSEditors.length) {
-                var editorSettings = wp.codeEditor?.defaultSettings ? _.clone(wp.codeEditor.defaultSettings) : {};
+            if ($codeMirrorCSSEditors.length && wp.codeEditor) {
+                var editorSettings = wp.codeEditor.defaultSettings ? _.clone(wp.codeEditor.defaultSettings) : {};
                 editorSettings.codemirror = _.extend(
                     {},
                     editorSettings.codemirror,
@@ -175,15 +176,18 @@
                         mode: 'css',
                     }
                 );
-                var editor = wp.codeEditor?.initialize($codeMirrorCSSEditors, editorSettings);
+                const editor = wp.codeEditor.initialize($codeMirrorCSSEditors, editorSettings);
+
+                if (editor && editor.codemirror) {
+                    window.onyxEditors.push(editor.codemirror);
+                }
             }
         });
-
 
         $.each($('.onyx-codemirror-js-textarea'), function (key, value) {
             const $codeMirrorJSEditors = $(this);
 
-            if ($codeMirrorJSEditors.length) {
+            if ($codeMirrorJSEditors.length && wp.codeEditor) {
                 var editorSettings = wp.codeEditor?.defaultSettings ? _.clone(wp.codeEditor.defaultSettings) : {};
                 editorSettings.codemirror = _.extend(
                     {},
@@ -195,7 +199,12 @@
                         mode: 'javascript',
                     }
                 );
-                var editor = wp.codeEditor?.initialize($codeMirrorJSEditors, editorSettings);
+
+                const editor = wp.codeEditor.initialize($codeMirrorJSEditors, editorSettings);
+
+                if (editor && editor.codemirror) {
+                    window.onyxEditors.push(editor.codemirror);
+                }
             }
         });
 
