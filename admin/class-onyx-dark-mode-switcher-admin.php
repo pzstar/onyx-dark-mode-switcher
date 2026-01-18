@@ -57,11 +57,11 @@ class Onyx_Dark_Mode_Switcher_Admin {
 		wp_enqueue_code_editor(array('type' => 'text/html'));
 
 		// required to load media uploader
-		wp_enqueue_media(); 
+		wp_enqueue_media();
 
 		/* Jquery Condition */
 		wp_enqueue_script('jquery-condition', ONYX_URL . 'admin/js/jquery-condition.js', array('jquery'), $this->version, true);
-		
+
 		wp_enqueue_script($this->plugin_name, plugin_dir_url(__FILE__) . 'js/admin.js', array('jquery', 'jquery-condition', 'wp-color-picker'), $this->version, false);
 
 		$admin_var = array(

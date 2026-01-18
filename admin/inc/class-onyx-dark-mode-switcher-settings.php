@@ -1,7 +1,7 @@
 <?php
 // If this file is called directly, abort.
 if (!defined('WPINC')) {
-	die;
+    die;
 }
 
 class Onyx_Dark_Mode_Switcher_Settings {
@@ -210,13 +210,13 @@ class Onyx_Dark_Mode_Switcher_Settings {
         ?>
         <div class="onyx-replace-image-fields">
             <div class=" onyx-setting-replace-image-list">
-            <div class="onyx-replace-image">
-                <label><?php esc_html_e('Image URL', 'onyx-dark-mode-switcher'); ?></label>
-                <input type="text" name="onyx_settings[invert_images][<?php echo esc_attr($count); ?>]" value="<?php echo esc_attr($value); ?>" />
-                <button type="button" class="button"><?php esc_html_e('Select Image', 'onyx-dark-mode-switcher'); ?></button>
+                <div class="onyx-replace-image">
+                    <label><?php esc_html_e('Image URL', 'onyx-dark-mode-switcher'); ?></label>
+                    <input type="text" name="onyx_settings[invert_images][<?php echo esc_attr($count); ?>]" value="<?php echo esc_attr($value); ?>" />
+                    <button type="button" class="button"><?php esc_html_e('Select Image', 'onyx-dark-mode-switcher'); ?></button>
+                </div>
             </div>
-        </div>
-        <button type="button" class="button onyx-remove-image-value"><i class="mdi-trash-can-outline"></i><?php esc_html_e('Delete', 'onyx-dark-mode-switcher'); ?></button>
+            <button type="button" class="button onyx-remove-image-value"><i class="mdi-trash-can-outline"></i><?php esc_html_e('Delete', 'onyx-dark-mode-switcher'); ?></button>
         </div>
         <?php
     }
@@ -225,19 +225,19 @@ class Onyx_Dark_Mode_Switcher_Settings {
         ?>
         <div class="onyx-replace-image-fields">
             <div class=" onyx-setting-replace-image-list">
-            <div class="onyx-replace-image">
-                <label><?php esc_html_e('Normal Mode', 'onyx-dark-mode-switcher'); ?></label>
-                <input type="text" name="onyx_settings[replace_images][<?php echo esc_attr($count); ?>][org_image]" placeholder="Original Image" value="<?php echo esc_attr($org_image); ?>" />
-                <button type="button" class="button"><?php esc_html_e('Select Image', 'onyx-dark-mode-switcher'); ?></button>
-            </div>
+                <div class="onyx-replace-image">
+                    <label><?php esc_html_e('Normal Mode', 'onyx-dark-mode-switcher'); ?></label>
+                    <input type="text" name="onyx_settings[replace_images][<?php echo esc_attr($count); ?>][org_image]" placeholder="Original Image" value="<?php echo esc_attr($org_image); ?>" />
+                    <button type="button" class="button"><?php esc_html_e('Select Image', 'onyx-dark-mode-switcher'); ?></button>
+                </div>
 
-            <div class="onyx-replace-image">
-                <label><?php esc_html_e('Dark Mode', 'onyx-dark-mode-switcher'); ?></label>
-                <input type="text" name="onyx_settings[replace_images][<?php echo esc_attr($count); ?>][dark_image]" placeholder="Dark Image" value="<?php echo esc_attr($dark_image); ?>" />
-                <button type="button" class="button"><?php esc_html_e('Select Image', 'onyx-dark-mode-switcher'); ?></button>
+                <div class="onyx-replace-image">
+                    <label><?php esc_html_e('Dark Mode', 'onyx-dark-mode-switcher'); ?></label>
+                    <input type="text" name="onyx_settings[replace_images][<?php echo esc_attr($count); ?>][dark_image]" placeholder="Dark Image" value="<?php echo esc_attr($dark_image); ?>" />
+                    <button type="button" class="button"><?php esc_html_e('Select Image', 'onyx-dark-mode-switcher'); ?></button>
+                </div>
             </div>
-        </div>
-        <button type="button" class="button onyx-remove-image-value"><i class="mdi-trash-can-outline"></i><?php esc_html_e('Delete', 'onyx-dark-mode-switcher'); ?></button>
+            <button type="button" class="button onyx-remove-image-value"><i class="mdi-trash-can-outline"></i><?php esc_html_e('Delete', 'onyx-dark-mode-switcher'); ?></button>
         </div>
         <?php
     }

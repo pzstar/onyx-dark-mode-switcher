@@ -122,7 +122,7 @@ function onyx_get_post_data_arr($param) {
 
 function onyx_sanitize_custom_css( $css ) {
     // strip HTML tags
-    $css = wp_strip_all_tags( $css );
+    $css = wp_strip_all_tags( htmlspecialchars($css, ENT_QUOTES, 'UTF-8') );
 
     // allow CSS-safe characters only
     return preg_replace('/[^a-zA-Z0-9\s:{};#,\.\(\)"\'\/%\-\_!]/', '', $css);
@@ -130,7 +130,7 @@ function onyx_sanitize_custom_css( $css ) {
 
 function onyx_sanitize_custom_js( $js ) {
     // remove HTML tags to prevent </script> attacks
-    $js = wp_strip_all_tags( $js );
+    $js = wp_strip_all_tags(  htmlspecialchars($js, ENT_QUOTES, 'UTF-8') );
 
     // allow only JS-safe characters
     return preg_replace('/[^A-Za-z0-9\s\=\+\-\_\.\,\;\:\(\)\{\}\[\]\'\"\!\?\/\*]/', '', $js);
