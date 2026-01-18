@@ -21,13 +21,13 @@ function onyx_dymanic_styles($settings) {
     $dark_mode_border_color = '#4A4A4A';
     $dark_mode_btn_text_color = '#2D2D2D';
     $dark_mode_btn_bg = '#BEBEBE';
-    $button_offset_top = $settings['button_offset_top'] ? $settings['button_offset_top'] : '20';
-    $button_offset_left = $settings['button_offset_left'] ? $settings['button_offset_left'] : '20';
-    $button_offset_bottom = $settings['button_offset_bottom'] ? $settings['button_offset_bottom'] : '20';
-    $button_offset_right = $settings['button_offset_right'] ? $settings['button_offset_right'] : '20';
-    $button_size = $settings['button_size'] ? $settings['button_size'] : '70';
-    $button_icon_size = $settings['button_icon_size'] ? $settings['button_icon_size'] : '20';
-    $menu_switch_size = $settings['menu_switch_size'] ? $settings['menu_switch_size'] : '50';
+    $button_offset_top = is_numeric($settings['button_offset_top']) ? $settings['button_offset_top'] : '20';
+    $button_offset_left = is_numeric($settings['button_offset_left']) ? $settings['button_offset_left'] : '20';
+    $button_offset_bottom = is_numeric($settings['button_offset_bottom']) ? $settings['button_offset_bottom'] : '20';
+    $button_offset_right = is_numeric($settings['button_offset_right']) ? $settings['button_offset_right'] : '20';
+    $button_size = is_numeric($settings['button_size']) ? $settings['button_size'] : '70';
+    $button_icon_size = is_numeric($settings['button_icon_size']) ? $settings['button_icon_size'] : '20';
+    $menu_switch_size = is_numeric($settings['menu_switch_size']) ? $settings['menu_switch_size'] : '50';
 
     if ($settings['preset_style'] == 'style-2') {
         $dark_mode_bg = '#092635';
