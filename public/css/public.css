@@ -343,7 +343,7 @@ html.onyx-dark-mode .onyx-toggle-menu em {
 .onyx-toggle-menu > svg {
     height: calc(var(--onyx-menu-switch-size) / 3);
     width: calc(var(--onyx-menu-switch-size) / 3);
-    fill: var(--onyx-switch-icon-color, #333) !important;
+    fill: var(--onyx-switch-icon-color, #FFF) !important;
 }
 
 html.onyx-dark-mode .onyx-toggle-menu > svg:nth-child(1) {

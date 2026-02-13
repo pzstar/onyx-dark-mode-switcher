@@ -135,7 +135,7 @@ class Onyx_Dark_Mode_Switcher_Public {
 		if (isset($args->menu->term_id)) {
 			if ($args->menu->term_id == $this->dark_mode_settings['switch_menu']) {
 				$items .= '<li class="menu-item onyx-menu-item">';
-				$items .= '<a class="onyx-toggle-menu" href="#">';
+				$items .= '<a class="onyx-toggle-menu" href="javascript:void(0)">';
 				ob_start();
 				onyx_button_dark_icon_light($this->dark_mode_settings['button_light_icon']);
 				onyx_button_dark_icon_dark($this->dark_mode_settings['button_dark_icon']);
