@@ -302,7 +302,7 @@ html.onyx-dark-mode .onyx-trigger-tooltip {
 
 /* Toggle Menu Switch*/
 li.menu-item a.onyx-toggle-menu {
-    background-color: var(--onyx-switch-bg-color, #333);
+    background-color: var(--onyx-switch-bg-color, #333) !important;
     width: var(--onyx-menu-switch-size) !important;
     height: calc(var(--onyx-menu-switch-size) / 2) !important;
     border-radius: var(--onyx-menu-switch-size) !important;
@@ -321,7 +321,7 @@ li.menu-item a.onyx-toggle-menu {
 
 .onyx-toggle-menu em {
     content: "";
-    background-color: var(--onyx-switch-icon-color, #FFF);
+    background-color: var(--onyx-switch-icon-color, #FFF) !important;
     width: calc(var(--onyx-menu-switch-size) / 2 - var(--onyx-menu-switch-size) / 30 *2) !important;
     height: calc(var(--onyx-menu-switch-size) / 2 - var(--onyx-menu-switch-size) / 30 *2) !important;
     position: absolute !important;
@@ -343,7 +343,7 @@ html.onyx-dark-mode .onyx-toggle-menu em {
 .onyx-toggle-menu > svg {
     height: calc(var(--onyx-menu-switch-size) / 3);
     width: calc(var(--onyx-menu-switch-size) / 3);
-    fill: var(--onyx-switch-icon-color, #333);
+    fill: var(--onyx-switch-icon-color, #333) !important;
 }
 
 html.onyx-dark-mode .onyx-toggle-menu > svg:nth-child(1) {
