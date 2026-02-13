@@ -196,6 +196,14 @@ function onyx_dymanic_styles($settings) {
         $custom_css .= "--onyx-trigger-btn-icon-dark-color:{$settings['dark_mode_button_icon_color']};";
     }
 
+    if ($settings['switch_bg_color']) {
+        $custom_css .= "--onyx-switch-bg-color:{$settings['switch_bg_color']};";
+    }
+
+    if ($settings['switch_icon_color']) {
+        $custom_css .= "--onyx-switch-icon-color:{$settings['switch_icon_color']};";
+    }
+
     $custom_css .= "}";
 
     return onyx_css_strip_whitespace($custom_css);

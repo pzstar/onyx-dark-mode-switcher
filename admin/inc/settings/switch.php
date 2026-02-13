@@ -22,7 +22,7 @@ $onyx_button_dark_icons = array('brightnessaltlow', 'brightnessaltlowfill', 'bri
             </div>
         </div>
 
-        <div class="onyx-field-wrap" data-condition-toggle="onyx-offcanvas-btn">
+        <div class="onyx-field-wrap">
             <label><?php esc_html_e('Switch Icon', 'onyx-dark-mode-switcher'); ?></label>
             <div class="onyx-settings-field">
                 <div class="onyx-icon-pick-wrap">
@@ -43,7 +43,7 @@ $onyx_button_dark_icons = array('brightnessaltlow', 'brightnessaltlowfill', 'bri
                     <input type="hidden" name="onyx_settings[button_light_icon]" class="onyx-icon" value="<?php echo esc_attr($onyx_settings['button_light_icon']); ?>" />
                 </div>
                 <p></p>
-                <div class="onyx-icon-pick-wrap" data-condition-toggle="onyx-offcanvas-btn">
+                <div class="onyx-icon-pick-wrap">
                     <label class="onyx-icon-title"><?php esc_html_e('Dark Icon', 'onyx-dark-mode-switcher'); ?></label>
 
                     <div class="onyx-icon-grid">
@@ -222,6 +222,102 @@ $onyx_button_dark_icons = array('brightnessaltlow', 'brightnessaltlowfill', 'bri
             <div class="onyx-settings-field">
                 <input type="text" name="onyx_settings[tooltip_text]" value="<?php echo esc_attr($onyx_settings['tooltip_text']); ?>">
             </div>
+        </div>
+
+        <div class="onyx-field-wrap">
+            <h3><?php esc_html_e('Switch Menu', 'onyx-dark-mode-switcher'); ?></h3>
+        </div>
+
+        <div class="onyx-field-wrap">
+            <label><?php esc_html_e('Display Switch Button in Menu', 'onyx-dark-mode-switcher'); ?></label>
+            <div class="onyx-settings-field">
+                <div class="onyx-toggle-wrap">
+                    <label class="onyx-toggle">
+                        <input type="checkbox" name="onyx_settings[switch_in_menu]" <?php checked($onyx_settings['switch_in_menu'], 'on'); ?> data-condition="toggle" id="onyx-display-menu-switch">
+                        <span></span>
+                    </label>
+                </div>
+
+                <p class="onyx-desc">
+                    <?php esc_html_e('Enables Dark mode switch in menu.', 'onyx-dark-mode-switcher'); ?>
+                </p>
+            </div>
+        </div>
+
+        <div class="onyx-field-wrap" data-condition-toggle="onyx-display-menu-switch">
+            <label><?php esc_html_e('Select Menu', 'onyx-dark-mode-switcher'); ?></label>
+            <div class="onyx-settings-field">
+                <select name="onyx_settings[switch_menu]">
+                    <?php
+                    $onyx_menus = wp_get_nav_menus();
+                    foreach ($onyx_menus as $onyx_menu) {
+                        ?>
+                        <option value="<?php echo esc_attr($onyx_menu->term_id); ?>" <?php selected($onyx_settings['switch_menu'], $onyx_menu->term_id); ?>><?php echo esc_html($onyx_menu->name); ?></option>
+                        <?php
+                    }
+                    ?>
+                </select>
+                <p class="onyx-desc">
+                    <?php esc_html_e('Select the menu to show the switch button.', 'onyx-dark-mode-switcher'); ?>
+                </p>
+            </div>
+        </div>
+
+        <div class="onyx-field-wrap" data-condition-toggle="onyx-display-menu-switch">
+            <label><?php esc_html_e('Margin', 'onyx-dark-mode-switcher'); ?></label>
+            <ul class="onyx-unit-fields onyx-not-linked">
+                <li class="onyx-unit-settings-field">
+                    <input data-unit="px" type="number" name="onyx_settings[menu_switch_margin_top]" value="<?php echo esc_attr($onyx_settings['menu_switch_margin_top']); ?>" min="0">
+                    <label><?php esc_html_e('Top', 'onyx-dark-mode-switcher') ?></label>
+                </li>
+                <li class="onyx-unit-settings-field">
+                    <input data-unit="px" type="number" name="onyx_settings[menu_switch_margin_right]" value="<?php echo esc_attr($onyx_settings['menu_switch_margin_right']); ?>" min="0">
+                    <label><?php esc_html_e('Right', 'onyx-dark-mode-switcher') ?></label>
+                </li>
+                <li class="onyx-unit-settings-field">
+                    <input data-unit="px" type="number" name="onyx_settings[menu_switch_margin_bottom]" value="<?php echo esc_attr($onyx_settings['menu_switch_margin_bottom']); ?>" min="0">
+                    <label><?php esc_html_e('Bottom', 'onyx-dark-mode-switcher') ?></label>
+                </li>
+                <li class="onyx-unit-settings-field">
+                    <input id="onyx-form-border-left" data-unit="px" type="number" name="onyx_settings[menu_switch_margin_left]" value="<?php echo esc_attr($onyx_settings['menu_switch_margin_left']); ?>" min="0">
+                    <label><?php esc_html_e('Left', 'onyx-dark-mode-switcher') ?></label>
+                </li>
+                <li class="onyx-unit-settings-field">
+                    <div class="onyx-link-button">
+                        <span class="dashicons dashicons-admin-links onyx-linked"></span>
+                        <span class="dashicons dashicons-editor-unlink onyx-unlinked"></span>
+                    </div>
+                </li>
+            </ul>
+        </div>
+
+        <div class="onyx-field-wrap" data-condition-toggle="onyx-display-menu-switch">
+            <label><?php esc_html_e('Size', 'onyx-dark-mode-switcher'); ?></label>
+
+            <div class="onyx-settings-input-field">
+                <div class="onyx-range-slider-field">
+                    <div class="onyx-range-slider"></div>
+                    <input type="number" name="onyx_settings[menu_switch_size]" value="<?php echo esc_attr($onyx_settings['menu_switch_size']); ?>" class="onyx-range-input" min="40" max="100" step="1">
+                </div>
+            </div>
+        </div>
+
+        <div class="onyx-field-wrap" data-condition-toggle="onyx-display-menu-switch">
+            <label><?php esc_html_e('Switch Color', 'onyx-dark-mode-switcher'); ?></label>
+            <ul class="onyx-two-column-row">
+                <li class="onyx-settings-list">
+                    <label><?php esc_html_e('Background Color', 'onyx-dark-mode-switcher'); ?></label>
+                    <div class="onyx-settings-field onyx-color-input-field">
+                        <input type="text" data-alpha-enabled="true" data-alpha-custom-width="30px" data-alpha-color-type="hex" class="color-picker onyx-color-picker" name="onyx_settings[switch_bg_color]" value="<?php echo esc_attr($onyx_settings['switch_bg_color']); ?>">
+                    </div>
+                </li>
+                <li class="onyx-settings-list">
+                    <label><?php esc_html_e('Icon Color', 'onyx-dark-mode-switcher'); ?></label>
+                    <div class="onyx-settings-field onyx-color-input-field">
+                        <input type="text" data-alpha-enabled="true" data-alpha-custom-width="30px" data-alpha-color-type="hex" class="color-picker onyx-color-picker" name="onyx_settings[switch_icon_color]" value="<?php echo esc_attr($onyx_settings['switch_icon_color']); ?>">
+                    </div>
+                </li>
+            </ul>
         </div>
 
         <div class="onyx-field-wrap">

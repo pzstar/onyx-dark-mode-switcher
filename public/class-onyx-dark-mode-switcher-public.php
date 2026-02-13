@@ -140,6 +140,7 @@ class Onyx_Dark_Mode_Switcher_Public {
 				onyx_button_dark_icon_light($this->dark_mode_settings['button_light_icon']);
 				onyx_button_dark_icon_dark($this->dark_mode_settings['button_dark_icon']);
 				$items .= ob_get_clean();
+				$items .= '<em></em>';
 				$items .= '</a>';
 				$items .= '</li>';
 			}

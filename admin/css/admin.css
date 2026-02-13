@@ -593,3 +593,130 @@ p.onyx-desc {
     width: 400px;
     resize: none;
 }
+
+/*Preset Stripe*/
+.onyx-preset-stripe-field{
+    display: flex;
+    flex-wrap: wrap;
+    gap: 20px;
+}
+
+.onyx-preset-stripe {
+    display: flex;
+    height: 60px;
+    width: 150px;
+    background: #EEE;
+    border: 3px solid #FFF;
+    cursor: pointer;
+    align-items: center;
+    justify-content: center;
+    text-transform: uppercase;
+    font-weight: bold;
+    color: #333;
+    font-size: 14px;
+}
+
+.onyx-preset-radio-box{
+    display: none !important;
+}
+
+.onyx-preset-radio-box:checked + .onyx-preset-stripe{
+    border-color: #000;
+}
+
+.onyx-preset-style-1 {
+    background: linear-gradient(to right,
+            #0F0F0F 0%,
+            #0F0F0F 25%,
+            #BEBEBE 25%,
+            #BEBEBE 50%,
+            #2D2D2D 50%,
+            #2D2D2D 75%,
+            #4A4A4A 75%,
+            #4A4A4A 100%);
+}
+
+.onyx-preset-style-2 {
+    background: linear-gradient(to right,
+            #092635 0%,
+            #092635 25%,
+            #1B4242 25%,
+            #1B4242 50%,
+            #5C8374 50%,
+            #5C8374 75%,
+            #9EC8B9 75%,
+            #9EC8B9 100%);
+}
+
+.onyx-preset-style-3 {
+    background: linear-gradient(to right,
+            #363062 0%,
+            #363062 25%,
+            #435585 25%,
+            #435585 50%,
+            #818FB4 50%,
+            #818FB4 75%,
+            #F5E8C7 75%,
+            #F5E8C7 100%);
+}
+
+.onyx-preset-style-4 {
+    background: linear-gradient(to right,
+            #22092C 0%,
+            #22092C 25%,
+            #435585 25%,
+            #435585 50%,
+            #818FB4 50%,
+            #818FB4 75%,
+            #F5E8C7 75%,
+            #F5E8C7 100%);
+}
+
+
+.onyx-preset-style-5 {
+    background: linear-gradient(to right,
+            #352F44 0%,
+            #352F44 25%,
+            #5C5470 25%,
+            #5C5470 50%,
+            #B9B4C7 50%,
+            #B9B4C7 75%,
+            #FAF0E6 75%,
+            #FAF0E6 100%);
+}
+
+.onyx-preset-style-6 {
+    background: linear-gradient(to right,
+            #082032 0%,
+            #082032 25%,
+            #2C394B 25%,
+            #2C394B 50%,
+            #334756 50%,
+            #334756 75%,
+            #FF4C29 75%,
+            #FF4C29 100%);
+}
+
+.onyx-preset-style-7 {
+    background: linear-gradient(to right,
+            #1D2D50 0%,
+            #1D2D50 25%,
+            #133B5C 25%,
+            #133B5C 50%,
+            #1E5F74 50%,
+            #1E5F74 75%,
+            #FCDAB7 75%,
+            #FCDAB7 100%);
+}
+
+.onyx-preset-style-8 {
+    background: linear-gradient(to right,
+            #142850 0%,
+            #142850 25%,
+            #27496D 25%,
+            #27496D 50%,
+            #0C7B93 50%,
+            #0C7B93 75%,
+            #00A8CC 75%,
+            #00A8CC 100%);
+}

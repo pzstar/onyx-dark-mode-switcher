@@ -226,32 +226,30 @@
 
         let mediaFrame;
 
-        $(document).on('click', '.onyx-replace-image button', function (e) {
-            const button = $(this);
+        $(document).on('click', '.onyx-media-uploader', function (e) {
             e.preventDefault();
-
-            // If frame already exists, reopen it
-            if (mediaFrame) {
-                mediaFrame.open();
-                return;
-            }
+            var triggerButton = $(this);
+            var inputField = triggerButton.prev('input');
 
             // Create WP media frame
-            mediaFrame = wp.media({
-                title: 'Select an Image',
-                button: {
-                    text: 'Use this image'
-                },
-                multiple: false
-            });
+            if (!mediaFrame) {
+                mediaFrame = wp.media({
+                    title: 'Select an Image',
+                    button: {
+                        text: 'Use this image'
+                    },
+                    multiple: false
+                });
+            }
+
+            // Remove old select event to avoid duplicate bindings
+            mediaFrame.off('select');
 
             // When an image is selected
             mediaFrame.on('select', function () {
-                const attachment = mediaFrame.state().get('selection').first().toJSON();
-                const input = button.prev('input');
-
+                var attachment = mediaFrame.state().get('selection').first().toJSON();
                 // Fill input with the URL
-                $(input).val(attachment.url);
+                $(inputField).val(attachment.url).trigger('change');
             });
 
             // Open the modal

@@ -302,7 +302,7 @@ html.onyx-dark-mode .onyx-trigger-tooltip {
 
 /* Toggle Menu Switch*/
 li.menu-item a.onyx-toggle-menu {
-    background-color: #333 !important;
+    background-color: var(--onyx-switch-bg-color, #333);
     width: var(--onyx-menu-switch-size) !important;
     height: calc(var(--onyx-menu-switch-size) / 2) !important;
     border-radius: var(--onyx-menu-switch-size) !important;
@@ -316,11 +316,12 @@ li.menu-item a.onyx-toggle-menu {
     margin-bottom: var(--onyx-menu-switch-margin-bottom, inherit);
     margin-left: var(--onyx-menu-switch-margin-left, inherit);
     margin-right: var(--onyx-menu-switch-margin-right, inherit);
+    text-decoration: none;
 }
 
-.onyx-toggle-menu::after {
+.onyx-toggle-menu em {
     content: "";
-    background-color: #fff !important;
+    background-color: var(--onyx-switch-icon-color, #FFF);
     width: calc(var(--onyx-menu-switch-size) / 2 - var(--onyx-menu-switch-size) / 30 *2) !important;
     height: calc(var(--onyx-menu-switch-size) / 2 - var(--onyx-menu-switch-size) / 30 *2) !important;
     position: absolute !important;
@@ -330,19 +331,19 @@ li.menu-item a.onyx-toggle-menu {
     transition: transform 0.2s linear !important;
 }
 
-.onyx-toggle-menu::before {
+.onyx-toggle-menu::before,
+.onyx-toggle-menu::after {
     display: none !important;
 }
 
-
-html.onyx-dark-mode .onyx-toggle-menu::after {
+html.onyx-dark-mode .onyx-toggle-menu em {
     transform: translateX(calc(var(--onyx-menu-switch-size) / 2));
 }
 
 .onyx-toggle-menu > svg {
     height: calc(var(--onyx-menu-switch-size) / 3);
     width: calc(var(--onyx-menu-switch-size) / 3);
-    fill: #FFF;
+    fill: var(--onyx-switch-icon-color, #333);
 }
 
 html.onyx-dark-mode .onyx-toggle-menu > svg:nth-child(1) {

@@ -10,18 +10,52 @@ if (!defined('ABSPATH')) {
             <label><?php esc_html_e('Preset Colors', 'onyx-dark-mode-switcher'); ?></label>
 
             <div class="onyx-settings-field">
-                <select name="onyx_settings[preset_style]" data-condition="toggle" id="onyx-preset-style">
-                    <option value="custom" <?php selected($onyx_settings['preset_style'], 'custom'); ?>><?php esc_html_e('Custom', 'onyx-dark-mode-switcher') ?></option>
-                    <option value="style-1" <?php selected($onyx_settings['preset_style'], 'style-1'); ?>><?php esc_html_e('Style 1', 'onyx-dark-mode-switcher') ?></option>
-                    <option value="style-2" <?php selected($onyx_settings['preset_style'], 'style-2'); ?>><?php esc_html_e('Style 2', 'onyx-dark-mode-switcher') ?></option>
-                    <option value="style-3" <?php selected($onyx_settings['preset_style'], 'style-3'); ?>><?php esc_html_e('Style 3', 'onyx-dark-mode-switcher') ?></option>
-                    <option value="style-4" <?php selected($onyx_settings['preset_style'], 'style-4'); ?>><?php esc_html_e('Style 4', 'onyx-dark-mode-switcher') ?></option>
-                    <option value="style-5" <?php selected($onyx_settings['preset_style'], 'style-5'); ?>><?php esc_html_e('Style 5', 'onyx-dark-mode-switcher') ?></option>
-                    <option value="style-6" <?php selected($onyx_settings['preset_style'], 'style-6'); ?>><?php esc_html_e('Style 6', 'onyx-dark-mode-switcher') ?></option>
-                    <option value="style-7" <?php selected($onyx_settings['preset_style'], 'style-7'); ?>><?php esc_html_e('Style 7', 'onyx-dark-mode-switcher') ?></option>
-                    <option value="style-8" <?php selected($onyx_settings['preset_style'], 'style-8'); ?>><?php esc_html_e('Style 8', 'onyx-dark-mode-switcher') ?></option>
-                </select>
-                <p class="onyx-desc"><?php esc_html_e('Sets Preset Color', 'onyx-dark-mode-switcher'); ?></p>
+                <div class="onyx-preset-stripe-field">
+                    <label>
+                        <input class="onyx-preset-radio-box" type="radio" name="onyx_settings[preset_style]" value="style-1" <?php checked($onyx_settings['preset_style'], 'style-1'); ?> />
+                        <span class="onyx-preset-stripe onyx-preset-style-1"></span>
+                    </label>
+
+                    <label>
+                        <input class="onyx-preset-radio-box" type="radio" name="onyx_settings[preset_style]" value="style-2" <?php checked($onyx_settings['preset_style'], 'style-2'); ?> />
+                        <span class="onyx-preset-stripe onyx-preset-style-2"></span>
+                    </label>
+
+                    <label>
+                        <input class="onyx-preset-radio-box" type="radio" name="onyx_settings[preset_style]" value="style-3" <?php checked($onyx_settings['preset_style'], 'style-3'); ?> />
+                        <span class="onyx-preset-stripe onyx-preset-style-3"></span>
+                    </label>
+
+                    <label>
+                        <input class="onyx-preset-radio-box" type="radio" name="onyx_settings[preset_style]" value="style-4" <?php checked($onyx_settings['preset_style'], 'style-4'); ?> />
+                        <span class="onyx-preset-stripe onyx-preset-style-4"></span>
+                    </label>
+
+                    <label>
+                        <input class="onyx-preset-radio-box" type="radio" name="onyx_settings[preset_style]" value="style-5" <?php checked($onyx_settings['preset_style'], 'style-5'); ?> />
+                        <span class="onyx-preset-stripe onyx-preset-style-5"></span>
+                    </label>
+
+                    <label>
+                        <input class="onyx-preset-radio-box" type="radio" name="onyx_settings[preset_style]" value="style-6" <?php checked($onyx_settings['preset_style'], 'style-6'); ?> />
+                        <span class="onyx-preset-stripe onyx-preset-style-6"></span>
+                    </label>
+
+                    <label>
+                        <input class="onyx-preset-radio-box" type="radio" name="onyx_settings[preset_style]" value="style-7" <?php checked($onyx_settings['preset_style'], 'style-7'); ?> />
+                        <span class="onyx-preset-stripe onyx-preset-style-7"></span>
+                    </label>
+
+                    <label>
+                        <input class="onyx-preset-radio-box" type="radio" name="onyx_settings[preset_style]" value="style-8" <?php checked($onyx_settings['preset_style'], 'style-8'); ?> />
+                        <span class="onyx-preset-stripe onyx-preset-style-8"></span>
+                    </label>
+
+                    <label>
+                        <input class="onyx-preset-radio-box" data-condition="toggle" id="onyx-preset-style" type="radio" name="onyx_settings[preset_style]" value="custom" <?php checked($onyx_settings['preset_style'], 'custom'); ?> />
+                        <span class="onyx-preset-stripe onyx-preset-style-custom"><?php esc_html_e('Custom', 'onyx-dark-mode-switcher'); ?></span>
+                    </label>
+                </div>
             </div>
         </div>
 
