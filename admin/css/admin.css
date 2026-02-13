@@ -595,7 +595,7 @@ p.onyx-desc {
 }
 
 /*Preset Stripe*/
-.onyx-preset-stripe-field{
+.onyx-preset-stripe-field {
     display: flex;
     flex-wrap: wrap;
     gap: 20px;
@@ -616,107 +616,218 @@ p.onyx-desc {
     font-size: 14px;
 }
 
-.onyx-preset-radio-box{
+.onyx-preset-radio-box {
     display: none !important;
 }
 
-.onyx-preset-radio-box:checked + .onyx-preset-stripe{
+.onyx-preset-radio-box:checked + .onyx-preset-stripe {
     border-color: #000;
 }
 
+/*Graphite*/
 .onyx-preset-style-1 {
     background: linear-gradient(to right,
-            #0F0F0F 0%,
-            #0F0F0F 25%,
-            #BEBEBE 25%,
-            #BEBEBE 50%,
-            #2D2D2D 50%,
-            #2D2D2D 75%,
-            #4A4A4A 75%,
-            #4A4A4A 100%);
+            #101010 0%,
+            #101010 20%,
+            #1A1A1A 20%,
+            #1A1A1A 40%,
+            #C4C4C4 40%,
+            #C4C4C4 60%,
+            #FFFFFF 60%,
+            #FFFFFF 80%,
+            #D6D6D6 80%,
+            #D6D6D6 100%,
+            #444444 100%);
 }
 
+/* Cool Blue */
 .onyx-preset-style-2 {
     background: linear-gradient(to right,
-            #092635 0%,
-            #092635 25%,
-            #1B4242 25%,
-            #1B4242 50%,
-            #5C8374 50%,
-            #5C8374 75%,
-            #9EC8B9 75%,
-            #9EC8B9 100%);
+            #0B1220 0%,
+            #0B1220 20%,
+            #131C30 20%,
+            #131C30 40%,
+            #CAD3EA 40%,
+            #CAD3EA 60%,
+            #6CA8FF 60%,
+            #6CA8FF 80%,
+            #98C2FF 80%,
+            #98C2FF 100%,
+            #2B3A5C 100%);
 }
 
+/* Violet Pulse */
 .onyx-preset-style-3 {
     background: linear-gradient(to right,
-            #363062 0%,
-            #363062 25%,
-            #435585 25%,
-            #435585 50%,
-            #818FB4 50%,
-            #818FB4 75%,
-            #F5E8C7 75%,
-            #F5E8C7 100%);
+            #121016 0%,
+            #121016 20%,
+            #1B1823 20%,
+            #1B1823 40%,
+            #D7D2E3 40%,
+            #D7D2E3 60%,
+            #B695FF 60%,
+            #B695FF 80%,
+            #D1BEFF 80%,
+            #D1BEFF 100%,
+            #3B3450 100%);
 }
 
+/* Emerald Night */
 .onyx-preset-style-4 {
     background: linear-gradient(to right,
-            #22092C 0%,
-            #22092C 25%,
-            #435585 25%,
-            #435585 50%,
-            #818FB4 50%,
-            #818FB4 75%,
-            #F5E8C7 75%,
-            #F5E8C7 100%);
+            #0D1613 0%,
+            #0D1613 20%,
+            #16221E 20%,
+            #16221E 40%,
+            #D0E6DF 40%,
+            #D0E6DF 60%,
+            #39D98A 60%,
+            #39D98A 80%,
+            #6EE7B7 80%,
+            #6EE7B7 100%,
+            #2F443E 100%);
 }
 
-
+/* Warm Amber */
 .onyx-preset-style-5 {
     background: linear-gradient(to right,
-            #352F44 0%,
-            #352F44 25%,
-            #5C5470 25%,
-            #5C5470 50%,
-            #B9B4C7 50%,
-            #B9B4C7 75%,
-            #FAF0E6 75%,
-            #FAF0E6 100%);
+            #14110E 0%,
+            #14110E 20%,
+            #1D1915 20%,
+            #1D1915 40%,
+            #E3D8C6 40%,
+            #E3D8C6 60%,
+            #FFB357 60%,
+            #FFB357 80%,
+            #FFD099 80%,
+            #FFD099 100%,
+            #3B332A 100%);
 }
 
+/* Cyber Teal */
 .onyx-preset-style-6 {
     background: linear-gradient(to right,
-            #082032 0%,
-            #082032 25%,
-            #2C394B 25%,
-            #2C394B 50%,
-            #334756 50%,
-            #334756 75%,
-            #FF4C29 75%,
-            #FF4C29 100%);
+            #071518 0%,
+            #071518 20%,
+            #0F2126 20%,
+            #0F2126 40%,
+            #CBE7EA 40%,
+            #CBE7EA 60%,
+            #33D1C6 60%,
+            #33D1C6 80%,
+            #7FE7DF 80%,
+            #7FE7DF 100%,
+            #285055 100%);
 }
 
+/* OLED Black */
 .onyx-preset-style-7 {
     background: linear-gradient(to right,
-            #1D2D50 0%,
-            #1D2D50 25%,
-            #133B5C 25%,
-            #133B5C 50%,
-            #1E5F74 50%,
-            #1E5F74 75%,
-            #FCDAB7 75%,
-            #FCDAB7 100%);
+            #000000 0%,
+            #000000 20%,
+            #0A0A0A 20%,
+            #0A0A0A 40%,
+            #E5E5E5 40%,
+            #E5E5E5 60%,
+            #FFFFFF 60%,
+            #FFFFFF 80%,
+            #BFBFBF 80%,
+            #BFBFBF 100%,
+            #262626 100%);
 }
 
+/* Rose Midnight */
 .onyx-preset-style-8 {
     background: linear-gradient(to right,
-            #142850 0%,
-            #142850 25%,
-            #27496D 25%,
-            #27496D 50%,
-            #0C7B93 50%,
-            #0C7B93 75%,
-            #00A8CC 75%,
-            #00A8CC 100%);
+            #151012 0%,
+            #151012 20%,
+            #1F171A 20%,
+            #1F171A 40%,
+            #E2D4D8 40%,
+            #E2D4D8 60%,
+            #FF7A9E 60%,
+            #FF7A9E 80%,
+            #FF9FB8 80%,
+            #FF9FB8 100%,
+            #3C2E33 100%);
+}
+
+/* Deep Ocean */
+.onyx-preset-style-9 {
+    background: linear-gradient(to right,
+            #061A2B 0%,
+            #061A2B 20%,
+            #0C2A44 20%,
+            #0C2A44 40%,
+            #D6E6F5 40%,
+            #D6E6F5 60%,
+            #4DB3FF 60%,
+            #4DB3FF 80%,
+            #7FCCFF 80%,
+            #7FCCFF 100%,
+            #1E4A6E 100%);
+}
+
+/* Crimson Night */
+.onyx-preset-style-10 {
+    background: linear-gradient(to right,
+            #2A0B0B 0%,
+            #2A0B0B 20%,
+            #3F1212 20%,
+            #3F1212 40%,
+            #F2D6D6 40%,
+            #F2D6D6 60%,
+            #FF5C5C 60%,
+            #FF5C5C 80%,
+            #FF8A8A 80%,
+            #FF8A8A 100%,
+            #6B2424 100%);
+}
+
+/* Aurora Purple */
+.onyx-preset-style-11 {
+    background: linear-gradient(to right,
+            #1A0D2E 0%,
+            #1A0D2E 20%,
+            #2A1548 20%,
+            #2A1548 40%,
+            #E6DAFF 40%,
+            #E6DAFF 60%,
+            #9F7CFF 60%,
+            #9F7CFF 80%,
+            #C2A8FF 80%,
+            #C2A8FF 100%,
+            #50308A 100%);
+}
+
+/* Tropical Teal */
+.onyx-preset-style-12 {
+    background: linear-gradient(to right,
+            #062621 0%,
+            #062621 20%,
+            #0D3A33 20%,
+            #0D3A33 40%,
+            #D4F1EA 40%,
+            #D4F1EA 60%,
+            #1ED6B3 60%,
+            #1ED6B3 80%,
+            #5BE7CB 80%,
+            #5BE7CB 100%,
+            #1E6A60 100%);
+}
+
+/* Sunset Orange */
+.onyx-preset-style-13 {
+    background: linear-gradient(to right,
+            #2B1406 0%,
+            #2B1406 20%,
+            #44210B 20%,
+            #44210B 40%,
+            #F5E0D1 40%,
+            #F5E0D1 60%,
+            #FF8A3D 60%,
+            #FF8A3D 80%,
+            #FFB07A 80%,
+            #FFB07A 100%,
+            #75411D 100%);
 }
