@@ -204,7 +204,7 @@
 
 .onyx-field-column .onyx-field-wrap {
     display: flex;
-    gap: 15px;
+    gap: 30px;
 }
 
 .onyx-field-wrap > label {
@@ -487,7 +487,7 @@
 }
 
 .onyx-range-slider.ui-slider .ui-slider-range {
-    background: #88ddfb;
+    background: var(--wp-admin-theme-color);
     position: absolute;
     left: 0;
     top: 0;
@@ -498,7 +498,7 @@
     position: absolute;
     height: 14px;
     width: 14px;
-    background: #88ddfb !important;
+    background: var(--wp-admin-theme-color) !important;
     border: none;
     border-radius: 100%;
     margin-left: -7px;
@@ -514,7 +514,7 @@
     top: 100%;
     left: 50%;
     transform: translateX(-50%);
-    background: #88ddfb;
+    background: var(--wp-admin-theme-color);
     color: #FFF;
     padding: 4px 6px;
     font-size: 12px;
