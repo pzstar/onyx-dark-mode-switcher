@@ -5,7 +5,7 @@
 
 .onyx-main-title {
     background: #FFF;
-    margin: 0 0 40px;
+    margin: 0 0 20px;
     margin-left: -20px;
     padding: 25px 30px;
     line-height: 1;
@@ -426,9 +426,9 @@
 .onyx-unit-fields .onyx-link-button {
     cursor: pointer;
     outline: none;
-    border-radius: 4px;
-    border: 1px solid #8c8f94;
-    color: #2c3338;
+    border-radius: 2px;
+    border: 1px solid #949494;
+    color: #1e1e1e;
     min-height: 28px;
     width: 45px;
     background-color: #a4afb7;
@@ -442,7 +442,7 @@
 
 .onyx-unit-fields .onyx-link-button span {
     font-size: 16px;
-    height: 28px;
+    height: 38px;
     width: 45px;
     align-items: center;
     justify-content: center;

@@ -10,6 +10,10 @@ $onyx_settings = Onyx_Dark_Mode_Switcher_Settings::get_settings();
     <?php echo esc_html__('Onyx Dark Mode Switcher', 'onyx-dark-mode-switcher'); ?>
 </h2>
 
+<div class="wrap">
+    <h1></h1>
+</div>
+
 <form method="POST">
     <input type="hidden" name="updated" value="true" />
     <?php wp_nonce_field('onyx_nonce_update_settings', 'onyx_nonce'); ?>
