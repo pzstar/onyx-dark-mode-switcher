@@ -97,6 +97,14 @@ class Onyx_Dark_Mode_Switcher {
 		require_once plugin_dir_path(dirname(__FILE__)) . 'admin/inc/class-onyx-dark-mode-switcher-settings.php';
 
 		/**
+		 * Per entry opt out. Only hooks admin screens, so there is no reason to
+		 * load it on the front end.
+		 */
+		if (is_admin()) {
+			require_once plugin_dir_path(dirname(__FILE__)) . 'admin/inc/class-onyx-dark-mode-switcher-metabox.php';
+		}
+
+		/**
 		 * The class responsible for defining all actions that occur in the admin area.
 		 */
 		require_once plugin_dir_path(dirname(__FILE__)) . 'admin/class-onyx-dark-mode-switcher-admin.php';

@@ -84,6 +84,37 @@ if (!defined('ABSPATH')) {
             </div>
         </div>
 
+        <div class="onyx-field-wrap">
+            <label><?php esc_html_e('Preview', 'onyx-dark-mode-switcher'); ?></label>
+            <div class="onyx-settings-field">
+                <div class="onyx-preview-panel" id="onyx-preview-panel">
+                    <div class="onyx-preview-bar">
+                        <span class="onyx-preview-dot"></span>
+                        <span class="onyx-preview-dot"></span>
+                        <span class="onyx-preview-dot"></span>
+                    </div>
+                    <div class="onyx-preview-body">
+                        <h4 class="onyx-preview-heading"><?php esc_html_e('Heading text', 'onyx-dark-mode-switcher'); ?></h4>
+                        <p class="onyx-preview-text">
+                            <?php esc_html_e('Body copy sits on the primary background, with', 'onyx-dark-mode-switcher'); ?>
+                            <a href="#" class="onyx-preview-link" onclick="return false;"><?php esc_html_e('a link', 'onyx-dark-mode-switcher'); ?></a>
+                            <?php esc_html_e('running through it.', 'onyx-dark-mode-switcher'); ?>
+                        </p>
+                        <div class="onyx-preview-card">
+                            <span class="onyx-preview-text"><?php esc_html_e('Secondary background', 'onyx-dark-mode-switcher'); ?></span>
+                        </div>
+                        <div class="onyx-preview-controls">
+                            <input type="text" class="onyx-preview-input" placeholder="<?php esc_attr_e('Placeholder text', 'onyx-dark-mode-switcher'); ?>" readonly>
+                            <button type="button" class="onyx-preview-button"><?php esc_html_e('Button', 'onyx-dark-mode-switcher'); ?></button>
+                        </div>
+                    </div>
+                </div>
+                <p class="onyx-desc">
+                    <?php esc_html_e('Updates as you pick a preset or edit a custom color. Nothing is saved until you press Save Settings.', 'onyx-dark-mode-switcher'); ?>
+                </p>
+            </div>
+        </div>
+
         <div class="onyx-field-wrap" data-condition-toggle="onyx-preset-style-custom">
             <label><?php esc_html_e('Background Color', 'onyx-dark-mode-switcher'); ?></label>
             <ul class="onyx-two-column-row">
@@ -147,6 +178,7 @@ if (!defined('ABSPATH')) {
                         <input type="text" data-alpha-enabled="true" data-alpha-custom-width="30px" data-alpha-color-type="hex" class="color-picker onyx-color-picker" name="onyx_settings[dark_mode_input_placeholder_color]" value="<?php echo esc_attr($onyx_settings['dark_mode_input_placeholder_color']); ?>">
                     </div>
                 </li>
+            </ul>
         </div>
 
 
@@ -186,6 +218,35 @@ if (!defined('ABSPATH')) {
                 </li>
             </ul>
 
+        </div>
+
+        <div class="onyx-field-wrap">
+            <h3><?php esc_html_e('Selector Overrides', 'onyx-dark-mode-switcher'); ?></h3>
+        </div>
+
+        <div class="onyx-field-wrap">
+            <label><?php esc_html_e('Override Colors by Selector', 'onyx-dark-mode-switcher'); ?></label>
+            <div class="onyx-settings-field">
+                <div class="onyx-replace-image-values-wrap onyx-color-override-wrap">
+                    <?php
+                    $onyx_count = 0;
+
+                    foreach ((array) $onyx_settings['color_overrides'] as $onyx_override) {
+                        if (is_array($onyx_override) && !empty($onyx_override['selector'])) {
+                            self::color_override_fields_options($onyx_count, $onyx_override);
+                        }
+                        $onyx_count++;
+                    }
+                    ?>
+                </div>
+
+                <button type="button" class="button onyx-add-color-override"><i class="mdi-plus"></i><?php esc_html_e('Add Override', 'onyx-dark-mode-switcher'); ?></button>
+                <input type="hidden" class="onyx-color-override-count" value="<?php echo esc_attr($onyx_count); ?>" />
+
+                <p class="onyx-desc">
+                    <?php esc_html_e('Force specific colors onto elements the automatic pass gets wrong. Leave a color empty to leave that property alone. These rules only apply in dark mode.', 'onyx-dark-mode-switcher'); ?>
+                </p>
+            </div>
         </div>
 
     </div>

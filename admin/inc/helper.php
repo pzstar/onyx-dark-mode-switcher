@@ -4,6 +4,48 @@ if (!defined('WPINC')) {
 	die;
 }
 
+/**
+ * The built in dark mode palettes.
+ *
+ * Single source of truth: the front end stylesheet generator reads this, and it
+ * is also handed to the admin so the Colors tab can preview a palette without
+ * saving. Keys line up with the CSS custom properties, which are named
+ * --onyx_mode_{key}.
+ */
+function onyx_preset_palettes() {
+    static $palettes = null;
+
+    if ($palettes !== null) {
+        return $palettes;
+    }
+
+    $palettes = array(
+        'style-1' => array('bg' => '#101010', 'secondary_bg' => '#1A1A1A', 'text_color' => '#C4C4C4', 'link_color' => '#FFFFFF', 'link_hover_color' => '#D6D6D6', 'input_bg' => '#C4C4C4', 'input_text_color' => '#2A2A2A', 'input_placeholder_color' => '#8E8E8E', 'border_color' => '#444444', 'btn_text_color' => '#2A2A2A', 'btn_bg' => '#C4C4C4'),
+        'style-2' => array('bg' => '#0B1220', 'secondary_bg' => '#131C30', 'text_color' => '#CAD3EA', 'link_color' => '#6CA8FF', 'link_hover_color' => '#98C2FF', 'input_bg' => '#1A2540', 'input_text_color' => '#E8EEFF', 'input_placeholder_color' => '#7F8DB0', 'border_color' => '#2B3A5C', 'btn_text_color' => '#0B1220', 'btn_bg' => '#6CA8FF'),
+        'style-3' => array('bg' => '#121016', 'secondary_bg' => '#1B1823', 'text_color' => '#D7D2E3', 'link_color' => '#B695FF', 'link_hover_color' => '#D1BEFF', 'input_bg' => '#241F2F', 'input_text_color' => '#F2EDFF', 'input_placeholder_color' => '#9088A6', 'border_color' => '#3B3450', 'btn_text_color' => '#121016', 'btn_bg' => '#B695FF'),
+        'style-4' => array('bg' => '#0D1613', 'secondary_bg' => '#16221E', 'text_color' => '#D0E6DF', 'link_color' => '#39D98A', 'link_hover_color' => '#6EE7B7', 'input_bg' => '#1D2B27', 'input_text_color' => '#E9FFF8', 'input_placeholder_color' => '#7FA79B', 'border_color' => '#2F443E', 'btn_text_color' => '#0D1613', 'btn_bg' => '#39D98A'),
+        'style-5' => array('bg' => '#14110E', 'secondary_bg' => '#1D1915', 'text_color' => '#E3D8C6', 'link_color' => '#FFB357', 'link_hover_color' => '#FFD099', 'input_bg' => '#27221D', 'input_text_color' => '#FFF5E6', 'input_placeholder_color' => '#9C8F7D', 'border_color' => '#3B332A', 'btn_text_color' => '#14110E', 'btn_bg' => '#FFB357'),
+        'style-6' => array('bg' => '#071518', 'secondary_bg' => '#0F2126', 'text_color' => '#CBE7EA', 'link_color' => '#33D1C6', 'link_hover_color' => '#7FE7DF', 'input_bg' => '#163136', 'input_text_color' => '#E6FFFF', 'input_placeholder_color' => '#7FA6A9', 'border_color' => '#285055', 'btn_text_color' => '#071518', 'btn_bg' => '#33D1C6'),
+        'style-7' => array('bg' => '#000000', 'secondary_bg' => '#0A0A0A', 'text_color' => '#E5E5E5', 'link_color' => '#FFFFFF', 'link_hover_color' => '#BFBFBF', 'input_bg' => '#141414', 'input_text_color' => '#FFFFFF', 'input_placeholder_color' => '#8A8A8A', 'border_color' => '#262626', 'btn_text_color' => '#000000', 'btn_bg' => '#E5E5E5'),
+        'style-8' => array('bg' => '#151012', 'secondary_bg' => '#1F171A', 'text_color' => '#E2D4D8', 'link_color' => '#FF7A9E', 'link_hover_color' => '#FF9FB8', 'input_bg' => '#2A2024', 'input_text_color' => '#FFF0F4', 'input_placeholder_color' => '#A88992', 'border_color' => '#3C2E33', 'btn_text_color' => '#151012', 'btn_bg' => '#FF7A9E'),
+        'style-9' => array('bg' => '#2B1406', 'secondary_bg' => '#44210B', 'text_color' => '#F5E0D1', 'link_color' => '#FF8A3D', 'link_hover_color' => '#FFB07A', 'input_bg' => '#5C2F13', 'input_text_color' => '#FFF2E8', 'input_placeholder_color' => '#C09A7F', 'border_color' => '#75411D', 'btn_text_color' => '#2B1406', 'btn_bg' => '#FF8A3D'),
+        'style-10' => array('bg' => '#2A0B0B', 'secondary_bg' => '#3F1212', 'text_color' => '#F2D6D6', 'link_color' => '#FF5C5C', 'link_hover_color' => '#FF8A8A', 'input_bg' => '#541919', 'input_text_color' => '#FFF1F1', 'input_placeholder_color' => '#B88C8C', 'border_color' => '#6B2424', 'btn_text_color' => '#2A0B0B', 'btn_bg' => '#FF5C5C'),
+        'style-11' => array('bg' => '#1A0D2E', 'secondary_bg' => '#2A1548', 'text_color' => '#E6DAFF', 'link_color' => '#9F7CFF', 'link_hover_color' => '#C2A8FF', 'input_bg' => '#3A1F63', 'input_text_color' => '#F5EEFF', 'input_placeholder_color' => '#9C8BC7', 'border_color' => '#50308A', 'btn_text_color' => '#1A0D2E', 'btn_bg' => '#9F7CFF'),
+        'style-12' => array('bg' => '#062621', 'secondary_bg' => '#0D3A33', 'text_color' => '#D4F1EA', 'link_color' => '#1ED6B3', 'link_hover_color' => '#5BE7CB', 'input_bg' => '#14524A', 'input_text_color' => '#EFFFFB', 'input_placeholder_color' => '#7FAFA6', 'border_color' => '#1E6A60', 'btn_text_color' => '#062621', 'btn_bg' => '#1ED6B3'),
+        'style-13' => array('bg' => '#2B1406', 'secondary_bg' => '#44210B', 'text_color' => '#F5E0D1', 'link_color' => '#FF8A3D', 'link_hover_color' => '#FFB07A', 'input_bg' => '#5C2F13', 'input_text_color' => '#FFF2E8', 'input_placeholder_color' => '#C09A7F', 'border_color' => '#75411D', 'btn_text_color' => '#2B1406', 'btn_bg' => '#FF8A3D'),
+    );
+
+    // The presets ship no explicit button hover pair. Every palette is built the
+    // same way, with link_hover_color as the lighter accent and btn_text_color
+    // as the page background, so those carry over cleanly.
+    foreach ($palettes as $key => $palette) {
+        $palettes[$key]['btn_text_color_hover'] = $palette['btn_text_color'];
+        $palettes[$key]['btn_bg_hover'] = $palette['link_hover_color'];
+    }
+
+    return $palettes;
+}
+
 function onyx_recursive_parse_args($args, $defaults) {
     $new_args = (array) $defaults;
     if ($args) {
@@ -77,6 +119,53 @@ function onyx_sanitize_number($input) {
     } else {
         return '';
     }
+}
+
+/**
+ * Sanitize a 24 hour HH:MM time. Returns '' when the value is not a valid time,
+ * which the schedule treats as "not configured".
+ */
+function onyx_sanitize_time($time) {
+    $time = trim((string) $time);
+
+    if (!preg_match('/^([01][0-9]|2[0-3]):([0-5][0-9])$/', $time)) {
+        return '';
+    }
+
+    return $time;
+}
+
+/**
+ * Sanitize a list of post type slugs down to post types that actually exist.
+ */
+function onyx_sanitize_post_types($post_types) {
+    if (!is_array($post_types)) {
+        return array();
+    }
+
+    $registered = get_post_types(array('public' => true));
+
+    return array_values(array_intersect(array_map('sanitize_key', $post_types), $registered));
+}
+
+/**
+ * Sanitize a CSS selector that will be printed into a stylesheet.
+ *
+ * The selector is interpolated straight into a rule, so anything that could
+ * close that rule or open an at-rule has to go. Combinators, attribute
+ * selectors and pseudo classes are kept, since those are the whole point.
+ */
+function onyx_sanitize_css_selector($selector) {
+    $selector = wp_strip_all_tags((string) $selector);
+
+    // Sequences that would let a selector escape its own rule block.
+    $selector = str_replace(array('{', '}', ';', '@', '\\', '/*', '*/'), '', $selector);
+
+    // Conservative allowlist for whatever survived. ^ $ | are needed for the
+    // attribute operators ^= $= |=, and are inert anywhere else in a selector.
+    $selector = preg_replace('/[^a-zA-Z0-9\s.#_\-\[\]="\':(),>+~*\^\$\|]/', '', $selector);
+
+    return trim($selector);
 }
 
 function onyx_sanitize_color($color) {

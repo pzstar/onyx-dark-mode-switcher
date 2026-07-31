@@ -1,3 +1,20 @@
+/*
+ * Pre-paint baseline. The wp_head snippet puts .onyx-dark-mode on <html> before
+ * the browser paints, so these two rules give the page its dark backdrop
+ * immediately. The .onyx-change-* rules below refine individual elements once
+ * public.js has walked the DOM. No !important here on purpose, so those later
+ * rules win. color-scheme darkens native scrollbars and form controls at once.
+ */
+html.onyx-dark-mode {
+    color-scheme: dark;
+}
+
+html.onyx-dark-mode,
+html.onyx-dark-mode body {
+    background-color: var(--onyx_mode_bg);
+    color: var(--onyx_mode_text_color);
+}
+
 .onyx-dark-mode .onyx-change-all {
     background: var(--onyx_mode_bg) !important;
     background-color: var(--onyx_mode_bg) !important;
@@ -101,6 +118,13 @@
     background: var(--onyx_mode_btn_bg) !important;
     background-color: var(--onyx_mode_btn_bg) !important;
     color: var(--onyx_mode_btn_text_color) !important;
+}
+
+.onyx-dark-mode .onyx-is-button:hover,
+.onyx-dark-mode .onyx-is-button:focus {
+    background: var(--onyx_mode_btn_bg_hover) !important;
+    background-color: var(--onyx_mode_btn_bg_hover) !important;
+    color: var(--onyx_mode_btn_text_color_hover) !important;
 }
 
 /* Switch Style */

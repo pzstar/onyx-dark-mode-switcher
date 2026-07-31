@@ -3,6 +3,116 @@
 
     $(document).ready(function ($) {
 
+        /**
+         * Flash a message in the shared admin notice strip.
+         * type is 'success' or 'warning'.
+         */
+        function onyxAlert(message, type) {
+            $('.onyx-alert')
+                .addClass('onyx-alert-' + type + ' onyx-alert-active')
+                .find('span').text(message);
+
+            setTimeout(function () {
+                $('.onyx-alert').removeClass('onyx-alert-active onyx-alert-success onyx-alert-warning onyx-alert-neutral');
+            }, 3500);
+        }
+
+        /* ---------- Tools tab ---------- */
+
+        $('.onyx-export-settings').on('click', function () {
+            const $btn = $(this).addClass('onyx-btn-loading').attr('disabled', true);
+
+            $.post(onyx_admin_obj.ajaxurl, {
+                action: 'onyx_export_settings',
+                nonce: onyx_admin_obj.nonce
+            }).done(function (response) {
+                if (!response.success) {
+                    onyxAlert((response.data && response.data.message) || 'Export failed.', 'warning');
+                    return;
+                }
+
+                const blob = new Blob([JSON.stringify(response.data.settings, null, 2)], {type: 'application/json'});
+                const url = URL.createObjectURL(blob);
+                const link = document.createElement('a');
+                link.href = url;
+                link.download = response.data.filename;
+                document.body.appendChild(link);
+                link.click();
+                document.body.removeChild(link);
+                URL.revokeObjectURL(url);
+
+                onyxAlert('Settings exported.', 'success');
+            }).fail(function () {
+                onyxAlert('Export failed.', 'warning');
+            }).always(function () {
+                $btn.removeClass('onyx-btn-loading').removeAttr('disabled');
+            });
+        });
+
+        $('.onyx-import-settings').on('click', function () {
+            const $btn = $(this);
+            const input = $btn.closest('.onyx-settings-field').find('.onyx-import-file')[0];
+            const file = input && input.files ? input.files[0] : null;
+
+            if (!file) {
+                onyxAlert('Choose a JSON file first.', 'warning');
+                return;
+            }
+
+            const reader = new FileReader();
+
+            reader.onload = function () {
+                $btn.addClass('onyx-btn-loading').attr('disabled', true);
+
+                $.post(onyx_admin_obj.ajaxurl, {
+                    action: 'onyx_import_settings',
+                    nonce: onyx_admin_obj.nonce,
+                    settings: reader.result
+                }).done(function (response) {
+                    if (response.success) {
+                        onyxAlert(response.data.message, 'success');
+                        setTimeout(function () { window.location.reload(); }, 800);
+                    } else {
+                        onyxAlert((response.data && response.data.message) || 'Import failed.', 'warning');
+                        $btn.removeClass('onyx-btn-loading').removeAttr('disabled');
+                    }
+                }).fail(function () {
+                    onyxAlert('Import failed.', 'warning');
+                    $btn.removeClass('onyx-btn-loading').removeAttr('disabled');
+                });
+            };
+
+            reader.onerror = function () {
+                onyxAlert('That file could not be read.', 'warning');
+            };
+
+            reader.readAsText(file);
+        });
+
+        $('.onyx-reset-settings').on('click', function () {
+            if (!window.confirm('Reset every Onyx setting back to its default? This cannot be undone.')) {
+                return;
+            }
+
+            const $btn = $(this).addClass('onyx-btn-loading').attr('disabled', true);
+
+            $.post(onyx_admin_obj.ajaxurl, {
+                action: 'onyx_reset_settings',
+                nonce: onyx_admin_obj.nonce
+            }).done(function (response) {
+                if (response.success) {
+                    onyxAlert(response.data.message, 'success');
+                    setTimeout(function () { window.location.reload(); }, 800);
+                } else {
+                    onyxAlert((response.data && response.data.message) || 'Reset failed.', 'warning');
+                    $btn.removeClass('onyx-btn-loading').removeAttr('disabled');
+                }
+            }).fail(function () {
+                onyxAlert('Reset failed.', 'warning');
+                $btn.removeClass('onyx-btn-loading').removeAttr('disabled');
+            });
+        });
+
         $('.onyx-save-settings.onyx-settings-btn button').on('click', function (e) {
             e.preventDefault();
             const $formBtn = $(this);
@@ -26,21 +136,11 @@
                 contentType: false,
                 success: function (response) {
                     if (response.success) {
-                        $('.onyx-alert').addClass('onyx-alert-success onyx-alert-active').find('span').html(response.data.message);
-                        $formBtn.removeClass('onyx-button-loader');
-
-                        setTimeout(function () {
-                            $('.onyx-alert').removeClass('onyx-alert-active onyx-alert-success onyx-alert-warning onyx-alert-neutral');
-                        }, 3500);
+                        onyxAlert(response.data.message, 'success');
                     } else {
-                        var message = (response.data && response.data.message) || 'Failed to save settings.';
-                        $('.onyx-alert').addClass('onyx-alert-warning onyx-alert-active').find('span').text(message);
-                        $formBtn.removeClass('onyx-button-loader');
-
-                        setTimeout(function () {
-                            $('.onyx-alert').removeClass('onyx-alert-active onyx-alert-success onyx-alert-warning onyx-alert-neutral');
-                        }, 3500);
+                        onyxAlert((response.data && response.data.message) || 'Failed to save settings.', 'warning');
                     }
+                    $formBtn.removeClass('onyx-button-loader');
                 },
                 error: function () {
                     $formBtn.removeClass('onyx-button-loader');
@@ -92,11 +192,100 @@
             });
         })
 
+        $(document).on('click', 'button.onyx-add-color-override', function () {
+            const addBtn = $(this),
+                count = addBtn.closest('.onyx-field-wrap').find('.onyx-color-override-count'),
+                listwrapper = addBtn.closest('.onyx-field-wrap').find('.onyx-color-override-wrap');
+
+            addBtn.addClass('onyx-btn-loading').attr('disabled', true);
+            $.ajax({
+                url: onyx_admin_obj.ajaxurl,
+                type: 'POST',
+                data: {
+                    action: 'onyx_color_override_fields_options',
+                    nonce: onyx_admin_obj.nonce,
+                    count: count.val(),
+                },
+
+            }).done(function (result) {
+                count.val(parseInt(count.val()) + 1);
+                const $row = $(result);
+                listwrapper.append($row);
+                // New markup is not covered by the initial wpColorPicker pass.
+                $row.find('.onyx-color-picker').wpColorPicker({
+                    change: onyxRefreshPreview,
+                    clear: onyxRefreshPreview
+                });
+                addBtn.removeClass('onyx-btn-loading').removeAttr('disabled');
+            });
+        })
+
         $(document).on('click', '.onyx-remove-image-value', function () {
             $(this).closest('.onyx-replace-image-fields').remove();
         })
 
-        $('.onyx-color-picker').wpColorPicker();
+        /* ---------- Colors tab live preview ---------- */
+
+        // Setting name -> palette key, for the Custom preset.
+        const onyxCustomFieldMap = {
+            dark_mode_bg: 'bg',
+            dark_mode_secondary_bg: 'secondary_bg',
+            dark_mode_text_color: 'text_color',
+            dark_mode_link_color: 'link_color',
+            dark_mode_link_hover_color: 'link_hover_color',
+            dark_mode_input_bg: 'input_bg',
+            dark_mode_input_text_color: 'input_text_color',
+            dark_mode_input_placeholder_color: 'input_placeholder_color',
+            dark_mode_border_color: 'border_color',
+            dark_mode_btn_text_color: 'btn_text_color',
+            dark_mode_btn_bg: 'btn_bg',
+            dark_mode_btn_text_color_hover: 'btn_text_color_hover',
+            dark_mode_btn_bg_hover: 'btn_bg_hover'
+        };
+
+        function onyxCurrentPalette() {
+            const presets = onyx_admin_obj.palettes || {};
+            const fallback = presets['style-1'] || {};
+            const selected = $('input[name="onyx_settings[preset_style]"]:checked').val() || 'style-1';
+
+            if (selected !== 'custom') {
+                return presets[selected] || fallback;
+            }
+
+            // Custom mode mirrors the PHP side: start from style-1 so a partly
+            // filled palette still previews instead of going blank.
+            const palette = $.extend({}, fallback);
+            Object.keys(onyxCustomFieldMap).forEach(function (name) {
+                const value = $('input[name="onyx_settings[' + name + ']"]').val();
+                if (value) {
+                    palette[onyxCustomFieldMap[name]] = value;
+                }
+            });
+            return palette;
+        }
+
+        function onyxRefreshPreview() {
+            const panel = document.getElementById('onyx-preview-panel');
+            if (!panel) return;
+
+            const palette = onyxCurrentPalette();
+            Object.keys(palette).forEach(function (key) {
+                panel.style.setProperty('--onyx_mode_' + key, palette[key]);
+            });
+        }
+
+        // wpColorPicker fires change before the input value settles, so defer.
+        function onyxSchedulePreviewRefresh() {
+            setTimeout(onyxRefreshPreview, 0);
+        }
+
+        $('.onyx-color-picker').wpColorPicker({
+            change: onyxSchedulePreviewRefresh,
+            clear: onyxSchedulePreviewRefresh
+        });
+
+        $(document).on('change', 'input[name="onyx_settings[preset_style]"]', onyxRefreshPreview);
+        onyxRefreshPreview();
 
         /* Backend Tabs Toggle Buttons Actions */
         $('body').on('click', '.onyx-tab', function () {

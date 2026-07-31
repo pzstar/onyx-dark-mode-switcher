@@ -22,6 +22,11 @@ class Onyx_Dark_Mode_Switcher_Public {
 	public $dark_mode_settings = [];
 
 	/**
+	 * Memoised result of is_disabled_for_request(). Null until first resolved.
+	 */
+	private $disabled_for_request = null;
+
+	/**
 	 * Initialize the class and set its properties.
 	 *
 	 * @since    1.0.0
@@ -37,6 +42,10 @@ class Onyx_Dark_Mode_Switcher_Public {
 		if ($this->dark_mode_settings['enable'] == 'on') {
 			$this->include_files();
 
+			// Priority 0: this has to run before the stylesheet and before
+			// jQuery, so the dark class is on <html> ahead of first paint.
+			add_action('wp_head', array($this, 'print_initial_mode_script'), 0);
+
 			if ($this->dark_mode_settings['enable_button'] == 'on') {
 				add_action('wp_footer', array($this, 'toggle_button'));
 			}
@@ -45,6 +54,74 @@ class Onyx_Dark_Mode_Switcher_Public {
 				add_filter('wp_nav_menu_items', array($this, 'menu_switch'), 10, 2);
 			}
 		}
+	}
+
+	/**
+	 * Whether dark mode is switched off for the page currently being rendered.
+	 *
+	 * Two ways to opt out: the post type is excluded in the settings, or the
+	 * individual entry has the per page checkbox ticked.
+	 */
+	public function is_disabled_for_request() {
+		if ($this->disabled_for_request !== null) {
+			return $this->disabled_for_request;
+		}
+
+		$this->disabled_for_request = false;
+
+		if (is_singular()) {
+			$post_id = get_queried_object_id();
+			$disabled_types = (array) $this->dark_mode_settings['disabled_post_types'];
+
+			if ($post_id && in_array(get_post_type($post_id), $disabled_types, true)) {
+				$this->disabled_for_request = true;
+			} elseif ($post_id && get_post_meta($post_id, Onyx_Dark_Mode_Switcher_Settings::DISABLE_META_KEY, true) === '1') {
+				$this->disabled_for_request = true;
+			}
+		}
+
+		return $this->disabled_for_request;
+	}
+
+	/**
+	 * Resolve the starting mode before the page paints.
+	 *
+	 * public.js cannot do this on its own: it depends on jQuery and on the
+	 * localized onyx_obj, both of which print later in the head, so the browser
+	 * would render the page light and flip it a moment later. This snippet is
+	 * dependency free and carries the handful of values it needs inline.
+	 */
+	public function print_initial_mode_script() {
+		if ($this->is_disabled_for_request()) {
+			return;
+		}
+
+		$config = array(
+			'schedule' => $this->dark_mode_settings['enable_schedule'] === 'on' ? '1' : '0',
+			'start' => $this->dark_mode_settings['schedule_start'],
+			'end' => $this->dark_mode_settings['schedule_end'],
+			'os' => $this->dark_mode_settings['enable_os_aware'] === 'on' ? '1' : '0',
+			'fallback' => $this->dark_mode_settings['enable_default_dark_mode'] === 'on' ? '1' : '0',
+		);
+
+		$script = '(function(){'
+			. 'var c=' . wp_json_encode($config) . ',d=document.documentElement;'
+			. 'function m(t){var p=/^(\d{2}):(\d{2})$/.exec(t||"");if(!p)return null;'
+			. 'var h=+p[1],i=+p[2];return h>23||i>59?null:h*60+i;}'
+			. 'function s(){if(c.schedule!=="1")return null;'
+			. 'var a=m(c.start),b=m(c.end);if(a===null||b===null||a===b)return null;'
+			. 'var n=new Date();n=n.getHours()*60+n.getMinutes();'
+			. 'return a<b?(n>=a&&n<b):(n>=a||n<b);}'
+			. 'var v=null;try{v=window.localStorage.getItem("onyx_last_state");}catch(e){}'
+			. 'var k;if(v==="1"||v==="0"){k=v==="1";}else{var z=s();'
+			. 'if(z!==null){k=z;}'
+			. 'else if(c.os==="1"&&window.matchMedia("(prefers-color-scheme: dark)").matches){k=true;}'
+			. 'else{k=c.fallback==="1";}}'
+			. 'window.onyxInitialDarkMode=k;'
+			. 'if(k){d.classList.add("onyx-dark-mode");}'
+			. '})();';
+
+		echo "<script id=\"onyx-initial-mode\">" . $script . "</script>\n"; // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
 	}
 
 	public function include_files() {
@@ -60,7 +137,7 @@ class Onyx_Dark_Mode_Switcher_Public {
 	 */
 	public function enqueue_styles() {
 
-		if ($this->dark_mode_settings['enable'] != 'on') {
+		if ($this->dark_mode_settings['enable'] != 'on' || $this->is_disabled_for_request()) {
 			return;
 		}
 
@@ -81,7 +158,7 @@ class Onyx_Dark_Mode_Switcher_Public {
 	 */
 	public function enqueue_scripts() {
 
-		if ($this->dark_mode_settings['enable'] != 'on') {
+		if ($this->dark_mode_settings['enable'] != 'on' || $this->is_disabled_for_request()) {
 			return;
 		}
 
@@ -102,6 +179,9 @@ class Onyx_Dark_Mode_Switcher_Public {
 			'invert_images_arr' => array_filter((array) $this->dark_mode_settings['invert_images']),
 			'enable_default_dark_mode' => $this->dark_mode_settings['enable_default_dark_mode'],
 			'enable_os_aware' => $this->dark_mode_settings['enable_os_aware'],
+			'enable_schedule' => $this->dark_mode_settings['enable_schedule'],
+			'schedule_start' => $this->dark_mode_settings['schedule_start'],
+			'schedule_end' => $this->dark_mode_settings['schedule_end'],
 			'enable_keyboard_shortcode' => $this->dark_mode_settings['enable_keyboard_shortcode'],
 			'enable_image_grayscale' => $this->dark_mode_settings['enable_image_grayscale'],
 			'enable_video_grayscale' => $this->dark_mode_settings['enable_video_grayscale'],
@@ -128,6 +208,10 @@ class Onyx_Dark_Mode_Switcher_Public {
 	}
 
 	public function toggle_button() {
+		if ($this->is_disabled_for_request()) {
+			return;
+		}
+
 		$position = $this->dark_mode_settings['button_position'];
 		$shape = $this->dark_mode_settings['button_shape'];
 		?>
@@ -148,6 +232,10 @@ class Onyx_Dark_Mode_Switcher_Public {
 	}
 
 	public function menu_switch($items, $args) {
+		if ($this->is_disabled_for_request()) {
+			return $items;
+		}
+
 		if (isset($args->menu->term_id)) {
 			if ($args->menu->term_id == $this->dark_mode_settings['switch_menu']) {
 				$items .= '<li class="menu-item onyx-menu-item">';

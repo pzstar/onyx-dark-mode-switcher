@@ -26,6 +26,7 @@ $onyx_settings = Onyx_Dark_Mode_Switcher_Settings::get_settings();
                     <li class="onyx-tab" data-tab="onyx-image-video-settings" data-tohide="onyx-tab-content"><?php esc_html_e('Image/Video', 'onyx-dark-mode-switcher'); ?></li>
                     <li class="onyx-tab" data-tab="onyx-colors-settings" data-tohide="onyx-tab-content"><?php esc_html_e('Colors', 'onyx-dark-mode-switcher'); ?></li>
                     <li class="onyx-tab" data-tab="onyx-custom-code-settings" data-tohide="onyx-tab-content"><?php esc_html_e('Custom Code', 'onyx-dark-mode-switcher'); ?></li>
+                    <li class="onyx-tab" data-tab="onyx-tools-settings" data-tohide="onyx-tab-content"><?php esc_html_e('Tools', 'onyx-dark-mode-switcher'); ?></li>
                 </ul>
             </div>
 
@@ -35,6 +36,7 @@ $onyx_settings = Onyx_Dark_Mode_Switcher_Settings::get_settings();
             include ONYX_PATH . 'admin/inc/settings/image-video.php';
             include ONYX_PATH . 'admin/inc/settings/colors.php';
             include ONYX_PATH . 'admin/inc/settings/custom-code.php';
+            include ONYX_PATH . 'admin/inc/settings/tools.php';
             ?>
         </div>
 

@@ -5,6 +5,12 @@ if (!defined('WPINC')) {
 }
 
 class Onyx_Dark_Mode_Switcher_Settings {
+
+    /**
+     * Post meta key for the per page "disable dark mode" checkbox.
+     */
+    const DISABLE_META_KEY = '_onyx_disable_dark_mode';
+
     public function __construct() {
         // Create a Setting Page
         add_action('admin_menu', array($this, 'register_menu_page'));
@@ -14,6 +20,12 @@ class Onyx_Dark_Mode_Switcher_Settings {
 
         add_action('wp_ajax_onyx_replace_image_fields_options', array($this, 'get_replace_image_fields_options'));
         add_action('wp_ajax_onyx_invert_image_fields_options', array($this, 'get_invert_image_fields_options'));
+        add_action('wp_ajax_onyx_color_override_fields_options', array($this, 'get_color_override_fields_options'));
+
+        // Tools tab
+        add_action('wp_ajax_onyx_export_settings', array($this, 'handle_export'));
+        add_action('wp_ajax_onyx_import_settings', array($this, 'handle_import'));
+        add_action('wp_ajax_onyx_reset_settings', array($this, 'handle_reset'));
     }
 
     public static function get_settings() {
@@ -45,12 +57,83 @@ class Onyx_Dark_Mode_Switcher_Settings {
             wp_send_json_error(array('message' => esc_html__('Security check failed. Please reload the page and try again.', 'onyx-dark-mode-switcher')));
         }
 
-        $settings = onyx_get_post_data_arr('onyx_settings');
+        self::persist_settings(onyx_get_post_data_arr('onyx_settings'));
+
+        wp_send_json_success(array('message' => esc_html__('Settings Saved!', 'onyx-dark-mode-switcher')));
+    }
+
+    /**
+     * Validate a raw settings array and write it to the option.
+     *
+     * The form save and the import both funnel through here, so an uploaded
+     * file goes through exactly the same sanitization as a form submission.
+     */
+    public static function persist_settings($raw) {
+        // Drop keys the plugin does not know about, so a hand edited import
+        // cannot park arbitrary data in the option.
+        $settings = array_intersect_key((array) $raw, self::default_settings_values());
+
         $settings = onyx_recursive_parse_args($settings, self::checkbox_settings());
         $settings = onyx_sanitize_array($settings, self::sanitize_setting_rules());
 
+        // Narrow the post type list to types that actually exist, so a stale or
+        // forged slug can never linger in the option.
+        $settings['disabled_post_types'] = onyx_sanitize_post_types($settings['disabled_post_types']);
+
         update_option('onyx_settings', $settings);
-        wp_send_json_success(array('message' => esc_html__('Settings Saved!', 'onyx-dark-mode-switcher')));
+
+        return $settings;
+    }
+
+    /**
+     * Hand the current settings back as JSON for the browser to download.
+     */
+    public function handle_export() {
+        $this->verify_ajax_request();
+
+        wp_send_json_success(array(
+            'filename' => 'onyx-dark-mode-settings-' . gmdate('Y-m-d') . '.json',
+            'settings' => self::get_settings(),
+        ));
+    }
+
+    /**
+     * Replace the stored settings with the contents of an exported file.
+     */
+    public function handle_import() {
+        $this->verify_ajax_request();
+
+        $raw = isset($_POST['settings']) ? wp_unslash($_POST['settings']) : ''; // phpcs:ignore WordPress.Security.ValidatedSanitizedInput.InputNotSanitized -- JSON, validated below and sanitized by persist_settings().
+
+        if (!is_string($raw) || $raw === '') {
+            wp_send_json_error(array('message' => esc_html__('No file contents were received.', 'onyx-dark-mode-switcher')));
+        }
+
+        $decoded = json_decode($raw, true);
+
+        if (!is_array($decoded) || json_last_error() !== JSON_ERROR_NONE) {
+            wp_send_json_error(array('message' => esc_html__('That file is not valid Onyx settings JSON.', 'onyx-dark-mode-switcher')));
+        }
+
+        // Guard against a valid-JSON file that has nothing to do with Onyx.
+        if (!array_intersect_key($decoded, self::default_settings_values())) {
+            wp_send_json_error(array('message' => esc_html__('That file does not contain any Onyx settings.', 'onyx-dark-mode-switcher')));
+        }
+
+        self::persist_settings($decoded);
+
+        wp_send_json_success(array('message' => esc_html__('Settings imported.', 'onyx-dark-mode-switcher')));
+    }
+
+    /**
+     * Put every setting back to its shipped default.
+     */
+    public function handle_reset() {
+        $this->verify_ajax_request();
+
+        update_option('onyx_settings', self::default_settings_values());
+
+        wp_send_json_success(array('message' => esc_html__('Settings reset to defaults.', 'onyx-dark-mode-switcher')));
     }
 
     /**
@@ -64,8 +147,17 @@ class Onyx_Dark_Mode_Switcher_Settings {
         check_ajax_referer('onyx_admin_nonce', 'nonce');
     }
 
+    /**
+     * Defaults for fields the browser omits from the POST body when they are
+     * empty: unchecked checkboxes, and multi-select lists with nothing picked.
+     * Without an entry here, clearing such a field would leave the old value in
+     * place instead of clearing it.
+     */
     public static function checkbox_settings() {
         return array(
+            'disabled_post_types' => array(),
+            'color_overrides' => array(),
+            'enable_schedule' => 'off',
             'enable' => 'off',
             'enable_button' => 'off',
             'switch_in_menu' => 'off',
@@ -86,6 +178,10 @@ class Onyx_Dark_Mode_Switcher_Settings {
             'enable_button' => 'onyx_sanitize_checkbox',
             'enable_default_dark_mode' => 'onyx_sanitize_checkbox',
             'enable_os_aware' => 'onyx_sanitize_checkbox',
+            'enable_schedule' => 'onyx_sanitize_checkbox',
+            'schedule_start' => 'onyx_sanitize_time',
+            'schedule_end' => 'onyx_sanitize_time',
+            'disabled_post_types' => array('*' => 'sanitize_key'),
             'enable_keyboard_shortcode' => 'onyx_sanitize_checkbox',
             'enable_image_grayscale' => 'onyx_sanitize_checkbox',
             'enable_video_grayscale' => 'onyx_sanitize_checkbox',
@@ -98,6 +194,12 @@ class Onyx_Dark_Mode_Switcher_Settings {
             'preset_style' => 'sanitize_text_field',
             'replace_images' => array('*' => array('*' => 'esc_url_raw')),
             'invert_images' => array('*' => 'esc_url_raw'),
+            'color_overrides' => array('*' => array(
+                'selector' => 'onyx_sanitize_css_selector',
+                'bg' => 'onyx_sanitize_color',
+                'text' => 'onyx_sanitize_color',
+                'border' => 'onyx_sanitize_color',
+            )),
             'dark_mode_bg' => 'onyx_sanitize_color',
             'dark_mode_secondary_bg' => 'onyx_sanitize_color',
             'dark_mode_text_color' => 'onyx_sanitize_color',
@@ -152,6 +254,10 @@ class Onyx_Dark_Mode_Switcher_Settings {
             'enable_button' => 'on',
             'enable_default_dark_mode' => 'off',
             'enable_os_aware' => 'off',
+            'enable_schedule' => 'off',
+            'schedule_start' => '20:00',
+            'schedule_end' => '06:00',
+            'disabled_post_types' => array(),
             'enable_keyboard_shortcode' => 'off',
             'enable_image_grayscale' => 'off',
             'enable_video_grayscale' => 'off',
@@ -164,6 +270,7 @@ class Onyx_Dark_Mode_Switcher_Settings {
             'preset_style' => 'style-1',
             'replace_images' => array(),
             'invert_images' => array(),
+            'color_overrides' => array(),
             'dark_mode_bg' => '',
             'dark_mode_secondary_bg' => '',
             'dark_mode_text_color' => '',
@@ -224,6 +331,47 @@ class Onyx_Dark_Mode_Switcher_Settings {
         $count = onyx_get_post('count');
         $this->replace_invert_image_fields_options($count);
         die();
+    }
+
+    public function get_color_override_fields_options() {
+        $this->verify_ajax_request();
+        $count = onyx_get_post('count');
+        $this->color_override_fields_options($count);
+        die();
+    }
+
+    /**
+     * One row of the per selector colour override repeater.
+     */
+    public static function color_override_fields_options($count, $override = array()) {
+        $selector = isset($override['selector']) ? $override['selector'] : '';
+        $fields = array(
+            'bg' => esc_html__('Background', 'onyx-dark-mode-switcher'),
+            'text' => esc_html__('Text', 'onyx-dark-mode-switcher'),
+            'border' => esc_html__('Border', 'onyx-dark-mode-switcher'),
+        );
+        ?>
+        <div class="onyx-replace-image-fields onyx-color-override-row">
+            <div class="onyx-setting-replace-image-list">
+                <div class="onyx-replace-image">
+                    <label><?php esc_html_e('CSS Selector', 'onyx-dark-mode-switcher'); ?></label>
+                    <input type="text" placeholder=".site-header, #footer" name="onyx_settings[color_overrides][<?php echo esc_attr($count); ?>][selector]" value="<?php echo esc_attr($selector); ?>" />
+                </div>
+
+                <ul class="onyx-three-column-row">
+                    <?php foreach ($fields as $onyx_key => $onyx_label) { ?>
+                        <li class="onyx-settings-list">
+                            <label><?php echo esc_html($onyx_label); ?></label>
+                            <div class="onyx-settings-field onyx-color-input-field">
+                                <input type="text" data-alpha-enabled="true" data-alpha-custom-width="30px" data-alpha-color-type="hex" class="color-picker onyx-color-picker" name="onyx_settings[color_overrides][<?php echo esc_attr($count); ?>][<?php echo esc_attr($onyx_key); ?>]" value="<?php echo esc_attr(isset($override[$onyx_key]) ? $override[$onyx_key] : ''); ?>" />
+                            </div>
+                        </li>
+                    <?php } ?>
+                </ul>
+            </div>
+            <button type="button" class="button onyx-remove-image-value"><i class="mdi-trash-can-outline"></i><?php esc_html_e('Delete', 'onyx-dark-mode-switcher'); ?></button>
+        </div>
+        <?php
     }
 
     public static function replace_invert_image_fields_options($count, $value = '') {

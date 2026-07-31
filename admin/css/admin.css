@@ -831,3 +831,109 @@ p.onyx-desc {
             #FFB07A 100%,
             #75411D 100%);
 }
+/* ---------- Colors tab live preview ---------- */
+.onyx-preview-panel {
+    --onyx_mode_bg: #101010;
+    --onyx_mode_secondary_bg: #1a1a1a;
+    --onyx_mode_text_color: #c4c4c4;
+    --onyx_mode_link_color: #ffffff;
+    --onyx_mode_input_bg: #c4c4c4;
+    --onyx_mode_input_text_color: #2a2a2a;
+    --onyx_mode_input_placeholder_color: #8e8e8e;
+    --onyx_mode_border_color: #444444;
+    --onyx_mode_btn_text_color: #2a2a2a;
+    --onyx_mode_btn_bg: #c4c4c4;
+    --onyx_mode_btn_text_color_hover: #2a2a2a;
+    --onyx_mode_btn_bg_hover: #d6d6d6;
+
+    max-width: 460px;
+    border: 1px solid var(--onyx_mode_border_color);
+    border-radius: 6px;
+    overflow: hidden;
+    background-color: var(--onyx_mode_bg);
+}
+
+.onyx-preview-bar {
+    display: flex;
+    gap: 6px;
+    padding: 10px 12px;
+    background-color: var(--onyx_mode_secondary_bg);
+    border-bottom: 1px solid var(--onyx_mode_border_color);
+}
+
+.onyx-preview-dot {
+    width: 10px;
+    height: 10px;
+    border-radius: 50%;
+    background-color: var(--onyx_mode_border_color);
+}
+
+.onyx-preview-body {
+    padding: 18px;
+}
+
+.onyx-preview-heading {
+    margin: 0 0 8px;
+    font-size: 16px;
+    color: var(--onyx_mode_text_color);
+}
+
+.onyx-preview-text {
+    margin: 0;
+    font-size: 13px;
+    line-height: 1.6;
+    color: var(--onyx_mode_text_color);
+}
+
+.onyx-preview-link {
+    color: var(--onyx_mode_link_color);
+    text-decoration: underline;
+}
+
+.onyx-preview-card {
+    margin: 14px 0;
+    padding: 12px;
+    border: 1px solid var(--onyx_mode_border_color);
+    border-radius: 4px;
+    background-color: var(--onyx_mode_secondary_bg);
+}
+
+.onyx-preview-controls {
+    display: flex;
+    gap: 10px;
+    align-items: center;
+}
+
+.onyx-preview-input {
+    flex: 1 1 auto;
+    padding: 7px 10px;
+    border: 1px solid var(--onyx_mode_border_color) !important;
+    border-radius: 4px;
+    background-color: var(--onyx_mode_input_bg) !important;
+    color: var(--onyx_mode_input_text_color) !important;
+    box-shadow: none !important;
+}
+
+.onyx-preview-input::placeholder {
+    color: var(--onyx_mode_input_placeholder_color);
+    opacity: 1;
+}
+
+.onyx-preview-button {
+    padding: 8px 18px;
+    border: 0;
+    border-radius: 4px;
+    cursor: pointer;
+    background-color: var(--onyx_mode_btn_bg);
+    color: var(--onyx_mode_btn_text_color);
+}
+
+.onyx-preview-button:hover,
+.onyx-preview-button:focus {
+    background-color: var(--onyx_mode_btn_bg_hover);
+    color: var(--onyx_mode_btn_text_color_hover);
+}
+
+.onyx-color-override-row .onyx-replace-image input[type="text"] {
+    width: 100%;
+}

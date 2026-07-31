@@ -16,11 +16,15 @@ class OnyxDarkModeSwitcher {
 			invert_inline_svg: "1",
 			disallowed_elements: '',
 			allowed_btn_class: [],
+			schedule: "0",
+			schedule_start: "",
+			schedule_end: "",
 			...config,
 		};
 
 		// ======= Instance variables =======
 		this.hasProcessRun = false;
+		this.lastScheduleState = null;
 		this.secondaryBgColor = "";
 		this.darkenLevel = parseInt(this.config.bg_image_darken_to, 10) / 100;
 
@@ -70,6 +74,7 @@ class OnyxDarkModeSwitcher {
 		this.initCustomSelectorListener();
 		this.initKeyboardShortcut();
 		this.initOSListener();
+		this.initScheduleListener();
 
 		if (this.isDarkModeOn()) {
 			document.documentElement.classList.add("onyx-dark-mode");
@@ -97,7 +102,27 @@ class OnyxDarkModeSwitcher {
 	}
 
 	saveDarkModeState() {
-		localStorage.onyx_last_state = document.documentElement.classList.contains("onyx-dark-mode") ? "1" : "0";
+		const state = document.documentElement.classList.contains("onyx-dark-mode") ? "1" : "0";
+
+		try {
+			window.localStorage.setItem("onyx_last_state", state);
+		} catch (err) {
+			// Storage is unavailable (private browsing, cookies blocked). The
+			// toggle still works for this page view, it just is not remembered.
+		}
+	}
+
+	/**
+	 * The visitor's stored choice as "1" / "0", or null if they have not chosen
+	 * yet or storage is unavailable.
+	 */
+	readStoredState() {
+		try {
+			const value = window.localStorage.getItem("onyx_last_state");
+			return value === "1" || value === "0" ? value : null;
+		} catch (err) {
+			return null;
+		}
 	}
 
 	// ==========================
@@ -162,6 +187,65 @@ class OnyxDarkModeSwitcher {
 			document.documentElement.classList.toggle("onyx-dark-mode", e.matches);
 			this.saveDarkModeState();
 		});
+	}
+
+	/**
+	 * Parse an "HH:MM" string into minutes past midnight, or null if malformed.
+	 */
+	parseTime(value) {
+		const match = /^(\d{2}):(\d{2})$/.exec(String(value || ""));
+		if (!match) return null;
+
+		const hours = Number(match[1]);
+		const minutes = Number(match[2]);
+		if (hours > 23 || minutes > 59) return null;
+
+		return hours * 60 + minutes;
+	}
+
+	/**
+	 * Whether the visitor's local clock currently falls inside the dark window.
+	 * Returns null when scheduling is off or the times are unusable, so callers
+	 * can tell "schedule says light" apart from "schedule has no opinion".
+	 */
+	isScheduledDark() {
+		if (this.config.schedule !== "1") return null;
+
+		const start = this.parseTime(this.config.schedule_start);
+		const end = this.parseTime(this.config.schedule_end);
+		if (start === null || end === null || start === end) return null;
+
+		const now = new Date();
+		const current = now.getHours() * 60 + now.getMinutes();
+
+		// start < end is a same-day window (09:00-17:00). Otherwise it wraps
+		// over midnight (20:00-06:00), which is the common case here.
+		return start < end
+			? current >= start && current < end
+			: current >= start || current < end;
+	}
+
+	initScheduleListener() {
+		this.lastScheduleState = this.isScheduledDark();
+		if (this.lastScheduleState === null) return;
+
+		// Only act when the window boundary is actually crossed. Applying the
+		// schedule continuously would undo a visitor's manual toggle seconds
+		// after they made it.
+		setInterval(() => {
+			const state = this.isScheduledDark();
+			if (state === null || state === this.lastScheduleState) return;
+
+			this.lastScheduleState = state;
+
+			if (!this.hasProcessRun) {
+				this.initProcesses();
+				this.initObserver();
+			}
+
+			document.documentElement.classList.toggle("onyx-dark-mode", state);
+			this.saveDarkModeState();
+		}, 60000);
 	}
 
 	// ==========================
@@ -553,13 +637,24 @@ class OnyxDarkModeSwitcher {
 	// ==========================
 
 	isDarkModeOn() {
-		const lastState = localStorage.onyx_last_state ?? "not_set";
+		// The wp_head snippet already resolved this before first paint. Reuse
+		// its answer so the two can never disagree and cause a visible flip.
+		if (typeof window.onyxInitialDarkMode === "boolean") {
+			return window.onyxInitialDarkMode;
+		}
+
+		// Fallback for when the snippet did not run, e.g. a caching or
+		// optimisation plugin stripped it.
+		const lastState = this.readStoredState();
 
 		// An explicit choice by the visitor always wins.
-		if (lastState !== "not_set") return lastState === "1";
+		if (lastState !== null) return lastState === "1";
 
-		// No choice yet: follow the OS preference when OS aware mode is on,
-		// otherwise fall back to the configured start-up mode.
+		// Then the schedule, then the OS preference, then the configured
+		// start-up mode.
+		const scheduled = this.isScheduledDark();
+		if (scheduled !== null) return scheduled;
+
 		if (this.config.os_aware === "1" && window.matchMedia("(prefers-color-scheme: dark)").matches) {
 			return true;
 		}
@@ -611,6 +706,9 @@ class OnyxDarkModeSwitcher {
 const onyx = new OnyxDarkModeSwitcher({
 	default_dark_mode: onyx_obj.enable_default_dark_mode == "on" ? "1" : "0",
 	os_aware: onyx_obj.enable_os_aware == "on" ? "1" : "0",
+	schedule: onyx_obj.enable_schedule == "on" ? "1" : "0",
+	schedule_start: onyx_obj.schedule_start,
+	schedule_end: onyx_obj.schedule_end,
 	keyboard_shortcut: onyx_obj.enable_keyboard_shortcode == "on" ? "1" : "0",
 	image_grayscale: onyx_obj.enable_image_grayscale == "on" ? "1" : "0",
 	video_grayscale: onyx_obj.enable_video_grayscale == "on" ? "1" : "0",

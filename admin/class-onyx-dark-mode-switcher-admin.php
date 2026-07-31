@@ -76,7 +76,10 @@ class Onyx_Dark_Mode_Switcher_Admin {
 
 		$admin_var = array(
 			'ajaxurl' => esc_url(admin_url('admin-ajax.php')),
-			'nonce' => wp_create_nonce('onyx_admin_nonce')
+			'nonce' => wp_create_nonce('onyx_admin_nonce'),
+			// Same palettes the front end stylesheet is built from, so the
+			// Colors tab preview cannot drift away from the real output.
+			'palettes' => onyx_preset_palettes()
 		);
 
 		/* Send php values to JS script */
