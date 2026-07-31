@@ -38,17 +38,30 @@ class Onyx_Dark_Mode_Switcher_Settings {
 
     public function handle_settingform() {
         if (!current_user_can('manage_options')) {
-            wp_send_json_error('You are not allowed to perform this action.');
+            wp_send_json_error(array('message' => esc_html__('You are not allowed to perform this action.', 'onyx-dark-mode-switcher')));
         }
 
-        if (wp_verify_nonce(onyx_get_post('onyx_nonce'), 'onyx_nonce_update_settings')) {
-            $settings = onyx_get_post_data_arr('onyx_settings');
-            $settings = onyx_recursive_parse_args($settings, self::checkbox_settings());
-            $settings = onyx_sanitize_array($settings, self::sanitize_setting_rules());
-
-            update_option('onyx_settings', $settings);
-            wp_send_json_success(array('message' => esc_html__('Settings Saved!', 'onyx-dark-mode-switcher')));
+        if (!wp_verify_nonce(onyx_get_post('onyx_nonce'), 'onyx_nonce_update_settings')) {
+            wp_send_json_error(array('message' => esc_html__('Security check failed. Please reload the page and try again.', 'onyx-dark-mode-switcher')));
         }
+
+        $settings = onyx_get_post_data_arr('onyx_settings');
+        $settings = onyx_recursive_parse_args($settings, self::checkbox_settings());
+        $settings = onyx_sanitize_array($settings, self::sanitize_setting_rules());
+
+        update_option('onyx_settings', $settings);
+        wp_send_json_success(array('message' => esc_html__('Settings Saved!', 'onyx-dark-mode-switcher')));
+    }
+
+    /**
+     * Shared guard for the image-field AJAX endpoints.
+     */
+    private function verify_ajax_request() {
+        if (!current_user_can('manage_options')) {
+            wp_send_json_error(array('message' => esc_html__('You are not allowed to perform this action.', 'onyx-dark-mode-switcher')));
+        }
+
+        check_ajax_referer('onyx_admin_nonce', 'nonce');
     }
 
     public static function checkbox_settings() {
@@ -83,8 +96,8 @@ class Onyx_Dark_Mode_Switcher_Settings {
             'button_position' => 'sanitize_text_field',
             'button_shape' => 'sanitize_text_field',
             'preset_style' => 'sanitize_text_field',
-            'replace_images' => '',
-            'invert_images' => '',
+            'replace_images' => array('*' => array('*' => 'esc_url_raw')),
+            'invert_images' => array('*' => 'esc_url_raw'),
             'dark_mode_bg' => 'onyx_sanitize_color',
             'dark_mode_secondary_bg' => 'onyx_sanitize_color',
             'dark_mode_text_color' => 'onyx_sanitize_color',
@@ -102,7 +115,8 @@ class Onyx_Dark_Mode_Switcher_Settings {
             'button_offset_bottom' => 'onyx_sanitize_number',
             'button_offset_left' => 'onyx_sanitize_number',
             'button_offset_right' => 'onyx_sanitize_number',
-            'buttom_size' => 'onyx_sanitize_number',
+            'button_size' => 'onyx_sanitize_number',
+            'button_icon_size' => 'onyx_sanitize_number',
             'switch_in_menu' => 'onyx_sanitize_checkbox',
             'switch_menu' => 'sanitize_text_field',
             'button_shadow_x' => 'onyx_sanitize_number',
@@ -199,12 +213,14 @@ class Onyx_Dark_Mode_Switcher_Settings {
     }
 
     public function get_replace_image_fields_options() {
+        $this->verify_ajax_request();
         $count = onyx_get_post('count');
         $this->replace_image_fields_options($count);
         die();
     }
 
     public function get_invert_image_fields_options() {
+        $this->verify_ajax_request();
         $count = onyx_get_post('count');
         $this->replace_invert_image_fields_options($count);
         die();

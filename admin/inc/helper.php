@@ -20,23 +20,37 @@ function onyx_recursive_parse_args($args, $defaults) {
     return $new_args;
 }
 
+/**
+ * Sanitize an array against a matching rule set.
+ *
+ * A rule is either a callable name (applied to a scalar) or a nested rule array
+ * (applied to a nested value array). The key '*' acts as a wildcard for every
+ * key at that level, which is how the numerically indexed image lists are
+ * covered. Anything without a rule falls back to sanitize_text_field() so no
+ * value is ever stored raw.
+ */
 function onyx_sanitize_array($array = array(), $sanitize_rule = array()) {
-    $new_args = (array) $array;
+    $new_args = array();
 
-    if ($array) {
-        foreach ($array as $key => $value) {
-            if (is_array($value)) {
-                $new_args[$key] = onyx_sanitize_array($value, isset($sanitize_rule[$key]) ? $sanitize_rule[$key] : 'sanitize_text_field');
+    foreach ((array) $array as $key => $value) {
+        $rule = '';
 
-            } else {
-                if (isset($sanitize_rule[$key]) && !empty($sanitize_rule[$key]) && function_exists($sanitize_rule[$key])) {
-                    $sanitize_type = $sanitize_rule[$key];
-                    $new_args[$key] = $sanitize_type($value);
-
-                } else {
-                    $new_args[$key] = $value;
-                }
+        if (is_array($sanitize_rule)) {
+            if (isset($sanitize_rule[$key])) {
+                $rule = $sanitize_rule[$key];
+            } elseif (isset($sanitize_rule['*'])) {
+                $rule = $sanitize_rule['*'];
             }
+        }
+
+        if (is_array($value)) {
+            $new_args[$key] = onyx_sanitize_array($value, is_array($rule) ? $rule : array());
+
+        } elseif (is_string($rule) && $rule !== '' && function_exists($rule)) {
+            $new_args[$key] = $rule($value);
+
+        } else {
+            $new_args[$key] = sanitize_text_field($value);
         }
     }
 
@@ -112,28 +126,37 @@ function onyx_get_post($param, $sanitize = 'sanitize_text_field', $default = '')
     return onyx_sanitize_value($sanitize, $value);
 }
 
+/**
+ * Read a raw, unslashed array off $_POST.
+ *
+ * Deliberately does not sanitize: the caller runs onyx_sanitize_array() with
+ * the matching rule set, so that fields like Custom CSS keep their line breaks
+ * until the CSS-aware rule handles them. Nonce and capability are checked by
+ * the caller.
+ */
 function onyx_get_post_data_arr($param) {
-    $post_data = [];
-    if (isset($_POST[$param])) {
-        $post_data = $_POST[$param];
+    if (!isset($_POST[$param]) || !is_array($_POST[$param])) {
+        return [];
     }
-    return $post_data && is_array($post_data) ? onyx_sanitize_array($post_data) : [];
+
+    return wp_unslash($_POST[$param]); // phpcs:ignore WordPress.Security.ValidatedSanitizedInput.InputNotSanitized
 }
 
 function onyx_sanitize_custom_css( $css ) {
-    // strip HTML tags
-    $css = wp_strip_all_tags( htmlspecialchars($css, ENT_QUOTES, 'UTF-8') );
+    // Strip HTML tags so nothing can break out of the <style> block.
+    $css = wp_strip_all_tags( (string) $css );
 
-    // allow CSS-safe characters only
-    return preg_replace('/[^a-zA-Z0-9\s:{};#,\.\(\)"\'\/%\-\_!]/', '', $css);
+    // Allow CSS-safe characters only. This has to cover at-rules (@media),
+    // combinators (> + ~), attribute selectors and quoted url() values.
+    return preg_replace('/[^a-zA-Z0-9\s_:;{},.#()"\'\/%!@\[\]*=~+>&|^$-]/', '', $css);
 }
 
 function onyx_sanitize_custom_js( $js ) {
-    // remove HTML tags to prevent </script> attacks
-    $js = wp_strip_all_tags(  htmlspecialchars($js, ENT_QUOTES, 'UTF-8') );
-
-    // allow only JS-safe characters
-    return preg_replace('/[^A-Za-z0-9\s\=\+\-\_\.\,\;\:\(\)\{\}\[\]\'\"\!\?\/\*]/', '', $js);
+    // Only users with manage_options can save this field, and it is printed
+    // inside an inline <script> block. A character allowlist is not workable
+    // for JavaScript, so neutralise the one sequence that could break out of
+    // that block and leave the rest of the code intact.
+    return str_ireplace('</script', '<\/script', (string) $js);
 }
 
 
@@ -160,7 +183,7 @@ function onyx_button_dark_icon_light($icon) {
             </svg>
             <?php
             break;
-        case 'brightnesshighfill'
+        case 'brightnesshighfill':
             ?>
             <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-brightness-high-fill" viewBox="0 0 16 16">
                 <path d="M12 8a4 4 0 1 1-8 0 4 4 0 0 1 8 0M8 0a.5.5 0 0 1 .5.5v2a.5.5 0 0 1-1 0v-2A.5.5 0 0 1 8 0m0 13a.5.5 0 0 1 .5.5v2a.5.5 0 0 1-1 0v-2A.5.5 0 0 1 8 13m8-5a.5.5 0 0 1-.5.5h-2a.5.5 0 0 1 0-1h2a.5.5 0 0 1 .5.5M3 8a.5.5 0 0 1-.5.5h-2a.5.5 0 0 1 0-1h2A.5.5 0 0 1 3 8m10.657-5.657a.5.5 0 0 1 0 .707l-1.414 1.415a.5.5 0 1 1-.707-.708l1.414-1.414a.5.5 0 0 1 .707 0m-9.193 9.193a.5.5 0 0 1 0 .707L3.05 13.657a.5.5 0 0 1-.707-.707l1.414-1.414a.5.5 0 0 1 .707 0m9.193 2.121a.5.5 0 0 1-.707 0l-1.414-1.414a.5.5 0 0 1 .707-.707l1.414 1.414a.5.5 0 0 1 0 .707M4.464 4.465a.5.5 0 0 1-.707 0L2.343 3.05a.5.5 0 1 1 .707-.707l1.414 1.414a.5.5 0 0 1 0 .708"/>

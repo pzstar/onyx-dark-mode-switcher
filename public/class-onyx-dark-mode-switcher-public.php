@@ -48,7 +48,9 @@ class Onyx_Dark_Mode_Switcher_Public {
 	}
 
 	public function include_files() {
-		include ONYX_PATH . 'public/inc/style.php';
+		// include_once: style.php declares functions, so a second instantiation
+		// of this class would otherwise fatal on redeclare.
+		include_once ONYX_PATH . 'public/inc/style.php';
 	}
 
 	/**
@@ -58,11 +60,13 @@ class Onyx_Dark_Mode_Switcher_Public {
 	 */
 	public function enqueue_styles() {
 
-		if ($this->dark_mode_settings['enable'] == 'on') {
-			wp_enqueue_style($this->plugin_name, plugin_dir_url(__FILE__) . 'css/public.css', array(), $this->version, 'all');
-
-			wp_add_inline_style($this->plugin_name, onyx_dymanic_styles($this->dark_mode_settings));
+		if ($this->dark_mode_settings['enable'] != 'on') {
+			return;
 		}
+
+		wp_enqueue_style($this->plugin_name, plugin_dir_url(__FILE__) . 'css/public.css', array(), $this->version, 'all');
+
+		wp_add_inline_style($this->plugin_name, onyx_dymanic_styles($this->dark_mode_settings));
 
 		if (isset($this->dark_mode_settings['custom_css']) && trim($this->dark_mode_settings['custom_css'])) {
 			wp_add_inline_style($this->plugin_name, onyx_css_strip_whitespace($this->dark_mode_settings['custom_css']));
@@ -77,36 +81,48 @@ class Onyx_Dark_Mode_Switcher_Public {
 	 */
 	public function enqueue_scripts() {
 
-		if ($this->dark_mode_settings['enable'] == 'on') {
-			$replace_images_array = array_filter($this->dark_mode_settings['replace_images'], function ($item) {
-				return trim($item['org_image']) !== '' || trim($item['dark_image']) !== '';
-			});
-
-			wp_enqueue_script($this->plugin_name, plugin_dir_url(__FILE__) . 'js/public.js', array('jquery'), $this->version, false);
-			wp_localize_script($this->plugin_name, 'onyx_obj', array(
-				'image_replacements_arr' => $replace_images_array,
-				'invert_images_arr' => array_filter($this->dark_mode_settings['invert_images']),
-				'enable_default_dark_mode' => $this->dark_mode_settings['enable_default_dark_mode'],
-				'enable_keyboard_shortcode' => $this->dark_mode_settings['enable_keyboard_shortcode'],
-				'enable_image_grayscale' => $this->dark_mode_settings['enable_image_grayscale'],
-				'enable_video_grayscale' => $this->dark_mode_settings['enable_video_grayscale'],
-				'darken_background_images' => $this->dark_mode_settings['darken_background_images'],
-				'darken_level' => $this->dark_mode_settings['darken_level'],
-				'invert_svg' => $this->dark_mode_settings['invert_svg'],
-				'disallowed_elements' => $this->dark_mode_settings['disallowed_elements'],
-				'allowed_button_classes' => $this->dark_mode_settings['allowed_button_classes'],
-				'switch_selector' => $this->dark_mode_settings['switch_selector'],
-			));
+		if ($this->dark_mode_settings['enable'] != 'on') {
+			return;
 		}
 
-		$before_trigger = isset($this->dark_mode_settings['before_js']) && !empty($this->dark_mode_settings['before_js']) ? $this->dark_mode_settings['before_js'] : null;
-		$after_trigger = isset($this->dark_mode_settings['after_js']) && !empty($this->dark_mode_settings['after_js']) ? $this->dark_mode_settings['after_js'] : null;
+		$replace_images_array = array_filter((array) $this->dark_mode_settings['replace_images'], function ($item) {
+			if (!is_array($item)) {
+				return false;
+			}
 
-		if (!empty($before_trigger)) {
-			wp_add_inline_script($this->plugin_name, ' jQuery(document).bind("onyx_before_toggle", function (event, response) {' . wp_kses_post($before_trigger) . '});');
+			$org_image = isset($item['org_image']) ? trim($item['org_image']) : '';
+			$dark_image = isset($item['dark_image']) ? trim($item['dark_image']) : '';
+
+			return $org_image !== '' || $dark_image !== '';
+		});
+
+		wp_enqueue_script($this->plugin_name, plugin_dir_url(__FILE__) . 'js/public.js', array('jquery'), $this->version, false);
+		wp_localize_script($this->plugin_name, 'onyx_obj', array(
+			'image_replacements_arr' => $replace_images_array,
+			'invert_images_arr' => array_filter((array) $this->dark_mode_settings['invert_images']),
+			'enable_default_dark_mode' => $this->dark_mode_settings['enable_default_dark_mode'],
+			'enable_os_aware' => $this->dark_mode_settings['enable_os_aware'],
+			'enable_keyboard_shortcode' => $this->dark_mode_settings['enable_keyboard_shortcode'],
+			'enable_image_grayscale' => $this->dark_mode_settings['enable_image_grayscale'],
+			'enable_video_grayscale' => $this->dark_mode_settings['enable_video_grayscale'],
+			'darken_background_images' => $this->dark_mode_settings['darken_background_images'],
+			'darken_level' => $this->dark_mode_settings['darken_level'],
+			'invert_svg' => $this->dark_mode_settings['invert_svg'],
+			'disallowed_elements' => $this->dark_mode_settings['disallowed_elements'],
+			'allowed_button_classes' => $this->dark_mode_settings['allowed_button_classes'],
+			'switch_selector' => $this->dark_mode_settings['switch_selector'],
+		));
+
+		$before_trigger = !empty($this->dark_mode_settings['before_js']) ? $this->dark_mode_settings['before_js'] : '';
+		$after_trigger = !empty($this->dark_mode_settings['after_js']) ? $this->dark_mode_settings['after_js'] : '';
+
+		// Already sanitized on save by onyx_sanitize_custom_js(). Do not run it
+		// through an HTML filter here, that would corrupt valid JavaScript.
+		if ($before_trigger !== '') {
+			wp_add_inline_script($this->plugin_name, 'jQuery(document).bind("onyx_before_toggle", function (event, response) {' . $before_trigger . '});');
 		}
-		if (!empty($after_trigger)) {
-			wp_add_inline_script($this->plugin_name, 'jQuery(document).bind("onyx_after_toggle", function (event, response) {' . wp_kses_post($after_trigger) . '});');
+		if ($after_trigger !== '') {
+			wp_add_inline_script($this->plugin_name, 'jQuery(document).bind("onyx_after_toggle", function (event, response) {' . $after_trigger . '});');
 		}
 
 	}

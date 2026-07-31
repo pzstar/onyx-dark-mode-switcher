@@ -16,6 +16,7 @@
 
             var formData = new FormData($form[0]);
             formData.append('action', 'onyx_settings_save');
+            formData.append('nonce', onyx_admin_obj.nonce);
 
             $.ajax({
                 url: onyx_admin_obj.ajaxurl,
@@ -32,9 +33,17 @@
                             $('.onyx-alert').removeClass('onyx-alert-active onyx-alert-success onyx-alert-warning onyx-alert-neutral');
                         }, 3500);
                     } else {
-                        console.log('Failed to save.');
+                        var message = (response.data && response.data.message) || 'Failed to save settings.';
+                        $('.onyx-alert').addClass('onyx-alert-warning onyx-alert-active').find('span').text(message);
                         $formBtn.removeClass('onyx-button-loader');
+
+                        setTimeout(function () {
+                            $('.onyx-alert').removeClass('onyx-alert-active onyx-alert-success onyx-alert-warning onyx-alert-neutral');
+                        }, 3500);
                     }
+                },
+                error: function () {
+                    $formBtn.removeClass('onyx-button-loader');
                 }
             });
         });
@@ -50,6 +59,7 @@
                 type: 'POST',
                 data: {
                     action: 'onyx_replace_image_fields_options',
+                    nonce: onyx_admin_obj.nonce,
                     count: count.val(),
                 },
 
@@ -71,6 +81,7 @@
                 type: 'POST',
                 data: {
                     action: 'onyx_invert_image_fields_options',
+                    nonce: onyx_admin_obj.nonce,
                     count: count.val(),
                 },
 
@@ -121,7 +132,6 @@
 
         // Update slider if the input field loses focus as it's most likely changed
         $('.onyx-range-input').blur(function () {
-            console.log('ok');
             var resetValue = isNaN($(this).val()) ? '' : $(this).val();
 
             if (resetValue) {

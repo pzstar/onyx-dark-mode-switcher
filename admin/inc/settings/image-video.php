@@ -53,9 +53,12 @@ $onyx_invert_images = $onyx_settings['invert_images'];
                 <div class="onyx-replace-image-values-wrap">
                     <?php
                     $onyx_count = 0;
-                    foreach ($onyx_replace_images as $onyx_val) {
-                        if (trim($onyx_val['org_image']) && trim($onyx_val['dark_image'])) {
-                            self::replace_image_fields_options($onyx_count, $onyx_val['org_image'], $onyx_val['dark_image']);
+                    foreach ((array) $onyx_replace_images as $onyx_val) {
+                        $onyx_org_image = is_array($onyx_val) && isset($onyx_val['org_image']) ? trim($onyx_val['org_image']) : '';
+                        $onyx_dark_image = is_array($onyx_val) && isset($onyx_val['dark_image']) ? trim($onyx_val['dark_image']) : '';
+
+                        if ($onyx_org_image && $onyx_dark_image) {
+                            self::replace_image_fields_options($onyx_count, $onyx_org_image, $onyx_dark_image);
                         }
                         $onyx_count++;
                     }
@@ -73,8 +76,8 @@ $onyx_invert_images = $onyx_settings['invert_images'];
                 <div class="onyx-replace-image-values-wrap">
                     <?php
                     $onyx_count = 0;
-                    foreach ($onyx_invert_images as $onyx_val) {
-                        if (trim($onyx_val)) {
+                    foreach ((array) $onyx_invert_images as $onyx_val) {
+                        if (is_string($onyx_val) && trim($onyx_val)) {
                             self::replace_invert_image_fields_options($onyx_count, $onyx_val);
                         }
                         $onyx_count++;

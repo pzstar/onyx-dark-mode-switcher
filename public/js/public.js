@@ -24,6 +24,10 @@ class OnyxDarkModeSwitcher {
 		this.secondaryBgColor = "";
 		this.darkenLevel = parseInt(this.config.bg_image_darken_to, 10) / 100;
 
+		// Validate the user supplied selector once. An invalid one would throw
+		// on every element.matches() call and abort the whole pass.
+		this.disallowedSelector = this.validateSelector(this.config.disallowed_elements);
+
 		// ======= Observers =======
 		//this.observer = new MutationObserver(() => this.initProcesses());
 
@@ -78,6 +82,8 @@ class OnyxDarkModeSwitcher {
 	// ==========================
 
 	switchTrigger() {
+		document.dispatchEvent(new CustomEvent("onyx_before_toggle"));
+
 		if (!this.hasProcessRun) {
 			this.initProcesses();
 			this.initObserver();
@@ -86,6 +92,8 @@ class OnyxDarkModeSwitcher {
 		document.documentElement.classList.toggle("onyx-dark-mode");
 
 		this.saveDarkModeState();
+
+		document.dispatchEvent(new CustomEvent("onyx_after_toggle"));
 	}
 
 	saveDarkModeState() {
@@ -119,14 +127,30 @@ class OnyxDarkModeSwitcher {
 	}
 
 	initCustomSelectorListener() {
-		if (onyx_obj.switch_selector) {
-			document.addEventListener("DOMContentLoaded", () => {
-				const trigger = document.querySelector(onyx_obj.switch_selector);
-				trigger.addEventListener("click", function (e) {
+		const selector = this.validateSelector(onyx_obj.switch_selector);
+		if (!selector) return;
+
+		document.addEventListener("DOMContentLoaded", () => {
+			document.querySelectorAll(selector).forEach((trigger) => {
+				trigger.addEventListener("click", (e) => {
 					e.preventDefault();
 					this.switchTrigger();
-				}.bind(this));
+				});
 			});
+		});
+	}
+
+	/**
+	 * Returns the selector if the browser can parse it, an empty string if not.
+	 */
+	validateSelector(selector) {
+		if (typeof selector !== "string" || !selector.trim()) return "";
+
+		try {
+			document.createDocumentFragment().querySelector(selector);
+			return selector;
+		} catch (err) {
+			return "";
 		}
 	}
 
@@ -164,12 +188,10 @@ class OnyxDarkModeSwitcher {
 	// ==========================
 
 	initProcesses() {
-		document.dispatchEvent(new CustomEvent("onyx_before_toggle"));
 		this.hasProcessRun = true;
 		document.querySelectorAll(
 			"* :not(head, title, link, meta, script, style, defs, filter, .onyx-switch-trigger-block *, .onyx-menu-item *, .onyx-handled)"
 		).forEach((el) => this.processElement(el));
-		document.dispatchEvent(new CustomEvent("onyx_after_toggle"));
 	}
 
 	// ==========================
@@ -212,8 +234,12 @@ class OnyxDarkModeSwitcher {
 			backgroundColor = window.getComputedStyle(element, null).backgroundColor;
 		}
 
-		// Skip disallowed elements
-		if (this.config.disallowed_elements.length && element.matches(this.config.disallowed_elements)) return;
+		// Skip disallowed elements. Mark them handled so later passes skip them
+		// outright instead of re-walking them every time.
+		if (this.disallowedSelector && element.matches(this.disallowedSelector)) {
+			element.classList.add("onyx-handled");
+			return;
+		}
 
 		// Handle background images
 		const hasBackgroundImageUrl = this.processBackgroundImage(element, backgroundImage);
@@ -528,7 +554,17 @@ class OnyxDarkModeSwitcher {
 
 	isDarkModeOn() {
 		const lastState = localStorage.onyx_last_state ?? "not_set";
-		return lastState === "1" || (lastState === "not_set" && this.config.default_dark_mode === "1");
+
+		// An explicit choice by the visitor always wins.
+		if (lastState !== "not_set") return lastState === "1";
+
+		// No choice yet: follow the OS preference when OS aware mode is on,
+		// otherwise fall back to the configured start-up mode.
+		if (this.config.os_aware === "1" && window.matchMedia("(prefers-color-scheme: dark)").matches) {
+			return true;
+		}
+
+		return this.config.default_dark_mode === "1";
 	}
 
 	// ==========================
@@ -542,7 +578,7 @@ class OnyxDarkModeSwitcher {
 		elements.forEach((el) => {
 			if (!el.classList.contains("onyx-handled")) return;
 
-			if (this.config.disallowed_elements.length > 0 && el.matches(this.config.disallowed_elements)) return;
+			if (this.disallowedSelector && el.matches(this.disallowedSelector)) return;
 
 			const nodeName = el.nodeName.toLowerCase();
 
@@ -579,7 +615,12 @@ const onyx = new OnyxDarkModeSwitcher({
 	image_grayscale: onyx_obj.enable_image_grayscale == "on" ? "1" : "0",
 	video_grayscale: onyx_obj.enable_video_grayscale == "on" ? "1" : "0",
 	disallowed_elements: onyx_obj.disallowed_elements,
-	allowed_btn_class: [onyx_obj.allowed_button_classes],
+	// Comma separated list, entered either as ".btn" or "btn". classList works
+	// on bare class names, so strip any leading dot.
+	allowed_btn_class: (onyx_obj.allowed_button_classes || "")
+		.split(",")
+		.map((cls) => cls.trim().replace(/^\./, ""))
+		.filter(Boolean),
 	bg_image_darken: onyx_obj.darken_background_images == "on" ? "1" : "0",
 	bg_image_darken_to: onyx_obj.darken_level,
 	invert_inline_svg: onyx_obj.invert_svg == "on" ? "1" : "0",

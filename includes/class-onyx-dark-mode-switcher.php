@@ -90,6 +90,13 @@ class Onyx_Dark_Mode_Switcher {
 		require_once plugin_dir_path(dirname(__FILE__)) . 'includes/class-onyx-dark-mode-switcher-loader.php';
 
 		/**
+		 * Shared helpers and the settings store. Both the admin and public
+		 * classes read settings, so these have to load first.
+		 */
+		require_once plugin_dir_path(dirname(__FILE__)) . 'admin/inc/helper.php';
+		require_once plugin_dir_path(dirname(__FILE__)) . 'admin/inc/class-onyx-dark-mode-switcher-settings.php';
+
+		/**
 		 * The class responsible for defining all actions that occur in the admin area.
 		 */
 		require_once plugin_dir_path(dirname(__FILE__)) . 'admin/class-onyx-dark-mode-switcher-admin.php';

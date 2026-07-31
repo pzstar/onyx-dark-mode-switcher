@@ -16,6 +16,11 @@ if (!defined('WPINC')) {
 
 class Onyx_Dark_Mode_Switcher_Admin {
 
+	/**
+	 * Hook suffix of the plugin's settings screen, as returned by add_menu_page().
+	 */
+	const SETTINGS_SCREEN = 'toplevel_page_onyx-settings';
+
 	private $plugin_name;
 
 	private $version;
@@ -24,8 +29,6 @@ class Onyx_Dark_Mode_Switcher_Admin {
 
 		$this->plugin_name = $plugin_name;
 		$this->version = $version;
-
-		$this->include_files();
 
 		add_action('admin_footer', array($this, 'alert_message'));
 
@@ -37,7 +40,11 @@ class Onyx_Dark_Mode_Switcher_Admin {
 	 *
 	 * @since    1.0.0
 	 */
-	public function enqueue_styles() {
+	public function enqueue_styles($hook = '') {
+
+		if (!$this->is_settings_screen($hook)) {
+			return;
+		}
 
 		wp_enqueue_style($this->plugin_name, plugin_dir_url(__FILE__) . 'css/admin.css', array(), $this->version, 'all');
 		wp_enqueue_style('materialdesignicons', ONYX_URL . 'admin/css/materialdesignicons.css', array(), $this->version);
@@ -50,10 +57,13 @@ class Onyx_Dark_Mode_Switcher_Admin {
 	 *
 	 * @since    1.0.0
 	 */
-	public function enqueue_scripts() {
+	public function enqueue_scripts($hook = '') {
+
+		if (!$this->is_settings_screen($hook)) {
+			return;
+		}
 
 		// CodeMirror Enqueue
-		$this->enable_syntax_highlighting_for_current_user();
 		wp_enqueue_code_editor(array('type' => 'text/html'));
 
 		// required to load media uploader
@@ -65,7 +75,8 @@ class Onyx_Dark_Mode_Switcher_Admin {
 		wp_enqueue_script($this->plugin_name, plugin_dir_url(__FILE__) . 'js/admin.js', array('jquery', 'jquery-condition', 'wp-color-picker'), $this->version, false);
 
 		$admin_var = array(
-			'ajaxurl' => esc_url(admin_url('admin-ajax.php'))
+			'ajaxurl' => esc_url(admin_url('admin-ajax.php')),
+			'nonce' => wp_create_nonce('onyx_admin_nonce')
 		);
 
 		/* Send php values to JS script */
@@ -73,12 +84,10 @@ class Onyx_Dark_Mode_Switcher_Admin {
 
 	}
 
-	public function include_files() {
-		include ONYX_PATH . 'admin/inc/helper.php';
-		include ONYX_PATH . 'admin/inc/class-onyx-dark-mode-switcher-settings.php';
-	}
-
 	public function alert_message() {
+		if (!$this->is_settings_screen()) {
+			return;
+		}
 		?>
 		<div class="onyx-alert">
 			<span class="onyx-alert-message"></span>
@@ -87,11 +96,23 @@ class Onyx_Dark_Mode_Switcher_Admin {
 		<?php
 	}
 
-	public function enable_syntax_highlighting_for_current_user() {
-		if (is_user_logged_in()) {
-			$user_id = get_current_user_id();
-			update_user_meta($user_id, 'syntax_highlighting', 'true');
+	/**
+	 * Whether the current request is the plugin's own settings screen.
+	 *
+	 * Falls back to get_current_screen() for hooks that are not handed the
+	 * hook suffix, such as admin_footer.
+	 */
+	private function is_settings_screen($hook = '') {
+		if ($hook) {
+			return self::SETTINGS_SCREEN === $hook;
 		}
+
+		if (!function_exists('get_current_screen')) {
+			return false;
+		}
+
+		$screen = get_current_screen();
+		return $screen && self::SETTINGS_SCREEN === $screen->id;
 	}
 
 	public function add_settings_link($links) {
