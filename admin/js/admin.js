@@ -49,10 +49,155 @@
             });
         });
 
+        /* ---------- Import dropzone ---------- */
+
+        /**
+         * Human readable file size, kept short so it fits beside the name.
+         */
+        function onyxFileSize(bytes) {
+            if (bytes < 1024) {
+                return bytes + ' B';
+            }
+
+            if (bytes < 1024 * 1024) {
+                return (bytes / 1024).toFixed(1) + ' KB';
+            }
+
+            return (bytes / (1024 * 1024)).toFixed(1) + ' MB';
+        }
+
+        /**
+         * Paint the chosen file into the zone, or reset it back to the prompt
+         * when file is null. The Import button follows the same state.
+         */
+        function onyxSetImportFile($zone, file) {
+            const $field = $zone.closest('.onyx-settings-field');
+
+            $zone.data('onyxFile', file || null);
+
+            if (!file) {
+                $zone.removeClass('onyx-dropzone-has-file');
+                $zone.find('.onyx-dropzone-file-name, .onyx-dropzone-file-size').text('');
+                $zone.find('.onyx-import-file').val('');
+                $field.find('.onyx-import-settings').attr('disabled', true);
+                return;
+            }
+
+            $zone.addClass('onyx-dropzone-has-file');
+            $zone.find('.onyx-dropzone-file-name').text(file.name);
+            $zone.find('.onyx-dropzone-file-size').text(onyxFileSize(file.size));
+            $field.find('.onyx-import-settings').removeAttr('disabled');
+        }
+
+        /**
+         * Only settings exports are accepted, so gate on the JSON extension
+         * rather than the browser reported type, which is empty on some OSes.
+         */
+        function onyxIsJsonFile(file) {
+            return /\.json$/i.test(file.name) || file.type === 'application/json';
+        }
+
+        $('.onyx-import-dropzone').each(function () {
+            const $zone = $(this);
+            const input = $zone.find('.onyx-import-file')[0];
+            let dragDepth = 0;
+
+            $zone.on('click', function (e) {
+                // The input's own click bubbles back here, so ignore it or the
+                // picker would reopen itself in a loop.
+                if (e.target === input || $(e.target).closest('.onyx-dropzone-clear').length) {
+                    return;
+                }
+
+                input.click();
+            });
+
+            $zone.on('keydown', function (e) {
+                if (e.key === 'Enter' || e.key === ' ') {
+                    e.preventDefault();
+                    input.click();
+                }
+            });
+
+            $zone.on('dragenter dragover', function (e) {
+                e.preventDefault();
+                e.stopPropagation();
+
+                if (e.type === 'dragenter') {
+                    dragDepth++;
+                }
+
+                $zone.addClass('onyx-dropzone-over');
+            });
+
+            $zone.on('dragleave', function (e) {
+                e.preventDefault();
+                e.stopPropagation();
+                dragDepth--;
+
+                if (dragDepth <= 0) {
+                    dragDepth = 0;
+                    $zone.removeClass('onyx-dropzone-over');
+                }
+            });
+
+            $zone.on('drop', function (e) {
+                e.preventDefault();
+                e.stopPropagation();
+                dragDepth = 0;
+                $zone.removeClass('onyx-dropzone-over');
+
+                const files = e.originalEvent.dataTransfer && e.originalEvent.dataTransfer.files;
+
+                if (!files || !files.length) {
+                    return;
+                }
+
+                if (!onyxIsJsonFile(files[0])) {
+                    onyxAlert('Only .json files can be imported.', 'warning');
+                    return;
+                }
+
+                onyxSetImportFile($zone, files[0]);
+            });
+
+            $(input).on('change', function () {
+                const file = this.files && this.files[0];
+
+                if (!file) {
+                    onyxSetImportFile($zone, null);
+                    return;
+                }
+
+                if (!onyxIsJsonFile(file)) {
+                    onyxAlert('Only .json files can be imported.', 'warning');
+                    onyxSetImportFile($zone, null);
+                    return;
+                }
+
+                onyxSetImportFile($zone, file);
+            });
+
+            $zone.find('.onyx-dropzone-clear').on('click', function (e) {
+                e.stopPropagation();
+                onyxSetImportFile($zone, null);
+            });
+        });
+
+        // Stop a stray drop outside the zone from navigating away from the page.
+        $(document).on('dragover drop', function (e) {
+            if ($(e.target).closest('.onyx-import-dropzone').length) {
+                return;
+            }
+
+            e.preventDefault();
+        });
+
         $('.onyx-import-settings').on('click', function () {
             const $btn = $(this);
-            const input = $btn.closest('.onyx-settings-field').find('.onyx-import-file')[0];
-            const file = input && input.files ? input.files[0] : null;
+            const $zone = $btn.closest('.onyx-settings-field').find('.onyx-import-dropzone');
+            const input = $zone.find('.onyx-import-file')[0];
+            const file = $zone.data('onyxFile') || (input && input.files ? input.files[0] : null);
 
             if (!file) {
                 onyxAlert('Choose a JSON file first.', 'warning');

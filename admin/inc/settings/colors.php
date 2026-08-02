@@ -240,7 +240,7 @@ if (!defined('ABSPATH')) {
                     ?>
                 </div>
 
-                <button type="button" class="button onyx-add-color-override"><i class="mdi-plus"></i><?php esc_html_e('Add Override', 'onyx-dark-mode-switcher'); ?></button>
+                <button type="button" class="button onyx-button onyx-add-color-override"><i class="mdi-plus"></i><?php esc_html_e('Add Override', 'onyx-dark-mode-switcher'); ?></button>
                 <input type="hidden" class="onyx-color-override-count" value="<?php echo esc_attr($onyx_count); ?>" />
 
                 <p class="onyx-desc">

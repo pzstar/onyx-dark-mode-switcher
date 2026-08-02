@@ -51,11 +51,7 @@
 }
 
 .onyx-settings-footer .button {
-    padding: 13px 20px;
     text-transform: uppercase;
-    font-size: 13px;
-    font-weight: bold;
-    line-height: 1;
     outline: 0 !important;
     box-shadow: none !important;
     display: flex;
@@ -253,7 +249,7 @@
 .onyx-one-column-row {
     display: grid;
     grid-template-columns: repeat(1, 300px);
-    gap: 20px;
+    gap: 10px;
     margin: 0;
     padding: 0;
 }
@@ -261,7 +257,7 @@
 .onyx-two-column-row {
     display: grid;
     grid-template-columns: repeat(2, 300px);
-    gap: 20px;
+    gap: 10px;
     margin: 0;
     padding: 0;
 }
@@ -269,11 +265,12 @@
 .onyx-three-column-row {
     display: grid;
     grid-template-columns: repeat(3, 300px);
-    gap: 20px;
+    gap: 10px;
     margin: 0;
     padding: 0;
 }
 
+.onyx-one-column-row > li,
 .onyx-two-column-row > li,
 .onyx-three-column-row > li {
     margin: 0;
@@ -534,6 +531,169 @@ p.onyx-desc {
     margin: 6px 0 0;
 }
 
+
+/* Import dropzone */
+.onyx-import-dropzone {
+    position: relative;
+    max-width: 480px;
+    margin: 0 0 12px;
+    padding: 28px 20px;
+    border: 2px dashed #d0d5e4;
+    border-radius: 6px;
+    background: #fafbff;
+    text-align: center;
+    cursor: pointer;
+    transition: border-color 0.2s ease, background-color 0.2s ease, box-shadow 0.2s ease;
+}
+
+.onyx-import-dropzone:hover,
+.onyx-import-dropzone:focus {
+    border-color: #000;
+    background: #f4f6ff;
+    outline: 0;
+}
+
+.onyx-import-dropzone:focus-visible {
+    box-shadow: 0 0 0 2px rgba(0, 0, 0, 0.25);
+}
+
+.onyx-import-dropzone.onyx-dropzone-over {
+    border-color: #000;
+    border-style: solid;
+    background: #f0f3ff;
+    box-shadow: 0 6px 18px 0 rgba(0, 0, 0, 0.08);
+}
+
+.onyx-import-dropzone .onyx-import-file {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    padding: 0;
+    margin: -1px;
+    overflow: hidden;
+    clip: rect(0, 0, 0, 0);
+    border: 0;
+}
+
+.onyx-dropzone-prompt {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 4px;
+    pointer-events: none;
+}
+
+.onyx-dropzone-icon i:before {
+    font-size: 34px;
+    line-height: 1;
+    color: #000;
+}
+
+.onyx-import-dropzone.onyx-dropzone-over .onyx-dropzone-icon i:before {
+    transform: translateY(-2px);
+    transition: transform 0.2s ease;
+}
+
+.onyx-dropzone-title {
+    font-size: 14px;
+    font-weight: bold;
+    color: #333;
+}
+
+.onyx-dropzone-hint {
+    font-size: 13px;
+    color: #666;
+}
+
+.onyx-dropzone-browse {
+    text-decoration: underline;
+    font-weight: bold;
+    color: #000;
+}
+
+/* Selected file row, swapped in once a file is chosen. */
+.onyx-dropzone-file {
+    display: none;
+    align-items: center;
+    gap: 12px;
+    text-align: left;
+}
+
+.onyx-import-dropzone.onyx-dropzone-has-file {
+    border-style: solid;
+    border-color: #cfd4e3;
+    background: #FFF;
+    padding: 16px 20px;
+}
+
+.onyx-import-dropzone.onyx-dropzone-has-file .onyx-dropzone-prompt {
+    display: none;
+}
+
+.onyx-import-dropzone.onyx-dropzone-has-file .onyx-dropzone-file {
+    display: flex;
+}
+
+.onyx-dropzone-file-icon i:before {
+    font-size: 26px;
+    line-height: 1;
+    color: #000;
+}
+
+.onyx-dropzone-file-meta {
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
+    flex: 1 1 auto;
+    min-width: 0;
+}
+
+.onyx-dropzone-file-name {
+    font-size: 13px;
+    font-weight: bold;
+    color: #333;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+
+.onyx-dropzone-file-size {
+    font-size: 12px;
+    color: #666;
+}
+
+.onyx-dropzone-clear {
+    flex: 0 0 auto;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: 24px;
+    width: 24px;
+    padding: 0;
+    border: 0;
+    border-radius: 50%;
+    background: #f0f0f5;
+    color: #555;
+    cursor: pointer;
+    transition: background-color 0.2s ease, color 0.2s ease;
+}
+
+.onyx-dropzone-clear:hover,
+.onyx-dropzone-clear:focus {
+    background: #DF4759;
+    color: #FFF;
+}
+
+.onyx-dropzone-clear i:before {
+    font-size: 14px;
+    line-height: 1;
+}
+
+.onyx-settings-field .onyx-import-settings[disabled] {
+    opacity: 0.6;
+    cursor: not-allowed;
+}
+
 .onyx-replace-image-values-wrap {
     display: flex;
     gap: 20px;
@@ -549,11 +709,10 @@ p.onyx-desc {
     align-items: flex-start;
 }
 
-.onyx-settings-field .onyx-add-replace-image,
-.onyx-settings-field .onyx-add-invert-image {
+.onyx-settings-field .onyx-button {
     display: flex;
     align-items: center;
-    gap: 8px
+    gap: 4px
 }
 
 .onyx-replace-image-fields {
@@ -561,7 +720,7 @@ p.onyx-desc {
     padding: 15px;
     display: flex;
     gap: 20px;
-    align-items: center;
+    align-items: flex-start;
 }
 
 .onyx-setting-replace-image-list .onyx-replace-image {
@@ -571,11 +730,12 @@ p.onyx-desc {
 }
 
 .onyx-setting-replace-image-list .onyx-replace-image label {
-    width: 100px;
+    width: 140px;
 }
 
 .onyx-add-replace-image.onyx-btn-loading:after,
-.onyx-add-invert-image.onyx-btn-loading:after {
+.onyx-add-invert-image.onyx-btn-loading:after,
+.onyx-add-color-override.onyx-btn-loading:after {
     content: "";
     border: 2px solid #2171B1;
     border-radius: 50%;
@@ -920,9 +1080,10 @@ p.onyx-desc {
 }
 
 .onyx-preview-button {
-    padding: 8px 18px;
+    padding: 0 16px;
     border: 0;
-    border-radius: 4px;
+    border-radius: 2px;
+    min-height: 40px;
     cursor: pointer;
     background-color: var(--onyx_mode_btn_bg);
     color: var(--onyx_mode_btn_text_color);
@@ -932,8 +1093,4 @@ p.onyx-desc {
 .onyx-preview-button:focus {
     background-color: var(--onyx_mode_btn_bg_hover);
     color: var(--onyx_mode_btn_text_color_hover);
-}
-
-.onyx-color-override-row .onyx-replace-image input[type="text"] {
-    width: 100%;
 }

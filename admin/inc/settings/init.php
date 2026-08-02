@@ -41,7 +41,7 @@ $onyx_settings = Onyx_Dark_Mode_Switcher_Settings::get_settings();
         </div>
 
         <div class="onyx-settings-footer onyx-save-settings onyx-settings-btn">
-            <button type="submit" class="button button-primary button-large"><i class="mdi-check-circle-outline"></i><?php echo esc_html__('Save Settings', 'onyx-dark-mode-switcher'); ?></button>
+            <button type="submit" class="button onyx-button button-primary button-large"><i class="mdi-check-circle-outline"></i><?php echo esc_html__('Save Settings', 'onyx-dark-mode-switcher'); ?></button>
         </div>
     </div>
 </form>

@@ -65,7 +65,7 @@ $onyx_invert_images = $onyx_settings['invert_images'];
                     ?>
                 </div>
 
-                <button type="button" class="button onyx-add-replace-image"><i class="mdi-plus"></i><?php esc_html_e('Add Images', 'onyx-dark-mode-switcher'); ?></button>
+                <button type="button" class="button onyx-button onyx-add-replace-image"><i class="mdi-plus"></i><?php esc_html_e('Add Images', 'onyx-dark-mode-switcher'); ?></button>
                 <input type="hidden" class="onyx-image-count" value="<?php echo esc_attr($onyx_count); ?>" />
             </div>
         </div>
@@ -85,7 +85,7 @@ $onyx_invert_images = $onyx_settings['invert_images'];
                     ?>
                 </div>
 
-                <button type="button" class="button onyx-add-invert-image"><i class="mdi-plus"></i><?php esc_html_e('Add Images', 'onyx-dark-mode-switcher'); ?></button>
+                <button type="button" class="button onyx-button onyx-add-invert-image"><i class="mdi-plus"></i><?php esc_html_e('Add Images', 'onyx-dark-mode-switcher'); ?></button>
                 <input type="hidden" class="onyx-invert-image-count" value="<?php echo esc_attr($onyx_count); ?>" />
             </div>
         </div>
