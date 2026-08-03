@@ -356,9 +356,10 @@ class Onyx_Dark_Mode_Switcher_Settings {
                 <div class="onyx-replace-image">
                     <label><?php esc_html_e('CSS Selector', 'onyx-dark-mode-switcher'); ?></label>
                     <input type="text" placeholder=".site-header, #footer" name="onyx_settings[color_overrides][<?php echo esc_attr($count); ?>][selector]" value="<?php echo esc_attr($selector); ?>" />
+                    <button type="button" class="button onyx-button onyx-remove-image-value"><i class="mdi-trash-can-outline"></i><?php esc_html_e('Delete', 'onyx-dark-mode-switcher'); ?></button>
                 </div>
 
-                <ul class="onyx-one-column-row">
+                <ul class="onyx-three-column-row">
                     <?php foreach ($fields as $onyx_key => $onyx_label) { ?>
                         <li class="onyx-settings-list">
                             <label><?php echo esc_html($onyx_label); ?></label>
@@ -369,7 +370,6 @@ class Onyx_Dark_Mode_Switcher_Settings {
                     <?php } ?>
                 </ul>
             </div>
-            <button type="button" class="button onyx-button onyx-remove-image-value"><i class="mdi-trash-can-outline"></i><?php esc_html_e('Delete', 'onyx-dark-mode-switcher'); ?></button>
         </div>
         <?php
     }

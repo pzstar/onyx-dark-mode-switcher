@@ -248,7 +248,7 @@
 /* Two/Three Column */
 .onyx-one-column-row {
     display: grid;
-    grid-template-columns: repeat(1, 300px);
+    grid-template-columns: repeat(1, 280px);
     gap: 10px;
     margin: 0;
     padding: 0;
@@ -256,7 +256,7 @@
 
 .onyx-two-column-row {
     display: grid;
-    grid-template-columns: repeat(2, 300px);
+    grid-template-columns: repeat(2, 280px);
     gap: 10px;
     margin: 0;
     padding: 0;
@@ -264,7 +264,7 @@
 
 .onyx-three-column-row {
     display: grid;
-    grid-template-columns: repeat(3, 300px);
+    grid-template-columns: repeat(3, 280px);
     gap: 10px;
     margin: 0;
     padding: 0;
