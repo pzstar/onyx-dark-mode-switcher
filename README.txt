@@ -3,7 +3,7 @@ Contributors: hashthemes
 Tags: dark mode, night mode, dark mode switcher, light dark toggle
 Requires at least: 6.3
 Tested up to: 7.0
-Stable tag: 1.2.0
+Stable tag: 1.1.0
 Requires PHP: 7.2
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
@@ -73,15 +73,13 @@ The easy way to install the plugin is via WordPress.org plugin directory.
 
 
 == Changelog ==
-= 1.2.0 - 31 Jul 2026 =
+= 1.1.0 - 4 Aug 2026 =
 * Live color preview on the Colors tab - see a preset before you save it
 * Override colors for specific CSS selectors, for the elements the automatic pass gets wrong
 * New Tools tab - export settings to a file, import them on another site, or reset everything to defaults
 * Button hover colors now actually apply. They were collected in the settings but never output
 * Custom palettes with blank fields no longer emit broken CSS
 * Fixed unclosed markup in the Colors tab
-
-= 1.1.0 - 31 Jul 2026 =
 * Scheduled Dark Mode - turn dark mode on automatically between two times
 * Disable dark mode per post type from the settings
 * Disable dark mode on an individual post or page from the editor sidebar
