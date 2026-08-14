@@ -37,7 +37,66 @@ function onyx_resolve_palette($settings) {
         'btn_bg_hover' => $settings['dark_mode_btn_bg_hover'],
     );
 
-    return array_merge($palettes['style-1'], array_filter($custom, 'strlen'));
+    // Not array_filter($custom, 'strlen'): sanitize_hex_color() hands back null
+    // for a value it does not recognise, and strlen(null) is deprecated on
+    // PHP 8.1+.
+    $filled = array_filter($custom, function ($value) {
+        return is_string($value) && $value !== '';
+    });
+
+    return array_merge($palettes['style-1'], $filled);
+}
+
+/**
+ * Split a selector list on its top level commas.
+ *
+ * Commas inside brackets, parentheses or quotes belong to the selector itself
+ * (:is(a, b), [data-x="a,b"]) and must not be treated as list separators.
+ */
+function onyx_split_selector_list($selector) {
+    $parts = array();
+    $current = '';
+    $depth = 0;
+    $quote = '';
+    $length = strlen($selector);
+
+    for ($i = 0; $i < $length; $i++) {
+        $char = $selector[$i];
+
+        if ($quote !== '') {
+            if ($char === $quote) {
+                $quote = '';
+            }
+            $current .= $char;
+            continue;
+        }
+
+        if ($char === '"' || $char === "'") {
+            $quote = $char;
+            $current .= $char;
+            continue;
+        }
+
+        if ($char === '(' || $char === '[') {
+            $depth++;
+        } elseif ($char === ')' || $char === ']') {
+            $depth = max(0, $depth - 1);
+        } elseif ($char === ',' && $depth === 0) {
+            $parts[] = $current;
+            $current = '';
+            continue;
+        }
+
+        $current .= $char;
+    }
+
+    $parts[] = $current;
+
+    $parts = array_map('trim', $parts);
+
+    return array_values(array_filter($parts, function ($part) {
+        return $part !== '';
+    }));
 }
 
 /**
@@ -63,6 +122,14 @@ function onyx_color_override_styles($settings) {
             continue;
         }
 
+        // Every selector in the list needs its own .onyx-dark-mode prefix.
+        // Prefixing the string as a whole would scope only the first one and
+        // leave the rest applying in light mode too.
+        $selectors = onyx_split_selector_list($selector);
+        if (!$selectors) {
+            continue;
+        }
+
         $declarations = '';
         $map = array(
             'bg' => 'background-color',
@@ -80,7 +147,12 @@ function onyx_color_override_styles($settings) {
             continue;
         }
 
-        $css .= ".onyx-dark-mode {$selector}{{$declarations}}";
+        $scoped = array();
+        foreach ($selectors as $single) {
+            $scoped[] = ".onyx-dark-mode {$single}";
+        }
+
+        $css .= implode(',', $scoped) . "{{$declarations}}";
     }
 
     return $css;

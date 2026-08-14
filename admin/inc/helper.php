@@ -168,16 +168,45 @@ function onyx_sanitize_css_selector($selector) {
     return trim($selector);
 }
 
+/**
+ * Sanitize a hex or rgba() color.
+ *
+ * Always returns a string. An unrecognised value comes back as '', never null,
+ * so the callers that print it into CSS or measure it never have to deal with
+ * a null (which is also deprecated to pass around on PHP 8.1+).
+ */
 function onyx_sanitize_color($color) {
+    $color = trim((string) $color);
+
+    if ($color === '') {
+        return '';
+    }
+
     // Is this an rgba color or a hex?
     $mode = (false === strpos($color, 'rgba')) ? 'hex' : 'rgba';
     if ('rgba' === $mode) {
         $color = str_replace(' ', '', $color);
-        sscanf($color, 'rgba(%d,%d,%d,%f)', $red, $green, $blue, $alpha);
+        $red = $green = $blue = $alpha = null;
+        $parsed = sscanf($color, 'rgba(%d,%d,%d,%f)', $red, $green, $blue, $alpha);
+
+        // Anything short of all four components is not a usable color, and
+        // emitting rgba(,,,) would just be an invalid declaration.
+        if ($parsed !== 4 || !is_numeric($red) || !is_numeric($green) || !is_numeric($blue) || !is_numeric($alpha)) {
+            return '';
+        }
+
+        $red = max(0, min(255, (int) $red));
+        $green = max(0, min(255, (int) $green));
+        $blue = max(0, min(255, (int) $blue));
+        $alpha = max(0, min(1, (float) $alpha));
+
         return 'rgba(' . $red . ',' . $green . ',' . $blue . ',' . $alpha . ')';
-    } else {
-        return sanitize_hex_color($color);
     }
+
+    $hex = sanitize_hex_color($color);
+
+    // sanitize_hex_color() returns null for anything it does not recognise.
+    return null === $hex ? '' : $hex;
 }
 
 function onyx_sanitize_value($sanitize, &$value) {
@@ -236,8 +265,9 @@ function onyx_sanitize_custom_css( $css ) {
     $css = wp_strip_all_tags( (string) $css );
 
     // Allow CSS-safe characters only. This has to cover at-rules (@media),
-    // combinators (> + ~), attribute selectors and quoted url() values.
-    return preg_replace('/[^a-zA-Z0-9\s_:;{},.#()"\'\/%!@\[\]*=~+>&|^$-]/', '', $css);
+    // combinators (> + ~), attribute selectors, quoted url() values and
+    // backslash escapes such as content: "\f101" for icon fonts.
+    return preg_replace('/[^a-zA-Z0-9\s_:;{},.#()"\'\/%!@\[\]*=~+>&|^$\\\\-]/', '', $css);
 }
 
 function onyx_sanitize_custom_js( $js ) {

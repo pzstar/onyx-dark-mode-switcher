@@ -224,7 +224,7 @@ class Onyx_Dark_Mode_Switcher_Settings {
             'button_shadow_x' => 'onyx_sanitize_number',
             'button_shadow_y' => 'onyx_sanitize_number',
             'button_shadow_blur' => 'onyx_sanitize_number',
-            'button_shadow_color' => 'sanitize_text_field',
+            'button_shadow_color' => 'onyx_sanitize_color',
             'button_bg_color' => 'onyx_sanitize_color',
             'dark_mode_button_bg' => 'onyx_sanitize_color',
             'button_icon_color' => 'onyx_sanitize_color',
