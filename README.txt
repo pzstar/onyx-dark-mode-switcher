@@ -2,8 +2,8 @@
 Contributors: hashthemes
 Tags: dark mode, night mode, dark mode switcher, light dark toggle
 Requires at least: 6.3
-Tested up to: 7.0
-Stable tag: 1.1.1
+Tested up to: 7.1
+Stable tag: 1.1.2
 Requires PHP: 7.2
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
@@ -162,6 +162,10 @@ Yes. Export them to a JSON file from the Tools tab and import that file on the o
 11. Front end - the same page in dark mode
 
 == Changelog ==
+= 1.1.2 - 2 Oct 2026 =
+* Compatibility with WordPress 7.1
+* Replaced deprecated jQuery calls, ready for jQuery 4
+
 = 1.1.1 - 14 Aug 2026 =
 * Color overrides written as a list, such as ".site-header, #footer", now apply only in dark mode. Everything after the first comma was being applied in light mode too
 * Custom CSS no longer drops backslashes, so icon font rules like content: "\f101" survive a save

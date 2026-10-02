@@ -199,10 +199,10 @@ class Onyx_Dark_Mode_Switcher_Public {
 		// Already sanitized on save by onyx_sanitize_custom_js(). Do not run it
 		// through an HTML filter here, that would corrupt valid JavaScript.
 		if ($before_trigger !== '') {
-			wp_add_inline_script($this->plugin_name, 'jQuery(document).bind("onyx_before_toggle", function (event, response) {' . $before_trigger . '});');
+			wp_add_inline_script($this->plugin_name, 'jQuery(document).on("onyx_before_toggle", function (event, response) {' . $before_trigger . '});');
 		}
 		if ($after_trigger !== '') {
-			wp_add_inline_script($this->plugin_name, 'jQuery(document).bind("onyx_after_toggle", function (event, response) {' . $after_trigger . '});');
+			wp_add_inline_script($this->plugin_name, 'jQuery(document).on("onyx_after_toggle", function (event, response) {' . $after_trigger . '});');
 		}
 
 	}

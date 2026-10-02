@@ -465,7 +465,7 @@
         });
 
         // Update slider if the input field loses focus as it's most likely changed
-        $('.onyx-range-input').blur(function () {
+        $('.onyx-range-input').on('blur', function () {
             var resetValue = isNaN($(this).val()) ? '' : $(this).val();
 
             if (resetValue) {
@@ -497,7 +497,7 @@
         $('.onyx-unit-fields input').on('input', function () {
             var $val = $(this).val();
             $(this).closest('.onyx-unit-fields:not(.onyx-not-linked)').find('input').each(function (key, value) {
-                $(this).val($val).change();
+                $(this).val($val).trigger('change');
             });
         });
 
@@ -564,7 +564,7 @@
             }
 
             btn.attr('aria-pressed', 'true');
-            btn.focus();
+            btn.trigger('focus');
             return false;
         });
 
