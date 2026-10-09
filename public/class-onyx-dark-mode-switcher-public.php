@@ -188,7 +188,7 @@ class Onyx_Dark_Mode_Switcher_Public {
 			'darken_background_images' => $this->dark_mode_settings['darken_background_images'],
 			'darken_level' => $this->dark_mode_settings['darken_level'],
 			'invert_svg' => $this->dark_mode_settings['invert_svg'],
-			'disallowed_elements' => $this->dark_mode_settings['disallowed_elements'],
+			'disallowed_elements' => $this->get_disallowed_elements(),
 			'allowed_button_classes' => $this->dark_mode_settings['allowed_button_classes'],
 			'switch_selector' => $this->dark_mode_settings['switch_selector'],
 		));
@@ -205,6 +205,33 @@ class Onyx_Dark_Mode_Switcher_Public {
 			wp_add_inline_script($this->plugin_name, 'jQuery(document).on("onyx_after_toggle", function (event, response) {' . $after_trigger . '});');
 		}
 
+	}
+
+	/**
+	 * Selectors of the elements that keep their colors in dark mode.
+	 *
+	 * The ones of the settings, plus the ones themes and plugins add with the
+	 * onyx_disallowed_elements filter, for example the brand colored labels of a theme:
+	 *
+	 * add_filter('onyx_disallowed_elements', function ($selectors) {
+	 *     $selectors[] = '.post-category a';
+	 *     return $selectors;
+	 * });
+	 *
+	 * @return string Comma separated selectors.
+	 */
+	public function get_disallowed_elements() {
+		$setting = (string) $this->dark_mode_settings['disallowed_elements'];
+		$selectors = function_exists('onyx_split_selector_list') ? onyx_split_selector_list($setting) : explode(',', $setting);
+
+		/**
+		 * Filters the selectors of the elements that keep their colors in dark mode.
+		 *
+		 * @param string[] $selectors One selector per item, from the settings first.
+		 */
+		$selectors = apply_filters('onyx_disallowed_elements', array_values(array_filter(array_map('trim', $selectors))));
+
+		return implode(', ', array_unique(array_filter(array_map('trim', array_map('strval', (array) $selectors)))));
 	}
 
 	public function toggle_button() {

@@ -162,6 +162,9 @@ Yes. Export them to a JSON file from the Tools tab and import that file on the o
 11. Front end - the same page in dark mode
 
 == Changelog ==
+= Unreleased =
+* Developers: onyx_disallowed_elements filter, for themes and plugins to keep their own elements out of dark mode
+
 = 1.1.2 - 2 Oct 2026 =
 * Compatibility with WordPress 7.1
 * Replaced deprecated jQuery calls, ready for jQuery 4
