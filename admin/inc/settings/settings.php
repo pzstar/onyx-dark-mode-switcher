@@ -116,6 +116,42 @@ if (!defined('ABSPATH')) {
             </div>
         </div>
 
+        <?php $onyx_theme_classes = (array) apply_filters('onyx_theme_classes', array('dark' => '', 'light' => '')); ?>
+
+        <div class="onyx-field-wrap">
+            <h3><?php esc_html_e('Theme Integration', 'onyx-dark-mode-switcher'); ?></h3>
+            <p class="onyx-desc"><?php esc_html_e('For themes with their own dark mode. Onyx adds these classes to the body as it switches, and leaves the coloring to the theme instead of recoloring the page itself.', 'onyx-dark-mode-switcher'); ?></p>
+        </div>
+
+        <?php
+        foreach (array(
+            'dark' => esc_html__('Theme Dark Mode Class', 'onyx-dark-mode-switcher'),
+            'light' => esc_html__('Theme Light Mode Class', 'onyx-dark-mode-switcher'),
+        ) as $onyx_mode => $onyx_label) {
+            $onyx_suggested = isset($onyx_theme_classes[$onyx_mode]) ? onyx_sanitize_html_classes($onyx_theme_classes[$onyx_mode]) : '';
+            ?>
+            <div class="onyx-field-wrap">
+                <label><?php echo esc_html($onyx_label); ?></label>
+                <div class="onyx-settings-field">
+                    <input type="text" class="onyx-class-field" name="onyx_settings[theme_<?php echo esc_attr($onyx_mode); ?>_class]" value="<?php echo esc_attr($onyx_settings['theme_' . $onyx_mode . '_class']); ?>" placeholder="<?php echo esc_attr($onyx_suggested); ?>">
+                    <p class="onyx-desc">
+                        <?php
+                        if ($onyx_suggested) {
+                            /* translators: %s: class name supplied by the active theme */
+                            printf(esc_html__('Your theme supplies "%s", used while this is empty.', 'onyx-dark-mode-switcher'), esc_html($onyx_suggested));
+                        } elseif ($onyx_mode === 'dark') {
+                            esc_html_e('Eg theme-dark. Leave empty to let Onyx color the page.', 'onyx-dark-mode-switcher');
+                        } else {
+                            esc_html_e('Optional, added while the page is light. Eg theme-light', 'onyx-dark-mode-switcher');
+                        }
+                        ?>
+                    </p>
+                </div>
+            </div>
+            <?php
+        }
+        ?>
+
         <div class="onyx-field-wrap">
             <h3><?php esc_html_e('Content Exclusions', 'onyx-dark-mode-switcher'); ?></h3>
         </div>

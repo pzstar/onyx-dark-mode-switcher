@@ -9,8 +9,9 @@ html.onyx-dark-mode {
     color-scheme: dark;
 }
 
-html.onyx-dark-mode,
-html.onyx-dark-mode body {
+/* Not when the theme's own dark mode does the coloring (theme classes set) */
+html.onyx-dark-mode:not(.onyx-theme-colors),
+html.onyx-dark-mode:not(.onyx-theme-colors) body {
     background-color: var(--onyx_mode_bg);
     color: var(--onyx_mode_text_color);
 }

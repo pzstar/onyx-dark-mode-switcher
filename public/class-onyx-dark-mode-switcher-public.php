@@ -45,6 +45,7 @@ class Onyx_Dark_Mode_Switcher_Public {
 			// Priority 0: this has to run before the stylesheet and before
 			// jQuery, so the dark class is on <html> ahead of first paint.
 			add_action('wp_head', array($this, 'print_initial_mode_script'), 0);
+			add_action('wp_body_open', array($this, 'print_theme_class_script'), 0);
 
 			if ($this->dark_mode_settings['enable_button'] == 'on') {
 				add_action('wp_footer', array($this, 'toggle_button'));
@@ -84,6 +85,46 @@ class Onyx_Dark_Mode_Switcher_Public {
 	}
 
 	/**
+	 * Classes a theme uses for its own dark and light mode, added to <body> as Onyx switches.
+	 *
+	 * The settings win; otherwise a theme can supply them through the onyx_theme_classes filter.
+	 * With a dark class set, the theme does the recoloring and Onyx only switches modes.
+	 */
+	public function get_theme_classes() {
+		$theme = (array) apply_filters('onyx_theme_classes', array('dark' => '', 'light' => ''));
+		$classes = array();
+
+		foreach (array('dark', 'light') as $mode) {
+			$setting = onyx_sanitize_html_classes($this->dark_mode_settings['theme_' . $mode . '_class']);
+			$classes[$mode] = $setting !== '' ? $setting : onyx_sanitize_html_classes(isset($theme[$mode]) ? $theme[$mode] : '');
+		}
+
+		return $classes;
+	}
+
+	public function uses_theme_colors() {
+		$classes = $this->get_theme_classes();
+		return $classes['dark'] !== '';
+	}
+
+	/**
+	 * Put the theme classes on <body> as soon as it opens, so the theme's dark CSS applies before
+	 * first paint. public.js keeps them in step afterwards (and covers themes without wp_body_open).
+	 */
+	public function print_theme_class_script() {
+		if ($this->is_disabled_for_request() || !$this->uses_theme_colors()) {
+			return;
+		}
+
+		$classes = $this->get_theme_classes();
+		$script = '(function(){var c=' . wp_json_encode($classes) . ',b=document.body,k=!!window.onyxInitialDarkMode;'
+			. 'function t(l,on){l.split(" ").forEach(function(n){if(n)b.classList.toggle(n,on);});}'
+			. 't(c.light,!k);t(c.dark,k);})();';
+
+		echo "<script id=\"onyx-theme-class\">" . $script . "</script>\n"; // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
+	}
+
+	/**
 	 * Resolve the starting mode before the page paints.
 	 *
 	 * public.js cannot do this on its own: it depends on jQuery and on the
@@ -118,6 +159,7 @@ class Onyx_Dark_Mode_Switcher_Public {
 			. 'else if(c.os==="1"&&window.matchMedia("(prefers-color-scheme: dark)").matches){k=true;}'
 			. 'else{k=c.fallback==="1";}}'
 			. 'window.onyxInitialDarkMode=k;'
+			. ($this->uses_theme_colors() ? 'd.classList.add("onyx-theme-colors");' : '')
 			. 'if(k){d.classList.add("onyx-dark-mode");}'
 			. '})();';
 
@@ -191,6 +233,7 @@ class Onyx_Dark_Mode_Switcher_Public {
 			'disallowed_elements' => $this->get_disallowed_elements(),
 			'allowed_button_classes' => $this->dark_mode_settings['allowed_button_classes'],
 			'switch_selector' => $this->dark_mode_settings['switch_selector'],
+			'theme_classes' => $this->get_theme_classes(),
 		));
 
 		$before_trigger = !empty($this->dark_mode_settings['before_js']) ? $this->dark_mode_settings['before_js'] : '';

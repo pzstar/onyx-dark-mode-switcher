@@ -19,8 +19,12 @@ class OnyxDarkModeSwitcher {
 			schedule: "0",
 			schedule_start: "",
 			schedule_end: "",
+			theme_classes: {dark: "", light: ""},
 			...config,
 		};
+
+		// A theme with its own dark mode CSS: Onyx only switches modes and mirrors them as body classes
+		this.themeColors = !!(this.config.theme_classes && this.config.theme_classes.dark);
 
 		// ======= Instance variables =======
 		this.hasProcessRun = false;
@@ -56,6 +60,8 @@ class OnyxDarkModeSwitcher {
 			}
 		});
 
+		this.themeClassSync = new MutationObserver(() => this.syncThemeClasses());
+
 		this.darkModeStatusChanged = new MutationObserver((mutations) => {
 			for (const mutation of mutations) {
 				if (mutation.type !== "attributes" || mutation.attributeName !== "class") continue;
@@ -80,6 +86,24 @@ class OnyxDarkModeSwitcher {
 			document.documentElement.classList.add("onyx-dark-mode");
 			this.initObserver();
 		}
+
+		if (this.themeColors) {
+			// Every switch (button, menu, shortcut, schedule, OS) goes through the <html> class
+			this.themeClassSync.observe(document.documentElement, {attributes: true, attributeFilter: ["class"]});
+			document.readyState === "loading"
+				? document.addEventListener("DOMContentLoaded", () => this.syncThemeClasses())
+				: this.syncThemeClasses();
+		}
+	}
+
+	syncThemeClasses() {
+		if (!document.body) return;
+
+		const dark = document.documentElement.classList.contains("onyx-dark-mode");
+		const toggle = (list, on) => (list || "").split(" ").filter(Boolean).forEach((name) => document.body.classList.toggle(name, on));
+
+		toggle(this.config.theme_classes.light, !dark);
+		toggle(this.config.theme_classes.dark, dark);
 	}
 
 	// ==========================
@@ -253,6 +277,8 @@ class OnyxDarkModeSwitcher {
 	// ==========================
 
 	initObserver() {
+		if (this.themeColors) return;
+
 		const setup = () => {
 			if (!this.hasProcessRun) this.initProcesses();
 			this.implementSecondaryBg();
@@ -272,6 +298,11 @@ class OnyxDarkModeSwitcher {
 	// ==========================
 
 	initProcesses() {
+		if (this.themeColors) {
+			this.hasProcessRun = true;
+			return;
+		}
+
 		this.hasProcessRun = true;
 		document.querySelectorAll(
 			"* :not(head, title, link, meta, script, style, defs, filter, .onyx-switch-trigger-block *, .onyx-menu-item *, .onyx-handled)"
@@ -667,6 +698,8 @@ class OnyxDarkModeSwitcher {
 	// ==========================
 
 	updateDarkModeElements() {
+		if (this.themeColors) return;
+
 		const elements = document.querySelectorAll(
 			"*:not(head, title, link, meta, script, style, defs, filter, .onyx-switch-trigger-block *, .onyx-menu-item *)"
 		);
@@ -722,6 +755,7 @@ const onyx = new OnyxDarkModeSwitcher({
 	bg_image_darken: onyx_obj.darken_background_images == "on" ? "1" : "0",
 	bg_image_darken_to: onyx_obj.darken_level,
 	invert_inline_svg: onyx_obj.invert_svg == "on" ? "1" : "0",
+	theme_classes: onyx_obj.theme_classes || {dark: "", light: ""},
 });
 
 onyx.init();

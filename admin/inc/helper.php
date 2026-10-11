@@ -169,6 +169,15 @@ function onyx_sanitize_css_selector($selector) {
 }
 
 /**
+ * Sanitize a space separated list of CSS class names, e.g. "theme-dark is-dark".
+ */
+function onyx_sanitize_html_classes($classes) {
+    $classes = array_filter(array_map('sanitize_html_class', preg_split('/\s+/', (string) $classes)));
+
+    return implode(' ', array_unique($classes));
+}
+
+/**
  * Sanitize a hex or rgba() color.
  *
  * Always returns a string. An unrecognised value comes back as '', never null,
