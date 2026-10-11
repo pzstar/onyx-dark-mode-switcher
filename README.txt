@@ -3,7 +3,7 @@ Contributors: hashthemes
 Tags: dark mode, night mode, dark mode switcher, light dark toggle
 Requires at least: 6.3
 Tested up to: 7.1
-Stable tag: 1.1.2
+Stable tag: 1.1.3
 Requires PHP: 7.2
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
@@ -162,7 +162,7 @@ Yes. Export them to a JSON file from the Tools tab and import that file on the o
 11. Front end - the same page in dark mode
 
 == Changelog ==
-= Unreleased =
+= 1.1.3 - 11 Oct 2026 =
 * Developers: onyx_disallowed_elements filter, for themes and plugins to keep their own elements out of dark mode
 
 = 1.1.2 - 2 Oct 2026 =
