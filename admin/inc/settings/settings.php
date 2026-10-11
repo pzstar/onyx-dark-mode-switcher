@@ -118,7 +118,7 @@ if (!defined('ABSPATH')) {
 
         <?php $onyx_theme_classes = (array) apply_filters('onyx_theme_classes', array('dark' => '', 'light' => '')); ?>
 
-        <div class="onyx-field-wrap">
+        <div class="onyx-field-wrap onyx-heading-wrap">
             <h3><?php esc_html_e('Theme Integration', 'onyx-dark-mode-switcher'); ?></h3>
             <p class="onyx-desc"><?php esc_html_e('For themes with their own dark mode. Onyx adds these classes to the body as it switches, and leaves the coloring to the theme instead of recoloring the page itself.', 'onyx-dark-mode-switcher'); ?></p>
         </div>
@@ -133,7 +133,7 @@ if (!defined('ABSPATH')) {
             <div class="onyx-field-wrap">
                 <label><?php echo esc_html($onyx_label); ?></label>
                 <div class="onyx-settings-field">
-                    <input type="text" class="onyx-class-field" name="onyx_settings[theme_<?php echo esc_attr($onyx_mode); ?>_class]" value="<?php echo esc_attr($onyx_settings['theme_' . $onyx_mode . '_class']); ?>" placeholder="<?php echo esc_attr($onyx_suggested); ?>">
+                    <input type="text" name="onyx_settings[theme_<?php echo esc_attr($onyx_mode); ?>_class]" value="<?php echo esc_attr($onyx_settings['theme_' . $onyx_mode . '_class']); ?>" placeholder="<?php echo esc_attr($onyx_suggested); ?>">
                     <p class="onyx-desc">
                         <?php
                         if ($onyx_suggested) {
@@ -182,8 +182,8 @@ if (!defined('ABSPATH')) {
         <div class="onyx-field-wrap">
             <label><?php esc_html_e('Disable on a Single Page', 'onyx-dark-mode-switcher'); ?></label>
             <div class="onyx-settings-field">
-                <p class="onyx-desc">
-                    <?php esc_html_e('Open any post or page and tick "Disable dark mode on this page" in the Onyx Dark Mode box in the sidebar.', 'onyx-dark-mode-switcher'); ?>
+                <p class="onyx-note">
+                    <?php esc_html_e('This is set on the page itself, not here. Edit the post or page and tick "Disable dark mode on this page" in the Onyx Dark Mode box of the editor sidebar.', 'onyx-dark-mode-switcher'); ?>
                 </p>
             </div>
         </div>

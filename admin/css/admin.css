@@ -232,6 +232,26 @@
     letter-spacing: 1px;
 }
 
+/* Section heading that carries a description under the bar */
+.onyx-field-column .onyx-field-wrap.onyx-heading-wrap {
+    flex-direction: column;
+    gap: 10px;
+}
+
+.onyx-heading-wrap > h3,
+.onyx-heading-wrap > p.onyx-desc {
+    margin: 0;
+}
+
+p.onyx-note {
+    margin: 0;
+    padding: 10px 14px;
+    background: #f6f7fb;
+    border-left: 3px solid #000;
+    box-sizing: border-box;
+    font-size: 13px;
+}
+
 .onyx-settings-field select {
     width: 280px;
 }
