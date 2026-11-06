@@ -337,11 +337,12 @@ li.menu-item a.onyx-toggle-menu {
     display: flex !important;
     justify-content: space-between !important;
     align-items: center !important;
-    margin-top: var(--onyx-menu-switch-margin-top, inherit);
-    margin-bottom: var(--onyx-menu-switch-margin-bottom, inherit);
-    margin-left: var(--onyx-menu-switch-margin-left, inherit);
-    margin-right: var(--onyx-menu-switch-margin-right, inherit);
-    text-decoration: none;
+    margin-top: var(--onyx-menu-switch-margin-top, inherit) !important;
+    margin-bottom: var(--onyx-menu-switch-margin-bottom, inherit) !important;
+    margin-left: var(--onyx-menu-switch-margin-left, inherit) !important;
+    margin-right: var(--onyx-menu-switch-margin-right, inherit) !important;
+    text-decoration: none !important;
+    border: 0 !important;
 }
 
 .onyx-toggle-menu em {
