@@ -3,7 +3,7 @@ Contributors: hashthemes
 Tags: dark mode, night mode, dark mode switcher, light dark toggle
 Requires at least: 6.3
 Tested up to: 7.1
-Stable tag: 1.1.3
+Stable tag: 1.1.4
 Requires PHP: 7.2
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
@@ -80,6 +80,15 @@ Some pages should never go dark. A checkout, a photo gallery, a landing page bui
 <li><strong>Disable per page</strong> - tick one box in the Onyx Dark Mode panel in the editor sidebar and that entry always renders in its normal colors</li>
 </ul>
 
+<h3>Themes With Their Own Dark Mode</h3>
+Some themes ship a dark mode of their own. Onyx can drive it instead of recoloring the page itself.
+
+<ul>
+<li><strong>Theme Integration</strong> - enter the classes your theme uses for its dark and light modes on the Settings tab. Onyx adds them to the page body as visitors switch, and leaves the coloring to your theme</li>
+<li><strong>Everything else still applies</strong> - the switch button, menu switch, OS aware mode, schedule, keyboard shortcut and remembered choice all work as usual</li>
+<li><strong>Theme suggestions</strong> - a theme can supply its classes itself, and Onyx shows them on the Settings tab and uses them until you enter your own</li>
+</ul>
+
 <h3>Custom Code</h3>
 For when you want the last word.
 
@@ -93,6 +102,12 @@ For when you want the last word.
 <li><strong>Export</strong> every setting to a JSON file as a backup</li>
 <li><strong>Import</strong> that file on another site to set it up in one step</li>
 <li><strong>Reset</strong> everything back to the defaults it shipped with</li>
+</ul>
+
+<h3>For Developers</h3>
+<ul>
+<li><strong>onyx_theme_classes</strong> - return an array with <code>dark</code> and <code>light</code> keys to supply your theme's own mode classes</li>
+<li><strong>onyx_disallowed_elements</strong> - add selectors that dark mode should always leave alone, so a theme or plugin can keep its own elements out of the recoloring</li>
 </ul>
 
 <h3>Built to Stay Out of the Way</h3>
@@ -133,6 +148,9 @@ Yes. It is stored in their browser and reapplied on their next visit. If their b
 = Does Scheduled Dark Mode use my server's time zone? =
 No. It follows each visitor's own clock, so a visitor's evening is their evening wherever they are. A window that ends earlier than it starts, such as 20:00 to 06:00, runs overnight.
 
+= My theme already has a dark mode. Can Onyx use it? =
+Yes. On the Settings tab, under Theme Integration, enter the class your theme adds for dark mode, and for light mode if it has one. Onyx then switches your theme's own dark mode and does no recoloring of its own. If your theme supplies these classes, they are filled in for you.
+
 = Can I keep dark mode off a specific page? =
 Yes. Open the post or page and tick "Disable dark mode on this page" in the Onyx Dark Mode box in the sidebar. To do it for an entire post type, use "Disable on Post Types" on the Settings tab.
 
@@ -162,6 +180,11 @@ Yes. Export them to a JSON file from the Tools tab and import that file on the o
 11. Front end - the same page in dark mode
 
 == Changelog ==
+= 1.1.4 - 15 Nov 2026 =
+* Menu switch: themes that style menu links could override its margins and add an underline or border; the margins set in Onyx now always apply, with no underline or border
+* Plugin description: "Wordpress" corrected to "WordPress"
+* Readme: Theme Integration (using your theme's own dark mode classes) and the onyx_theme_classes and onyx_disallowed_elements developer filters are now described, with a new FAQ
+
 = 1.1.3 - 11 Oct 2026 =
 * Developers: onyx_disallowed_elements filter, for themes and plugins to keep their own elements out of dark mode
 
