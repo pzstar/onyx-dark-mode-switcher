@@ -115,7 +115,7 @@ msgid "Custom Switch"
 msgstr ""
 
 #. Description of the plugin
-msgid "Dark and Light Theme for your Wordpress website"
+msgid "Dark and Light Theme for your WordPress website"
 msgstr ""
 
 #: admin/inc/settings/switch.php:47

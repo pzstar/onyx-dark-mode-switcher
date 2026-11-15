@@ -4,7 +4,7 @@
  *
  * Plugin Name:       Onyx Dark Mode Switcher
  * Plugin URI:        https://hashthemes.com/
- * Description:       Dark and Light Theme for your Wordpress website
+ * Description:       Dark and Light Theme for your WordPress website
  * Version:           1.1.3
  * Author:            HashThemes
  * License:           GPL-2.0+
