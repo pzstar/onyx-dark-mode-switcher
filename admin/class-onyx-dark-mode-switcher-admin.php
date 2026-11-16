@@ -47,7 +47,7 @@ class Onyx_Dark_Mode_Switcher_Admin {
 		}
 
 		wp_enqueue_style($this->plugin_name, plugin_dir_url(__FILE__) . 'css/admin.css', array(), $this->version, 'all');
-		wp_enqueue_style('materialdesignicons', ONYX_URL . 'admin/css/materialdesignicons.css', array(), $this->version);
+		wp_enqueue_style('materialdesignicons-7.4.47', ONYX_URL . 'admin/css/materialdesignicons.css', array(), $this->version);
 		wp_enqueue_style('wp-color-picker');
 
 	}

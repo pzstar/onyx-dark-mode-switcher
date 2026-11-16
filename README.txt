@@ -3,7 +3,7 @@ Contributors: hashthemes
 Tags: dark mode, night mode, dark mode switcher, light dark toggle
 Requires at least: 6.3
 Tested up to: 7.1
-Stable tag: 1.1.4
+Stable tag: 1.2.0
 Requires PHP: 7.2
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
@@ -180,6 +180,9 @@ Yes. Export them to a JSON file from the Tools tab and import that file on the o
 11. Front end - the same page in dark mode
 
 == Changelog ==
+= 1.2.0 - 16 Nov 2026 =
+* Material Design Icons updated to 7.4.47 and loaded under the same stylesheet handle as in the other HashThemes themes and plugins, so it loads only once - Changed
+
 = 1.1.4 - 15 Nov 2026 =
 * Menu switch: themes that style menu links could override its margins and add an underline or border; the margins set in Onyx now always apply, with no underline or border
 * Plugin description: "Wordpress" corrected to "WordPress"
