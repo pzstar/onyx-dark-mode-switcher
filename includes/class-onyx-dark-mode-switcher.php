@@ -7,12 +7,8 @@ if (!defined('WPINC')) {
 /**
  * The file that defines the core plugin class
  *
- * A class definition that includes attributes and functions used across both the
- * public-facing side of the site and the admin area.
- *
  * @link       https://hashthemes.com
  * @since      1.0.0
- *
  * @package    Onyx_Dark_Mode_Switcher
  * @subpackage Onyx_Dark_Mode_Switcher/includes
  */
@@ -68,15 +64,6 @@ class Onyx_Dark_Mode_Switcher {
 
 	/**
 	 * Load the required dependencies for this plugin.
-	 *
-	 * Include the following files that make up the plugin:
-	 *
-	 * - Onyx_Dark_Mode_Switcher_Loader. Orchestrates the hooks of the plugin.
-	 * - Onyx_Dark_Mode_Switcher_Admin. Defines all hooks for the admin area.
-	 * - Onyx_Dark_Mode_Switcher_Public. Defines all hooks for the public side of the site.
-	 *
-	 * Create an instance of the loader which will be used to register the hooks
-	 * with WordPress.
 	 *
 	 * @since    1.0.0
 	 * @access   private

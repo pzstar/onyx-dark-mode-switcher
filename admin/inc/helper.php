@@ -6,11 +6,6 @@ if (!defined('WPINC')) {
 
 /**
  * The built in dark mode palettes.
- *
- * Single source of truth: the front end stylesheet generator reads this, and it
- * is also handed to the admin so the Colors tab can preview a palette without
- * saving. Keys line up with the CSS custom properties, which are named
- * --onyx_mode_{key}.
  */
 function onyx_preset_palettes() {
     static $palettes = null;
@@ -35,9 +30,7 @@ function onyx_preset_palettes() {
         'style-13' => array('bg' => '#2B1406', 'secondary_bg' => '#44210B', 'text_color' => '#F5E0D1', 'link_color' => '#FF8A3D', 'link_hover_color' => '#FFB07A', 'input_bg' => '#5C2F13', 'input_text_color' => '#FFF2E8', 'input_placeholder_color' => '#C09A7F', 'border_color' => '#75411D', 'btn_text_color' => '#2B1406', 'btn_bg' => '#FF8A3D'),
     );
 
-    // The presets ship no explicit button hover pair. Every palette is built the
-    // same way, with link_hover_color as the lighter accent and btn_text_color
-    // as the page background, so those carry over cleanly.
+    // The presets have no button hover pair, so link_hover_color and the background are used.
     foreach ($palettes as $key => $palette) {
         $palettes[$key]['btn_text_color_hover'] = $palette['btn_text_color'];
         $palettes[$key]['btn_bg_hover'] = $palette['link_hover_color'];
@@ -64,12 +57,6 @@ function onyx_recursive_parse_args($args, $defaults) {
 
 /**
  * Sanitize an array against a matching rule set.
- *
- * A rule is either a callable name (applied to a scalar) or a nested rule array
- * (applied to a nested value array). The key '*' acts as a wildcard for every
- * key at that level, which is how the numerically indexed image lists are
- * covered. Anything without a rule falls back to sanitize_text_field() so no
- * value is ever stored raw.
  */
 function onyx_sanitize_array($array = array(), $sanitize_rule = array()) {
     $new_args = array();
@@ -150,10 +137,6 @@ function onyx_sanitize_post_types($post_types) {
 
 /**
  * Sanitize a CSS selector that will be printed into a stylesheet.
- *
- * The selector is interpolated straight into a rule, so anything that could
- * close that rule or open an at-rule has to go. Combinators, attribute
- * selectors and pseudo classes are kept, since those are the whole point.
  */
 function onyx_sanitize_css_selector($selector) {
     $selector = wp_strip_all_tags((string) $selector);
@@ -161,8 +144,7 @@ function onyx_sanitize_css_selector($selector) {
     // Sequences that would let a selector escape its own rule block.
     $selector = str_replace(array('{', '}', ';', '@', '\\', '/*', '*/'), '', $selector);
 
-    // Conservative allowlist for whatever survived. ^ $ | are needed for the
-    // attribute operators ^= $= |=, and are inert anywhere else in a selector.
+    // Conservative allowlist for whatever survived. ^ $ | are needed for the attribute operators ^= $= |=.
     $selector = preg_replace('/[^a-zA-Z0-9\s.#_\-\[\]="\':(),>+~*\^\$\|]/', '', $selector);
 
     return trim($selector);
@@ -179,10 +161,6 @@ function onyx_sanitize_html_classes($classes) {
 
 /**
  * Sanitize a hex or rgba() color.
- *
- * Always returns a string. An unrecognised value comes back as '', never null,
- * so the callers that print it into CSS or measure it never have to deal with
- * a null (which is also deprecated to pass around on PHP 8.1+).
  */
 function onyx_sanitize_color($color) {
     $color = trim((string) $color);
@@ -198,8 +176,7 @@ function onyx_sanitize_color($color) {
         $red = $green = $blue = $alpha = null;
         $parsed = sscanf($color, 'rgba(%d,%d,%d,%f)', $red, $green, $blue, $alpha);
 
-        // Anything short of all four components is not a usable color, and
-        // emitting rgba(,,,) would just be an invalid declaration.
+        // Anything short of all four components is not a usable color.
         if ($parsed !== 4 || !is_numeric($red) || !is_numeric($green) || !is_numeric($blue) || !is_numeric($alpha)) {
             return '';
         }
@@ -255,11 +232,6 @@ function onyx_get_post($param, $sanitize = 'sanitize_text_field', $default = '')
 
 /**
  * Read a raw, unslashed array off $_POST.
- *
- * Deliberately does not sanitize: the caller runs onyx_sanitize_array() with
- * the matching rule set, so that fields like Custom CSS keep their line breaks
- * until the CSS-aware rule handles them. Nonce and capability are checked by
- * the caller.
  */
 function onyx_get_post_data_arr($param) {
     if (!isset($_POST[$param]) || !is_array($_POST[$param])) {
@@ -273,17 +245,12 @@ function onyx_sanitize_custom_css( $css ) {
     // Strip HTML tags so nothing can break out of the <style> block.
     $css = wp_strip_all_tags( (string) $css );
 
-    // Allow CSS-safe characters only. This has to cover at-rules (@media),
-    // combinators (> + ~), attribute selectors, quoted url() values and
-    // backslash escapes such as content: "\f101" for icon fonts.
+    // Allow CSS-safe characters only (at-rules, combinators, quoted url() and backslash escapes).
     return preg_replace('/[^a-zA-Z0-9\s_:;{},.#()"\'\/%!@\[\]*=~+>&|^$\\\\-]/', '', $css);
 }
 
 function onyx_sanitize_custom_js( $js ) {
-    // Only users with manage_options can save this field, and it is printed
-    // inside an inline <script> block. A character allowlist is not workable
-    // for JavaScript, so neutralise the one sequence that could break out of
-    // that block and leave the rest of the code intact.
+    // Admin-only, printed in an inline <script>: neutralise the sequence that could close it.
     return str_ireplace('</script', '<\/script', (string) $js);
 }
 

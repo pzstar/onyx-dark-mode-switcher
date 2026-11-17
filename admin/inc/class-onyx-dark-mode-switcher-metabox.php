@@ -7,9 +7,6 @@ if (!defined('WPINC')) {
 /**
  * Per entry "disable dark mode" control.
  *
- * Adds a small checkbox to every public post type so a single page can opt out
- * of dark mode without needing a CSS selector in the global settings.
- *
  * @package    Onyx_Dark_Mode_Switcher
  * @subpackage Onyx_Dark_Mode_Switcher/admin
  */
@@ -54,8 +51,7 @@ class Onyx_Dark_Mode_Switcher_Metabox {
     }
 
     public function save($post_id, $post) {
-        // Autosave and revisions fire save_post without the meta box fields, so
-        // saving here would wipe the stored value.
+        // Autosave and revisions fire save_post without the meta box fields, so saving would wipe the value.
         if (defined('DOING_AUTOSAVE') && DOING_AUTOSAVE) {
             return;
         }
@@ -64,8 +60,7 @@ class Onyx_Dark_Mode_Switcher_Metabox {
             return;
         }
 
-        // Absent nonce means this save did not come from an editor screen that
-        // rendered the meta box, so there is nothing of ours to persist.
+        // Absent nonce means this save did not come from an editor screen that rendered the meta box.
         if (!isset($_POST[self::NONCE_NAME])) {
             return;
         }

@@ -1,10 +1,4 @@
-/*
- * Pre-paint baseline. The wp_head snippet puts .onyx-dark-mode on <html> before
- * the browser paints, so these two rules give the page its dark backdrop
- * immediately. The .onyx-change-* rules below refine individual elements once
- * public.js has walked the DOM. No !important here on purpose, so those later
- * rules win. color-scheme darkens native scrollbars and form controls at once.
- */
+/* Pre-paint baseline: dark backdrop before public.js runs; no !important, so later rules win. */
 html.onyx-dark-mode {
     color-scheme: dark;
 }

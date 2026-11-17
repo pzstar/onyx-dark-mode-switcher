@@ -64,20 +64,15 @@ class Onyx_Dark_Mode_Switcher_Settings {
 
     /**
      * Validate a raw settings array and write it to the option.
-     *
-     * The form save and the import both funnel through here, so an uploaded
-     * file goes through exactly the same sanitization as a form submission.
      */
     public static function persist_settings($raw) {
-        // Drop keys the plugin does not know about, so a hand edited import
-        // cannot park arbitrary data in the option.
+        // Drop unknown keys, so an edited import can't store arbitrary data.
         $settings = array_intersect_key((array) $raw, self::default_settings_values());
 
         $settings = onyx_recursive_parse_args($settings, self::checkbox_settings());
         $settings = onyx_sanitize_array($settings, self::sanitize_setting_rules());
 
-        // Narrow the post type list to types that actually exist, so a stale or
-        // forged slug can never linger in the option.
+        // Narrow the post type list to types that actually exist.
         $settings['disabled_post_types'] = onyx_sanitize_post_types($settings['disabled_post_types']);
 
         update_option('onyx_settings', $settings);
@@ -148,10 +143,7 @@ class Onyx_Dark_Mode_Switcher_Settings {
     }
 
     /**
-     * Defaults for fields the browser omits from the POST body when they are
-     * empty: unchecked checkboxes, and multi-select lists with nothing picked.
-     * Without an entry here, clearing such a field would leave the old value in
-     * place instead of clearing it.
+     * Defaults for fields the browser omits from the POST body when empty, so clearing them works.
      */
     public static function checkbox_settings() {
         return array(

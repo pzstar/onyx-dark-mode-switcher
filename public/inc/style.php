@@ -9,9 +9,6 @@ if (!defined('WPINC')) {
  */
 /**
  * Resolve the palette for the selected preset.
- *
- * Custom mode falls back to style-1 for any colour the user left blank, so a
- * half filled custom palette can never emit an empty CSS custom property.
  */
 function onyx_resolve_palette($settings) {
     $palettes = onyx_preset_palettes();
@@ -37,9 +34,7 @@ function onyx_resolve_palette($settings) {
         'btn_bg_hover' => $settings['dark_mode_btn_bg_hover'],
     );
 
-    // Not array_filter($custom, 'strlen'): sanitize_hex_color() hands back null
-    // for a value it does not recognise, and strlen(null) is deprecated on
-    // PHP 8.1+.
+    // Not array_filter($custom, 'strlen'): strlen(null) is deprecated on PHP 8.1+.
     $filled = array_filter($custom, function ($value) {
         return is_string($value) && $value !== '';
     });
@@ -49,9 +44,6 @@ function onyx_resolve_palette($settings) {
 
 /**
  * Split a selector list on its top level commas.
- *
- * Commas inside brackets, parentheses or quotes belong to the selector itself
- * (:is(a, b), [data-x="a,b"]) and must not be treated as list separators.
  */
 function onyx_split_selector_list($selector) {
     $parts = array();
@@ -101,9 +93,6 @@ function onyx_split_selector_list($selector) {
 
 /**
  * Build the per selector overrides declared on the Colors tab.
- *
- * Emitted after the :root block so they land later in the cascade than the
- * generic .onyx-change-* rules in public.css and therefore win.
  */
 function onyx_color_override_styles($settings) {
     if (empty($settings['color_overrides']) || !is_array($settings['color_overrides'])) {
@@ -123,8 +112,6 @@ function onyx_color_override_styles($settings) {
         }
 
         // Every selector in the list needs its own .onyx-dark-mode prefix.
-        // Prefixing the string as a whole would scope only the first one and
-        // leave the rest applying in light mode too.
         $selectors = onyx_split_selector_list($selector);
         if (!$selectors) {
             continue;

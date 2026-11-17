@@ -32,8 +32,7 @@ class OnyxDarkModeSwitcher {
 		this.secondaryBgColor = "";
 		this.darkenLevel = parseInt(this.config.bg_image_darken_to, 10) / 100;
 
-		// Validate the user supplied selector once. An invalid one would throw
-		// on every element.matches() call and abort the whole pass.
+		// Validate the user supplied selector once: an invalid one would throw on every matches().
 		this.disallowedSelector = this.validateSelector(this.config.disallowed_elements);
 
 		// ======= Observers =======
@@ -131,8 +130,7 @@ class OnyxDarkModeSwitcher {
 		try {
 			window.localStorage.setItem("onyx_last_state", state);
 		} catch (err) {
-			// Storage is unavailable (private browsing, cookies blocked). The
-			// toggle still works for this page view, it just is not remembered.
+			// Storage is unavailable (private browsing): the toggle works, but isn't remembered.
 		}
 	}
 
@@ -229,8 +227,6 @@ class OnyxDarkModeSwitcher {
 
 	/**
 	 * Whether the visitor's local clock currently falls inside the dark window.
-	 * Returns null when scheduling is off or the times are unusable, so callers
-	 * can tell "schedule says light" apart from "schedule has no opinion".
 	 */
 	isScheduledDark() {
 		if (this.config.schedule !== "1") return null;
@@ -242,8 +238,7 @@ class OnyxDarkModeSwitcher {
 		const now = new Date();
 		const current = now.getHours() * 60 + now.getMinutes();
 
-		// start < end is a same-day window (09:00-17:00). Otherwise it wraps
-		// over midnight (20:00-06:00), which is the common case here.
+		// start < end is a same-day window (09:00-17:00); otherwise it wraps over midnight.
 		return start < end
 			? current >= start && current < end
 			: current >= start || current < end;
@@ -253,9 +248,7 @@ class OnyxDarkModeSwitcher {
 		this.lastScheduleState = this.isScheduledDark();
 		if (this.lastScheduleState === null) return;
 
-		// Only act when the window boundary is actually crossed. Applying the
-		// schedule continuously would undo a visitor's manual toggle seconds
-		// after they made it.
+		// Only act when the window boundary is crossed, so a manual toggle isn't undone.
 		setInterval(() => {
 			const state = this.isScheduledDark();
 			if (state === null || state === this.lastScheduleState) return;
@@ -289,7 +282,6 @@ class OnyxDarkModeSwitcher {
 			? document.addEventListener("DOMContentLoaded", setup)
 			: setup();
 
-		//this.observer.observe(document, {childList: true, subtree: true});
 		this.darkModeStatusChanged.observe(document.documentElement, {attributes: true});
 	}
 
@@ -349,8 +341,7 @@ class OnyxDarkModeSwitcher {
 			backgroundColor = window.getComputedStyle(element, null).backgroundColor;
 		}
 
-		// Skip disallowed elements. Mark them handled so later passes skip them
-		// outright instead of re-walking them every time.
+		// Skip disallowed elements, marked as handled so later passes skip them too.
 		if (this.disallowedSelector && element.matches(this.disallowedSelector)) {
 			element.classList.add("onyx-handled");
 			return;
@@ -668,21 +659,18 @@ class OnyxDarkModeSwitcher {
 	// ==========================
 
 	isDarkModeOn() {
-		// The wp_head snippet already resolved this before first paint. Reuse
-		// its answer so the two can never disagree and cause a visible flip.
+		// Reuse the wp_head snippet's answer, so the two never disagree and flip the page.
 		if (typeof window.onyxInitialDarkMode === "boolean") {
 			return window.onyxInitialDarkMode;
 		}
 
-		// Fallback for when the snippet did not run, e.g. a caching or
-		// optimisation plugin stripped it.
+		// Fallback for when the snippet did not run, e.g. a caching or optimisation plugin stripped it.
 		const lastState = this.readStoredState();
 
 		// An explicit choice by the visitor always wins.
 		if (lastState !== null) return lastState === "1";
 
-		// Then the schedule, then the OS preference, then the configured
-		// start-up mode.
+		// Then the schedule, then the OS preference, then the configured start-up mode.
 		const scheduled = this.isScheduledDark();
 		if (scheduled !== null) return scheduled;
 
@@ -746,8 +734,7 @@ const onyx = new OnyxDarkModeSwitcher({
 	image_grayscale: onyx_obj.enable_image_grayscale == "on" ? "1" : "0",
 	video_grayscale: onyx_obj.enable_video_grayscale == "on" ? "1" : "0",
 	disallowed_elements: onyx_obj.disallowed_elements,
-	// Comma separated list, entered either as ".btn" or "btn". classList works
-	// on bare class names, so strip any leading dot.
+	// Comma separated list, entered either as ".btn" or "btn". classList works on bare class names.
 	allowed_btn_class: (onyx_obj.allowed_button_classes || "")
 		.split(",")
 		.map((cls) => cls.trim().replace(/^\./, ""))

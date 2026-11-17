@@ -42,8 +42,7 @@ class Onyx_Dark_Mode_Switcher_Public {
 		if ($this->dark_mode_settings['enable'] == 'on') {
 			$this->include_files();
 
-			// Priority 0: this has to run before the stylesheet and before
-			// jQuery, so the dark class is on <html> ahead of first paint.
+			// Priority 0: before the stylesheet and jQuery, so <html> is dark before first paint.
 			add_action('wp_head', array($this, 'print_initial_mode_script'), 0);
 			add_action('wp_body_open', array($this, 'print_theme_class_script'), 0);
 
@@ -59,9 +58,6 @@ class Onyx_Dark_Mode_Switcher_Public {
 
 	/**
 	 * Whether dark mode is switched off for the page currently being rendered.
-	 *
-	 * Two ways to opt out: the post type is excluded in the settings, or the
-	 * individual entry has the per page checkbox ticked.
 	 */
 	public function is_disabled_for_request() {
 		if ($this->disabled_for_request !== null) {
@@ -86,9 +82,6 @@ class Onyx_Dark_Mode_Switcher_Public {
 
 	/**
 	 * Classes a theme uses for its own dark and light mode, added to <body> as Onyx switches.
-	 *
-	 * The settings win; otherwise a theme can supply them through the onyx_theme_classes filter.
-	 * With a dark class set, the theme does the recoloring and Onyx only switches modes.
 	 */
 	public function get_theme_classes() {
 		$theme = (array) apply_filters('onyx_theme_classes', array('dark' => '', 'light' => ''));
@@ -126,11 +119,6 @@ class Onyx_Dark_Mode_Switcher_Public {
 
 	/**
 	 * Resolve the starting mode before the page paints.
-	 *
-	 * public.js cannot do this on its own: it depends on jQuery and on the
-	 * localized onyx_obj, both of which print later in the head, so the browser
-	 * would render the page light and flip it a moment later. This snippet is
-	 * dependency free and carries the handful of values it needs inline.
 	 */
 	public function print_initial_mode_script() {
 		if ($this->is_disabled_for_request()) {
@@ -167,8 +155,7 @@ class Onyx_Dark_Mode_Switcher_Public {
 	}
 
 	public function include_files() {
-		// include_once: style.php declares functions, so a second instantiation
-		// of this class would otherwise fatal on redeclare.
+		// include_once: style.php declares functions, so a second load would fatal.
 		include_once ONYX_PATH . 'public/inc/style.php';
 	}
 
@@ -239,8 +226,7 @@ class Onyx_Dark_Mode_Switcher_Public {
 		$before_trigger = !empty($this->dark_mode_settings['before_js']) ? $this->dark_mode_settings['before_js'] : '';
 		$after_trigger = !empty($this->dark_mode_settings['after_js']) ? $this->dark_mode_settings['after_js'] : '';
 
-		// Already sanitized on save by onyx_sanitize_custom_js(). Do not run it
-		// through an HTML filter here, that would corrupt valid JavaScript.
+		// Already sanitized on save by onyx_sanitize_custom_js(); an HTML filter would break valid JS.
 		if ($before_trigger !== '') {
 			wp_add_inline_script($this->plugin_name, 'jQuery(document).on("onyx_before_toggle", function (event, response) {' . $before_trigger . '});');
 		}

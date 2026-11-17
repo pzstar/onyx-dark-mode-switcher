@@ -103,8 +103,7 @@
             let dragDepth = 0;
 
             $zone.on('click', function (e) {
-                // The input's own click bubbles back here, so ignore it or the
-                // picker would reopen itself in a loop.
+                // The input's own click bubbles back here, so ignore it or the picker would reopen itself in a loop.
                 if (e.target === input || $(e.target).closest('.onyx-dropzone-clear').length) {
                     return;
                 }
@@ -397,8 +396,7 @@
                 return presets[selected] || fallback;
             }
 
-            // Custom mode mirrors the PHP side: start from style-1 so a partly
-            // filled palette still previews instead of going blank.
+            // Custom mode mirrors the PHP side: start from style-1, so a partial palette still previews.
             const palette = $.extend({}, fallback);
             Object.keys(onyxCustomFieldMap).forEach(function (name) {
                 const value = $('input[name="onyx_settings[' + name + ']"]').val();

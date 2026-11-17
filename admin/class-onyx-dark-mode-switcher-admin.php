@@ -77,8 +77,7 @@ class Onyx_Dark_Mode_Switcher_Admin {
 		$admin_var = array(
 			'ajaxurl' => esc_url(admin_url('admin-ajax.php')),
 			'nonce' => wp_create_nonce('onyx_admin_nonce'),
-			// Same palettes the front end stylesheet is built from, so the
-			// Colors tab preview cannot drift away from the real output.
+			// Same palettes the front end stylesheet is built from.
 			'palettes' => onyx_preset_palettes()
 		);
 
@@ -101,9 +100,6 @@ class Onyx_Dark_Mode_Switcher_Admin {
 
 	/**
 	 * Whether the current request is the plugin's own settings screen.
-	 *
-	 * Falls back to get_current_screen() for hooks that are not handed the
-	 * hook suffix, such as admin_footer.
 	 */
 	private function is_settings_screen($hook = '') {
 		if ($hook) {
